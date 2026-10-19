@@ -1,0 +1,207 @@
+/* --------------------------------------------------------------------------
+   Google Fonts — Space Grotesk (headings) + Inter (body)
+   -------------------------------------------------------------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700;800&display=swap");
+
+/* ==========================================================================
+   NEXZIVO — Global Styles
+   Tailwind CSS v4 CSS-first configuration
+   ========================================================================== */
+
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   Brand Design Tokens — CSS Custom Properties
+   -------------------------------------------------------------------------- */
+:root {
+  /* Brand colours */
+  --color-deep-green:   #102820;
+  --color-green:        #247A55;
+  --color-lime:         #C6F36B;
+  --color-off-white:    #F5F5EF;
+  --color-charcoal:     #171919;
+  --color-muted:        #A8B0A8;
+  --color-border:       #DDE2D8;
+
+  /* Surface / background aliases */
+  --surface-page:       var(--color-off-white);
+  --surface-dark:       var(--color-charcoal);
+  --surface-dark-muted: #1E2020;
+
+  /* Text aliases */
+  --text-primary:       var(--color-charcoal);
+  --text-secondary:     var(--color-muted);
+  --text-on-dark:       var(--color-off-white);
+  --text-accent:        var(--color-green);
+
+  /* Typography */
+  --font-heading:       'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-body:          'Inter', 'Segoe UI', system-ui, sans-serif;
+
+  /* Layout */
+  --container-max-width: 1280px;
+  --container-padding-x: clamp(1rem, 5vw, 4rem);
+
+  /* Section spacing */
+  --section-padding-y:  clamp(4rem, 8vw, 8rem);
+
+  /* Transitions */
+  --transition-base:    150ms ease;
+  --transition-smooth:  300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --------------------------------------------------------------------------
+   Tailwind CSS v4 — Theme Extension via @theme
+   Registers custom colours and fonts as Tailwind utilities
+   -------------------------------------------------------------------------- */
+@theme {
+  --color-deep-green:   #102820;
+  --color-green:        #247A55;
+  --color-lime:         #C6F36B;
+  --color-off-white:    #F5F5EF;
+  --color-charcoal:     #171919;
+  --color-muted:        #A8B0A8;
+  --color-border:       #DDE2D8;
+
+  --font-heading:       'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-body:          'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   Base Reset & Defaults
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background-color: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.625;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  display: contents;
+}
+
+/* Headings use Space Grotesk */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Accessible focus-visible states */
+:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Remove focus ring for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Media elements */
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+/* Text selection — brand accent colours */
+::selection {
+  background-color: var(--color-lime);
+  color: var(--color-deep-green);
+}
+
+/* --------------------------------------------------------------------------
+   Typography Utility Classes
+   -------------------------------------------------------------------------- */
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility & Section Spacing Utilities
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-deep-green);
+  color: var(--color-lime);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  outline: 2px solid var(--color-lime);
+  outline-offset: 2px;
+}
+
+.section {
+  padding-block: var(--section-padding-y);
+}
+
+.section--dark {
+  background-color: var(--surface-dark);
+  color: var(--text-on-dark);
+}
+
+.section--dark-muted {
+  background-color: var(--surface-dark-muted);
+  color: var(--text-on-dark);
+}
+
+/* Ensure images in dark sections don't bleed */
+.section--dark img,
+.section--dark-muted img {
+  border-radius: 0.5rem;
+}
