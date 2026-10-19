@@ -2,35 +2,36 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 
 const sizeClasses = {
-  sm: 'px-4 py-2 text-sm gap-1.5',
-  md: 'px-6 py-3 text-base gap-2',
-  lg: 'px-8 py-4 text-lg gap-2.5',
+  sm: 'px-4 py-2 text-xs font-semibold gap-1.5',
+  md: 'px-6 py-2.5 text-sm font-semibold gap-2',
+  lg: 'px-7 py-3.5 text-base font-semibold gap-2.5',
 };
 
 const variantClasses = {
   primary:
-    'bg-[var(--color-lime)] text-[var(--color-deep-green)] hover:bg-[var(--color-lime)]/90 shadow-[0_0_0_0_var(--color-lime)] hover:shadow-[0_4px_20px_-4px_rgba(198,243,107,0.45)] focus-visible:ring-[var(--color-lime)]',
+    'bg-[var(--color-accent-strong)] text-white border border-white/10 hover:bg-[var(--color-accent)]',
   secondary:
-    'bg-[var(--color-deep-green)] text-[var(--color-off-white)] hover:bg-[var(--color-green)] focus-visible:ring-[var(--color-green)]',
+    'bg-[var(--color-slate-card)] text-[var(--color-soft-white)] border border-[var(--color-slate-border)] hover:border-[var(--color-accent)]/60',
   outline:
-    'border border-[var(--color-border)] text-[var(--color-deep-green)] hover:border-[var(--color-deep-green)] hover:bg-[var(--color-deep-green)]/5 focus-visible:ring-[var(--color-deep-green)]',
+    'border border-[var(--color-slate-border)] text-[var(--color-soft-white)] hover:border-[var(--color-accent)] hover:text-white',
   ghost:
-    'text-[var(--color-deep-green)] hover:bg-[var(--color-deep-green)]/8 focus-visible:ring-[var(--color-deep-green)]',
+    'text-[var(--color-subtle-gray)] hover:text-[var(--color-soft-white)] hover:bg-white/5',
+  cyan:
+    'bg-[var(--color-accent)] text-white border border-white/10 hover:bg-[var(--color-accent-strong)]',
 };
 
 const baseClasses =
-  'inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none select-none';
+  'inline-flex items-center justify-center rounded-xl transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-soft)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-obsidian)] disabled:opacity-40 disabled:pointer-events-none select-none tracking-tight';
 
 const motionProps = {
-  whileHover: { scale: 1.025 },
-  whileTap: { scale: 0.97 },
-  transition: { type: 'spring', stiffness: 400, damping: 20 },
+  whileHover: { scale: 1.015 },
+  whileTap: { scale: 0.985 },
+  transition: { type: 'spring', stiffness: 380, damping: 28 },
 };
 
 /**
- * NEXZIVO design system Button.
- * Renders as <button>, React Router <Link>, or <a> depending on props.
- * Includes subtle spring micro-animation for premium interaction feel.
+ * NEXZIVO Studio Button Component.
+ * Supports primary radiant gradient, secondary slate, outline, ghost, and electric cyan.
  */
 export function Button({
   variant = 'primary',

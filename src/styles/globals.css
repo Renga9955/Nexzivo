@@ -1,74 +1,93 @@
 /* --------------------------------------------------------------------------
-   Google Fonts — Space Grotesk (headings) + Inter (body)
+   Google Fonts — Space Grotesk (headings) + Plus Jakarta Sans (body) + JetBrains Mono (labels)
    -------------------------------------------------------------------------- */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap");
 
 /* ==========================================================================
-   NEXZIVO — Global Styles
+   NEXZIVO — Creative & Digital Studio Design System
    Tailwind CSS v4 CSS-first configuration
    ========================================================================== */
 
 @import "tailwindcss";
 
 /* --------------------------------------------------------------------------
-   Brand Design Tokens — CSS Custom Properties
+   Studio Design Tokens — CSS Custom Properties
    -------------------------------------------------------------------------- */
 :root {
-  /* Brand colours */
-  --color-deep-green:   #102820;
-  --color-green:        #247A55;
-  --color-lime:         #C6F36B;
-  --color-off-white:    #F5F5EF;
-  --color-charcoal:     #171919;
-  --color-muted:        #A8B0A8;
-  --color-border:       #DDE2D8;
+  /* Refined Studio Palette: neutral charcoal base + single restrained blue accent */
+  --color-obsidian:       #0A0C10;
+  --color-slate-dark:     #0E1219;
+  --color-slate-card:     #141A23;
+  --color-slate-border:   #212836;
+  --color-pure-white:     #FFFFFF;
+  --color-soft-white:     #EDEFF3;
+  --color-subtle-gray:    #8A93A2;
 
-  /* Surface / background aliases */
-  --surface-page:       var(--color-off-white);
-  --surface-dark:       var(--color-charcoal);
-  --surface-dark-muted: #1E2020;
+  /* Restrained accent system (muted, non-neon blue) */
+  --color-accent-strong:  #2E5A8C;   /* solid fills */
+  --color-accent:         #4B7CB0;   /* mid accent */
+  --color-accent-soft:    #9FBEDF;   /* text / links / labels on dark */
 
-  /* Text aliases */
-  --text-primary:       var(--color-charcoal);
-  --text-secondary:     var(--color-muted);
-  --text-on-dark:       var(--color-off-white);
-  --text-accent:        var(--color-green);
+  /* Backwards-compatible aliases (formerly electric blue / cyan glow) */
+  --color-electric-blue:  var(--color-accent);
+  --color-cyan-glow:      var(--color-accent-soft);
+
+  /* Aliases for semantic mapping */
+  --surface-page:         var(--color-obsidian);
+  --surface-card:         var(--color-slate-dark);
+  --surface-card-hover:   var(--color-slate-card);
+  --border-subtle:        var(--color-slate-border);
+  --border-focus:         var(--color-accent-soft);
+
+  --text-primary:         var(--color-soft-white);
+  --text-secondary:       var(--color-subtle-gray);
+  --text-accent:          var(--color-accent-soft);
+  --text-blue:            var(--color-accent);
+
+  /* Realistic (non-glow) elevation */
+  --shadow-card:          0 1px 2px rgba(0,0,0,0.30), 0 12px 28px -18px rgba(0,0,0,0.55);
+  --shadow-lift:          0 2px 4px rgba(0,0,0,0.35), 0 22px 44px -24px rgba(0,0,0,0.65);
 
   /* Typography */
-  --font-heading:       'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
-  --font-body:          'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-heading:         'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body:            'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono:            'JetBrains Mono', monospace;
 
   /* Layout */
-  --container-max-width: 1280px;
-  --container-padding-x: clamp(1rem, 5vw, 4rem);
+  --container-max-width:  1280px;
+  --container-padding-x:  clamp(1.25rem, 5vw, 4rem);
+  --section-padding-y:    clamp(5rem, 9vw, 9rem);
 
-  /* Section spacing */
-  --section-padding-y:  clamp(4rem, 8vw, 8rem);
-
-  /* Transitions */
-  --transition-base:    150ms ease;
-  --transition-smooth:  300ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* Micro-interactions */
+  --transition-fast:      150ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-smooth:    300ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-spring:    500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* --------------------------------------------------------------------------
    Tailwind CSS v4 — Theme Extension via @theme
-   Registers custom colours and fonts as Tailwind utilities
    -------------------------------------------------------------------------- */
 @theme {
-  --color-deep-green:   #102820;
-  --color-green:        #247A55;
-  --color-lime:         #C6F36B;
-  --color-off-white:    #F5F5EF;
-  --color-charcoal:     #171919;
-  --color-muted:        #A8B0A8;
-  --color-border:       #DDE2D8;
+  --color-obsidian:       #0A0C10;
+  --color-slate-dark:     #0E1219;
+  --color-slate-card:     #141A23;
+  --color-slate-border:   #212836;
+  --color-electric-blue:  #4B7CB0;
+  --color-cyan-glow:      #9FBEDF;
+  --color-accent-strong:  #2E5A8C;
+  --color-accent:         #4B7CB0;
+  --color-accent-soft:    #9FBEDF;
+  --color-soft-white:     #EDEFF3;
+  --color-subtle-gray:    #8A93A2;
+  --color-pure-white:     #FFFFFF;
 
-  --font-heading:       'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
-  --font-body:          'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-heading:         'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body:            'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono:            'JetBrains Mono', monospace;
 }
 
 /* --------------------------------------------------------------------------
-   Base Reset & Defaults
+   Base Reset & Accessibility
    -------------------------------------------------------------------------- */
 *,
 *::before,
@@ -80,6 +99,8 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   tab-size: 4;
+  background-color: var(--surface-page);
+  color: var(--text-primary);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -104,9 +125,21 @@ body {
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 1rem;
-  line-height: 1.625;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* On desktop with fine pointer, hide the default system cursor for the body while preserving text selection for inputs/text */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body, a, button, [role="button"] {
+    cursor: none !important;
+  }
+
+  /* Retain native text cursor when selecting text or in form fields */
+  input, textarea, select, [contenteditable="true"] {
+    cursor: text !important;
+  }
 }
 
 #root {
@@ -116,19 +149,19 @@ body {
 /* Headings use Space Grotesk */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  line-height: 1.2;
+  line-height: 1.15;
   font-weight: 700;
   color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
-/* Accessible focus-visible states */
+/* Accessible focus states */
 :focus-visible {
-  outline: 2px solid var(--color-lime);
+  outline: 2px solid var(--color-accent-soft);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* Remove focus ring for mouse users */
 :focus:not(:focus-visible) {
   outline: none;
 }
@@ -141,10 +174,10 @@ video {
   max-width: 100%;
 }
 
-/* Text selection — brand accent colours */
+/* Text selection — restrained, no neon */
 ::selection {
-  background-color: var(--color-lime);
-  color: var(--color-deep-green);
+  background-color: var(--color-accent);
+  color: var(--color-pure-white);
 }
 
 /* --------------------------------------------------------------------------
@@ -158,8 +191,21 @@ video {
   font-family: var(--font-body);
 }
 
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Restrained accent-text utilities (formerly gradient text — no longer gradients) */
+.text-gradient {
+  color: var(--color-accent-soft);
+}
+
+.text-gradient-blue {
+  color: var(--color-accent-soft);
+}
+
 /* --------------------------------------------------------------------------
-   Accessibility & Section Spacing Utilities
+   Skip-Link Accessibility
    -------------------------------------------------------------------------- */
 .skip-link {
   position: absolute;
@@ -172,36 +218,47 @@ video {
 }
 
 .skip-link:focus {
-  left: 1rem;
-  top: 1rem;
+  left: 1.5rem;
+  top: 1.5rem;
   width: auto;
   height: auto;
-  padding: 0.75rem 1.5rem;
-  background: var(--color-deep-green);
-  color: var(--color-lime);
-  font-weight: 600;
+  padding: 0.85rem 1.75rem;
+  background: var(--color-accent-strong);
+  color: var(--color-pure-white);
+  font-weight: 700;
   font-size: 0.875rem;
   border-radius: 0.5rem;
-  outline: 2px solid var(--color-lime);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-accent-soft);
+  outline-offset: 3px;
 }
 
+/* --------------------------------------------------------------------------
+   Section Spacing & Studio Surfaces
+   -------------------------------------------------------------------------- */
 .section {
   padding-block: var(--section-padding-y);
 }
 
-.section--dark {
-  background-color: var(--surface-dark);
-  color: var(--text-on-dark);
+.section--slate {
+  background-color: var(--color-slate-dark);
 }
 
-.section--dark-muted {
-  background-color: var(--surface-dark-muted);
-  color: var(--text-on-dark);
+.section--obsidian {
+  background-color: var(--color-obsidian);
 }
 
-/* Ensure images in dark sections don't bleed */
-.section--dark img,
-.section--dark-muted img {
-  border-radius: 0.5rem;
+/* Card surface utility — clean borders + realistic shadow, no glow */
+.glow-card {
+  position: relative;
+  background: var(--color-slate-dark);
+  border: 1px solid var(--color-slate-border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--transition-smooth), transform var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+.glow-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-lift);
+  transform: translateY(-2px);
 }

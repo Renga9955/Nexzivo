@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { primaryNav } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
 import { Button } from '@/components/ui/Button';
@@ -10,20 +10,16 @@ import { MobileNavigation } from './MobileNavigation';
 import logoSrc from '@/assets/logo.png';
 
 /**
- * NEXZIVO primary site Header.
- *
- * Behaviour:
- * - Transparent + white text when at the very top (over the deep-green hero).
- * - Transitions to a frosted off-white background when the user scrolls down.
- * - Smooth animated underline indicator on nav link hover/active.
- * - Accessible keyboard navigation and ARIA attributes.
+ * NEXZIVO Studio Header.
+ * Sticky, scroll-aware navigation with a clean dark surface, restrained accent
+ * underline, and high-contrast typography. Preserves the unaltered logo.
  */
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 24);
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -34,75 +30,62 @@ export function Header() {
     return () => { document.body.style.overflow = ''; };
   }, [isMobileOpen]);
 
-  const isLight = isScrolled; // light bg → dark text; dark bg → light text
-
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
           isScrolled
-            ? 'bg-[var(--color-off-white)]/96 backdrop-blur-md shadow-sm border-b border-[var(--color-border)]'
-            : 'bg-transparent'
+            ? 'bg-[var(--color-obsidian)]/92 backdrop-blur-sm border-b border-[var(--color-slate-border)]'
+            : 'bg-transparent border-b border-transparent'
         }`}
       >
         <Container>
-          <div className="flex h-16 items-center justify-between lg:h-20">
-            {/* ── Logo ── */}
+          <div className="flex h-18 items-center justify-between lg:h-22">
+            {/* ── Brand Logo (preserved, no glow) ── */}
             <Link
               to="/"
-              className="flex items-center gap-2.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-lime)]"
-              aria-label={`${siteConfig.name} — home`}
+              className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-soft)] group py-1"
+              aria-label={`${siteConfig.name} — studio homepage`}
             >
               <img
                 src={logoSrc}
                 alt={`${siteConfig.name} logo`}
-                className="h-8 w-auto"
+                className="h-9 sm:h-10 w-auto object-contain"
               />
-              <span
-                className={`font-heading text-lg font-bold tracking-tight transition-colors duration-300 ${
-                  isLight ? 'text-[var(--color-charcoal)]' : 'text-[var(--color-off-white)]'
-                }`}
-              >
-                {siteConfig.name}
-              </span>
+              <div className="flex flex-col">
+                <span className="font-heading text-xl font-bold tracking-tight text-[var(--color-soft-white)] transition-colors group-hover:text-white">
+                  {siteConfig.name}
+                </span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-soft)] -mt-0.5">
+                  Creative Studio
+                </span>
+              </div>
             </Link>
 
             {/* ── Desktop navigation ── */}
-            <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-1">
+            <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-8">
               {primaryNav.map((item) => (
                 <NavLink
                   key={item.href}
                   to={item.href}
+                  end={item.href === '/'}
                   className={({ isActive }) =>
-                    `group relative px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-lime)] ${
+                    `group relative py-1 text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-soft)] rounded-sm ${
                       isActive
-                        ? isLight
-                          ? 'text-[var(--color-deep-green)]'
-                          : 'text-[var(--color-lime)]'
-                        : isLight
-                        ? 'text-[var(--color-muted)] hover:text-[var(--color-charcoal)]'
-                        : 'text-[var(--color-off-white)]/70 hover:text-[var(--color-off-white)]'
+                        ? 'text-[var(--color-soft-white)]'
+                        : 'text-[var(--color-subtle-gray)] hover:text-[var(--color-soft-white)]'
                     }`
                   }
                 >
                   {({ isActive }) => (
                     <>
-                      {item.label}
-                      {/* Animated underline */}
-                      <AnimatePresence>
-                        {isActive && (
-                          <motion.span
-                            layoutId="nav-active-indicator"
-                            className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-[var(--color-lime)]"
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            exit={{ scaleX: 0 }}
-                            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                          />
-                        )}
-                      </AnimatePresence>
-                      {/* Hover underline */}
-                      <span className="absolute bottom-0 left-3 right-3 h-0.5 scale-x-0 rounded-full bg-[var(--color-lime)] opacity-40 transition-transform duration-200 group-hover:scale-x-100" />
+                      <span>{item.label}</span>
+                      <span
+                        className={`absolute -bottom-0.5 left-0 h-px w-full origin-left bg-[var(--color-accent)] transition-transform duration-300 ${
+                          isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                        }`}
+                        aria-hidden="true"
+                      />
                     </>
                   )}
                 </NavLink>
@@ -115,9 +98,10 @@ export function Header() {
                 to="/contact"
                 size="sm"
                 variant="primary"
+                iconRight={<ArrowUpRight size={14} />}
                 className="hidden lg:inline-flex"
               >
-                {siteConfig.ctaLabel}
+                Start a Project
               </Button>
 
               <button
@@ -126,24 +110,20 @@ export function Header() {
                 aria-expanded={isMobileOpen}
                 aria-controls="mobile-nav"
                 onClick={() => setIsMobileOpen((prev) => !prev)}
-                className={`lg:hidden flex items-center justify-center h-10 w-10 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-lime)] ${
-                  isLight
-                    ? 'text-[var(--color-charcoal)] hover:bg-[var(--color-deep-green)]/8'
-                    : 'text-[var(--color-off-white)] hover:bg-white/10'
-                }`}
+                className="lg:hidden flex items-center justify-center h-10 w-10 rounded-xl border border-[var(--color-slate-border)] bg-[var(--color-slate-card)] text-[var(--color-soft-white)] hover:border-[var(--color-accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-soft)]"
               >
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span
                     key={isMobileOpen ? 'close' : 'open'}
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
                   >
                     {isMobileOpen ? (
-                      <X size={22} aria-hidden="true" />
+                      <X size={20} aria-hidden="true" />
                     ) : (
-                      <Menu size={22} aria-hidden="true" />
+                      <Menu size={20} aria-hidden="true" />
                     )}
                   </motion.span>
                 </AnimatePresence>

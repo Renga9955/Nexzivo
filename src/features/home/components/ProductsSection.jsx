@@ -12,17 +12,17 @@ function ProductPreview({ index }) {
     {
       lines: [[20, 30, 80, 30], [20, 46, 65, 46], [20, 62, 72, 62]],
       circle: { cx: 80, cy: 70, r: 14 },
-      dot: '#C6F36B',
+      dot: 'var(--color-accent-soft)',
     },
     {
       lines: [[16, 24, 72, 24], [16, 40, 56, 40], [16, 56, 80, 56]],
       circle: { cx: 76, cy: 76, r: 10 },
-      dot: '#C6F36B',
+      dot: 'var(--color-accent-soft)',
     },
     {
       lines: [[12, 28, 76, 28], [12, 44, 60, 44], [12, 60, 68, 60]],
       circle: { cx: 72, cy: 72, r: 12 },
-      dot: '#C6F36B',
+      dot: 'var(--color-accent-soft)',
     },
   ];
   const cfg = configs[index % configs.length];
@@ -43,7 +43,7 @@ function ProductPreview({ index }) {
         <circle cx="24" cy="9" r="2.5" fill="rgba(255,255,255,0.15)" />
 
         {/* Content lines */}
-        {cfg.lines.map(([x1, y1, x2, y2], i) => (
+        {cfg.lines.map(([x1, y1, x2], i) => (
           <rect key={i} x={x1} y={y1} width={x2 - x1} height="5" rx="2.5" fill="rgba(255,255,255,0.12)" />
         ))}
 
@@ -75,23 +75,16 @@ export function ProductsSection() {
   const reducedMotion = useReducedMotionPreference();
 
   return (
-    <section id="products" className="section relative overflow-hidden bg-[var(--color-deep-green)] text-[var(--color-off-white)]">
-      {/* Grid overlay */}
+    <section id="products" className="section relative overflow-hidden bg-[var(--color-obsidian)] text-[var(--color-soft-white)]">
+      {/* Faint neutral grid overlay */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.04]"
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
         aria-hidden="true"
         style={{
           backgroundImage:
-            'linear-gradient(var(--color-lime) 1px, transparent 1px), linear-gradient(90deg, var(--color-lime) 1px, transparent 1px)',
+            'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
           backgroundSize: '56px 56px',
         }}
-      />
-
-      {/* Glow */}
-      <div
-        className="pointer-events-none absolute top-0 right-0 h-[400px] w-[400px] opacity-[0.08]"
-        aria-hidden="true"
-        style={{ background: 'radial-gradient(circle, var(--color-lime) 0%, transparent 70%)' }}
       />
 
       <Container>
@@ -120,10 +113,10 @@ export function ProductsSection() {
               <motion.div
                 key={product.name}
                 variants={reducedMotion ? undefined : staggerChild}
-                className="group relative flex flex-col gap-0 overflow-hidden rounded-2xl border border-white/8 bg-white/4 transition-all duration-400 hover:border-[var(--color-lime)]/25 hover:bg-white/6"
+                className="group relative flex flex-col gap-0 overflow-hidden rounded-2xl border border-[var(--color-slate-border)] bg-[var(--color-slate-dark)] transition-all duration-300 hover:border-[var(--color-accent)]/40"
               >
                 {/* Product geometric preview */}
-                <div className="relative h-28 w-full border-b border-white/5 overflow-hidden">
+                <div className="relative h-28 w-full border-b border-[var(--color-slate-border)] overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center p-6">
                     <div className="h-16 w-16">
                       <ProductPreview index={i} />
@@ -134,8 +127,8 @@ export function ProductsSection() {
                     <span
                       className={`inline-block rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest ${
                         product.status === 'Coming Soon'
-                          ? 'bg-[var(--color-lime)]/15 text-[var(--color-lime)]'
-                          : 'bg-white/8 text-[var(--color-muted)]'
+                          ? 'border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/10 text-[var(--color-accent-soft)]'
+                          : 'bg-white/8 text-[var(--color-subtle-gray)]'
                       }`}
                     >
                       {product.status}
@@ -146,23 +139,23 @@ export function ProductsSection() {
                 {/* Card body */}
                 <div className="flex flex-col gap-3 p-6">
                   <div className="flex items-center gap-3">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--color-lime)]/12 text-[var(--color-lime)] transition-all duration-300 group-hover:bg-[var(--color-lime)]/20">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--color-accent)]/25 bg-[var(--color-accent)]/10 text-[var(--color-accent-soft)] transition-colors duration-300 group-hover:border-[var(--color-accent)]/50">
                       <Icon size={18} aria-hidden="true" />
                     </span>
                     <div>
-                      <h3 className="text-base font-bold text-[var(--color-off-white)]">
+                      <h3 className="text-base font-bold text-[var(--color-soft-white)] transition-colors group-hover:text-white">
                         {product.name}
                       </h3>
-                      <span className="text-xs text-[var(--color-muted)]">{product.tagline}</span>
+                      <span className="text-xs text-[var(--color-subtle-gray)]">{product.tagline}</span>
                     </div>
                   </div>
-                  <p className="text-sm leading-relaxed text-[var(--color-muted)]">
+                  <p className="text-sm leading-relaxed text-[var(--color-subtle-gray)]">
                     {product.description}
                   </p>
                 </div>
 
-                {/* Bottom lime accent */}
-                <div className="h-0.5 w-0 bg-[var(--color-lime)] transition-all duration-500 group-hover:w-full" />
+                {/* Bottom accent line */}
+                <div className="h-0.5 w-0 bg-[var(--color-accent)] transition-all duration-500 group-hover:w-full" />
               </motion.div>
             );
           })}

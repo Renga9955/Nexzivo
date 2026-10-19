@@ -4,24 +4,24 @@
  */
 export const primaryNav = [
   { label: 'Home', href: '/' },
-  { label: 'Services', href: '#services' },
-  { label: 'Approach', href: '#approach' },
-  { label: 'Work', href: '#work' },
+  { label: 'Services', href: '/services' },
+  { label: 'Work', href: '/work' },
+  { label: 'Approach', href: '/approach' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
 
 export const footerNav = {
-  Company: [
-    { label: 'About', href: '/about' },
-    { label: 'Approach', href: '#approach' },
-    { label: 'Contact', href: '/contact' },
-  ],
   Services: [
-    { label: 'UI/UX & Product Design', href: '#services-design' },
-    { label: 'Web Development', href: '#services-web' },
-    { label: 'Product Engineering', href: '#services-engineering' },
-    { label: 'AI & Innovation', href: '#services-ai' },
+    { label: 'Website Development', href: '/services/website-development' },
+    { label: 'Poster & Graphic Design', href: '/services/poster-graphic-design' },
+    { label: 'UI/UX & Product Design', href: '/services/ui-ux-design' },
+    { label: 'Brand Strategy & Innovation', href: '/services/brand-strategy-innovation' },
   ],
-
+  Studio: [
+    { label: 'Selected Work', href: '/work' },
+    { label: 'Creative Process', href: '/approach' },
+    { label: 'About NEXZIVO', href: '/about' },
+    { label: 'Start a Project', href: '/contact' },
+  ],
 };

@@ -1,13 +1,13 @@
 const alignClasses = {
   left: 'text-left',
-  center: 'text-center mx-auto',
-  right: 'text-right ml-auto',
+  center: 'text-center mx-auto items-center',
+  right: 'text-right ml-auto items-end',
 };
 
 /**
- * NEXZIVO SectionHeading.
- * Consistent heading block with eyebrow, heading, and optional description.
- * Supports light (default) and dark theme variants.
+ * NEXZIVO Studio SectionHeading.
+ * Editorial typography hierarchy with a restrained eyebrow, solid headline,
+ * and balanced subtitle. No glow, no gradient text, no pulsing indicators.
  */
 export function SectionHeading({
   eyebrow,
@@ -15,36 +15,23 @@ export function SectionHeading({
   description,
   align = 'left',
   as: Tag = 'h2',
-  theme = 'light',
   className = '',
 }) {
   const alignClass = alignClasses[align] || alignClasses.left;
-  const isDark = theme === 'dark';
 
   return (
-    <div className={`flex flex-col gap-3 ${alignClass} ${className}`}>
+    <div className={`flex flex-col gap-4 ${alignClass} ${className}`}>
       {eyebrow && (
-        <span
-          className={`inline-block text-sm font-semibold tracking-widest uppercase ${
-            isDark ? 'text-[var(--color-lime)]' : 'text-[var(--color-green)]'
-          }`}
-        >
-          {eyebrow}
+        <span className="inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-soft)]">
+          <span className="h-px w-6 bg-[var(--color-accent)]/60" aria-hidden="true" />
+          <span>{eyebrow}</span>
         </span>
       )}
-      <Tag
-        className={`text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl ${
-          isDark ? 'text-[var(--color-off-white)]' : 'text-[var(--color-charcoal)]'
-        }`}
-      >
+      <Tag className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl text-[var(--color-soft-white)]">
         {heading}
       </Tag>
       {description && (
-        <p
-          className={`mt-1 max-w-2xl text-base leading-relaxed sm:text-lg ${
-            isDark ? 'text-[var(--color-muted)]' : 'text-[var(--color-muted)]'
-          }`}
-        >
+        <p className="max-w-2xl text-base leading-relaxed sm:text-lg text-[var(--color-subtle-gray)]">
           {description}
         </p>
       )}
