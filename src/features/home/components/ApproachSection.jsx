@@ -6,8 +6,7 @@ import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference';
 import { approachContent } from '../data/homeContent';
 
 /**
- * ApproachSection — Studio 4-step creative engineering process.
- * Connected timeline with a restrained accent progress line and neutral nodes.
+ * ApproachSection — 4-step creative engineering process with brand deep-green timeline.
  */
 export function ApproachSection() {
   const reducedMotion = useReducedMotionPreference();
@@ -15,29 +14,33 @@ export function ApproachSection() {
   return (
     <section
       id="approach"
-      className="section bg-[var(--color-slate-dark)] text-[var(--color-soft-white)] relative border-t border-[var(--color-slate-border)]"
+      className="section bg-[var(--color-off-white)] text-[var(--color-text-body)] relative border-t border-[var(--color-muted-border)]"
     >
       <Container>
         <SectionReveal>
-          <SectionHeading
-            eyebrow={approachContent.eyebrow}
-            heading={approachContent.heading}
-            description={approachContent.description}
-            align="left"
-          />
+          <div className="flex flex-col items-center text-center">
+            <SectionHeading
+              eyebrow={approachContent.eyebrow}
+              heading={approachContent.heading}
+              description={approachContent.description}
+              align="center"
+              theme="light"
+              className="max-w-3xl"
+            />
+          </div>
         </SectionReveal>
 
         <div className="relative mt-16 lg:mt-24">
           {/* ── Desktop horizontal track ── */}
           <div className="relative hidden lg:block mb-16">
             {/* Track background */}
-            <div className="absolute top-5 left-0 right-0 h-px bg-[var(--color-slate-border)]" />
-            {/* Restrained accent progress line */}
+            <div className="absolute top-5 left-0 right-0 h-0.5 bg-[var(--color-muted-border)]" />
+            {/* Accent progress line */}
             {reducedMotion ? (
-              <div className="absolute top-5 left-0 right-0 h-px bg-[var(--color-accent)]" />
+              <div className="absolute top-5 left-0 right-0 h-0.5 bg-[var(--color-green)]" />
             ) : (
               <motion.div
-                className="absolute top-5 left-0 h-px origin-left bg-[var(--color-accent)]"
+                className="absolute top-5 left-0 h-0.5 origin-left bg-[var(--color-green)]"
                 style={{ right: 0 }}
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
@@ -58,21 +61,21 @@ export function ApproachSection() {
                   className="flex flex-col items-start text-left gap-4"
                 >
                   {/* Step node */}
-                  <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-slate-card)] border border-[var(--color-slate-border)]">
-                    <span className="font-mono text-xs font-bold text-[var(--color-accent-soft)]">
+                  <div className="relative z-10 flex h-11 w-11 items-center justify-center rounded-xl bg-white border-2 border-[var(--color-green)] shadow-sm">
+                    <span className="font-mono text-sm font-bold text-[var(--color-deep-green)]">
                       {step.number}
                     </span>
                   </div>
 
                   {/* Content below track */}
                   <div className="flex flex-col gap-1.5 pt-2">
-                    <span className="text-[11px] text-[var(--color-accent-soft)] uppercase tracking-wider font-semibold">
+                    <span className="text-[11px] text-[var(--color-green)] uppercase tracking-wider font-bold">
                       {step.tagline}
                     </span>
-                    <h3 className="text-xl font-bold text-[var(--color-soft-white)]">
+                    <h3 className="text-xl font-bold text-[var(--color-deep-green)]">
                       {step.title}
                     </h3>
-                    <p className="text-sm leading-relaxed text-[var(--color-subtle-gray)]">
+                    <p className="text-sm leading-relaxed text-[var(--color-text-muted)]">
                       {step.description}
                     </p>
                   </div>
@@ -83,7 +86,7 @@ export function ApproachSection() {
 
           {/* ── Mobile vertical timeline ── */}
           <div className="relative lg:hidden">
-            <div className="absolute top-5 bottom-5 left-5 w-px bg-[var(--color-slate-border)]" aria-hidden="true" />
+            <div className="absolute top-5 bottom-5 left-5 w-0.5 bg-[var(--color-muted-border)]" aria-hidden="true" />
 
             <ol className="flex flex-col gap-10 pl-14">
               {approachContent.steps.map((step, i) => (
@@ -95,19 +98,19 @@ export function ApproachSection() {
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                   className="relative"
                 >
-                  <div className="absolute -left-14 top-0 z-10 flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--color-slate-card)] border border-[var(--color-slate-border)]">
-                    <span className="font-mono text-xs font-bold text-[var(--color-accent-soft)]">
+                  <div className="absolute -left-14 top-0 z-10 flex h-9 w-9 items-center justify-center rounded-lg bg-white border-2 border-[var(--color-green)] shadow-xs">
+                    <span className="font-mono text-xs font-bold text-[var(--color-deep-green)]">
                       {step.number}
                     </span>
                   </div>
 
-                  <span className="text-[11px] text-[var(--color-accent-soft)] uppercase tracking-wider font-semibold block mb-1">
+                  <span className="text-[11px] text-[var(--color-green)] uppercase tracking-wider font-bold block mb-1">
                     {step.tagline}
                   </span>
-                  <h3 className="text-lg font-bold text-[var(--color-soft-white)]">
+                  <h3 className="text-lg font-bold text-[var(--color-deep-green)]">
                     {step.title}
                   </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-[var(--color-subtle-gray)]">
+                  <p className="mt-1.5 text-sm leading-relaxed text-[var(--color-text-muted)]">
                     {step.description}
                   </p>
                 </motion.li>

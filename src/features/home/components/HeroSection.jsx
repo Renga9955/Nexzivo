@@ -1,11 +1,11 @@
 import { motion } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { heroContent } from '../data/homeContent';
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference';
 
-/** Splits a headline string into individual words for a restrained editorial reveal. */
+/** Splits a headline string into individual words for an editorial reveal. */
 function AnimatedHeadline({ text, reducedMotion }) {
   const words = text.split(' ');
   if (reducedMotion) {
@@ -14,11 +14,15 @@ function AnimatedHeadline({ text, reducedMotion }) {
   return (
     <>
       {words.map((word, i) => {
-        const isDistinction = word.toLowerCase().includes('distinction');
+        const isNext = word.toLowerCase().includes('next');
         return (
           <span key={`${word}-${i}`} className="inline-block overflow-hidden mr-3 sm:mr-4">
             <motion.span
-              className={`inline-block ${isDistinction ? 'text-[var(--color-accent-soft)]' : 'text-[var(--color-soft-white)]'}`}
+              className={`inline-block ${
+                isNext
+                  ? 'text-[var(--color-green)] underline decoration-[var(--color-lime)] decoration-wavy decoration-from-font'
+                  : 'text-[var(--color-deep-green)]'
+              }`}
               initial={{ y: '115%', opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{
@@ -36,46 +40,44 @@ function AnimatedHeadline({ text, reducedMotion }) {
   );
 }
 
-/** Restrained, static geometric composition — thin neutral lines, no glow, no motion. */
+/** Fresh light hero background with subtle brand gradients and geometric patterns. */
 function HeroGeometry() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      {/* Soft radiant ambient glow */}
+      <div className="absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full bg-[var(--color-green-light)]/70 blur-3xl" />
+      <div className="absolute top-1/2 -left-32 h-[450px] w-[450px] rounded-full bg-[var(--color-lime)]/15 blur-3xl" />
+
       {/* Faint technical grid */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.4]"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
-          backgroundSize: '64px 64px',
+            'linear-gradient(rgba(16,40,32,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(16,40,32,0.04) 1px, transparent 1px)',
+          backgroundSize: '56px 56px',
         }}
       />
 
-      {/* Thin concentric arcs, neutral, low opacity */}
+      {/* Elegant geometric concentric arcs */}
       <svg
-        className="absolute -right-24 top-1/2 hidden h-[720px] w-[720px] -translate-y-1/2 lg:block"
+        className="absolute -right-20 top-1/2 hidden h-[680px] w-[680px] -translate-y-1/2 lg:block opacity-40"
         viewBox="0 0 800 800"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <circle cx="400" cy="400" r="340" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
-        <circle cx="400" cy="400" r="260" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
-        <circle cx="400" cy="400" r="180" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
-        <circle cx="400" cy="60" r="4" fill="var(--color-accent)" />
-        <line x1="60" y1="400" x2="740" y2="400" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+        <circle cx="400" cy="400" r="340" stroke="var(--color-deep-green)" strokeOpacity="0.08" strokeWidth="1" />
+        <circle cx="400" cy="400" r="260" stroke="var(--color-green)" strokeOpacity="0.12" strokeWidth="1" strokeDasharray="4 4" />
+        <circle cx="400" cy="400" r="180" stroke="var(--color-deep-green)" strokeOpacity="0.08" strokeWidth="1" />
+        <circle cx="400" cy="60" r="5" fill="var(--color-green)" />
+        <circle cx="660" cy="400" r="4" fill="var(--color-lime)" stroke="var(--color-green)" strokeWidth="1" />
       </svg>
-
-      {/* Soft neutral edge to give depth without neon */}
-      <div
-        className="absolute inset-x-0 bottom-0 h-40"
-        style={{ background: 'linear-gradient(to bottom, transparent, var(--color-obsidian))' }}
-      />
     </div>
   );
 }
 
 /**
- * HeroSection — clean cinematic opening with a staggered editorial headline,
- * restrained CTAs and a studio disciplines strip. No glow, no orbiting motion.
+ * HeroSection — Clean white background with deep-green prominent typography,
+ * high-contrast CTA buttons and rich capability badges.
  */
 export function HeroSection() {
   const reducedMotion = useReducedMotionPreference();
@@ -83,32 +85,32 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-[92vh] flex items-center overflow-hidden bg-[var(--color-obsidian)] text-[var(--color-soft-white)] pt-24 pb-16"
+      className="relative min-h-[92vh] flex items-center overflow-hidden bg-white text-[var(--color-text-body)] pt-28 pb-16 lg:pt-36 lg:pb-24 border-b border-[var(--color-muted-border)]"
     >
       <HeroGeometry />
 
       <Container>
-        <div className="relative z-10 max-w-4xl flex flex-col items-start gap-8 py-12 lg:py-20">
-          {/* Eyebrow */}
+        <div className="relative z-10 max-w-4xl flex flex-col items-start gap-8">
+          {/* Eyebrow badge */}
           <motion.div
             initial={reducedMotion ? {} : { opacity: 0, y: 12 }}
             animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-accent-soft)]">
-              <span className="h-px w-8 bg-[var(--color-accent)]/60" aria-hidden="true" />
-              {heroContent.eyebrow}
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--color-green-light)] border border-[var(--color-green)]/20 text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-green)]">
+              <Sparkles size={13} className="text-[var(--color-green)]" />
+              <span>{heroContent.eyebrow}</span>
             </span>
           </motion.div>
 
           {/* Main Headline */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[5rem] font-bold tracking-tight leading-[1.04]">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[1.04]">
             <AnimatedHeadline text={heroContent.heading} reducedMotion={reducedMotion} />
           </h1>
 
           {/* Subtitle description */}
           <motion.p
-            className="max-w-2xl text-lg sm:text-xl text-[var(--color-subtle-gray)] leading-relaxed"
+            className="max-w-2xl text-lg sm:text-xl text-[var(--color-text-body)] leading-relaxed font-normal"
             initial={reducedMotion ? {} : { opacity: 0, y: 16 }}
             animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
@@ -136,24 +138,28 @@ export function HeroSection() {
             </Button>
           </motion.div>
 
-          {/* Studio Disciplines Strip */}
+          {/* Disciplines Strip / Trust metrics */}
           <motion.div
-            className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-10 border-t border-[var(--color-slate-border)] w-full mt-4"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 border-t border-[var(--color-muted-border)] w-full mt-4"
             initial={reducedMotion ? {} : { opacity: 0 }}
             animate={reducedMotion ? {} : { opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.7 }}
           >
             {[
               { title: 'Web Development', tag: 'Fast · Scalable' },
-              { title: 'Poster Design', tag: 'Editorial · Print' },
-              { title: 'UI/UX Design', tag: 'Human · Ergonomic' },
-              { title: 'Brand Identity', tag: 'Distinct · Bold' },
+              { title: 'UI/UX Design', tag: 'Human-Centered' },
+              { title: 'Mobile Apps', tag: 'Native · Intuitive' },
+              { title: 'Academic Projects', tag: 'Structured & Mentored' },
             ].map((d) => (
-              <div key={d.title} className="flex flex-col">
-                <span className="text-xs font-semibold uppercase tracking-wider text-[var(--color-accent-soft)]">
-                  {d.tag}
-                </span>
-                <span className="text-sm font-semibold text-[var(--color-soft-white)] mt-0.5">
+              <div
+                key={d.title}
+                className="flex flex-col p-4 rounded-xl bg-[var(--color-off-white)] border border-[var(--color-muted-border)] hover:border-[var(--color-green)]/40 transition-colors"
+              >
+                <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[var(--color-green)]">
+                  <CheckCircle2 size={12} />
+                  <span>{d.tag}</span>
+                </div>
+                <span className="text-sm font-bold text-[var(--color-deep-green)] mt-1">
                   {d.title}
                 </span>
               </div>

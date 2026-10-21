@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { primaryNav } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
 import { Button } from '@/components/ui/Button';
@@ -10,16 +9,14 @@ import { MobileNavigation } from './MobileNavigation';
 import logoSrc from '@/assets/logo.png';
 
 /**
- * NEXZIVO Studio Header.
- * Sticky, scroll-aware navigation with a clean dark surface, restrained accent
- * underline, and high-contrast typography. Preserves the unaltered logo.
+ * NEXZIVO Header — Clean white surface, deep green typography and emerald active indicators.
  */
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    const onScroll = () => setIsScrolled(window.scrollY > 15);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -33,100 +30,85 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[var(--color-obsidian)]/92 backdrop-blur-sm border-b border-[var(--color-slate-border)]'
-            : 'bg-transparent border-b border-transparent'
+            ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-[var(--color-muted-border)] py-3'
+            : 'bg-white/80 backdrop-blur-sm border-b border-[var(--color-muted-border)]/50 py-4'
         }`}
       >
         <Container>
-          <div className="flex h-18 items-center justify-between lg:h-22">
-            {/* ── Brand Logo (preserved, no glow) ── */}
+          <div className="flex items-center justify-between">
+            {/* Brand Logo */}
             <Link
               to="/"
-              className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-soft)] group py-1"
-              aria-label={`${siteConfig.name} — studio homepage`}
+              className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green)] group py-1"
+              aria-label={`${siteConfig.name} — homepage`}
             >
               <img
                 src={logoSrc}
                 alt={`${siteConfig.name} logo`}
-                className="h-9 sm:h-10 w-auto object-contain"
+                className="h-8 sm:h-9 w-auto object-contain"
               />
               <div className="flex flex-col">
-                <span className="font-heading text-xl font-bold tracking-tight text-[var(--color-soft-white)] transition-colors group-hover:text-white">
+                <span className="font-heading text-xl font-bold tracking-tight text-[var(--color-deep-green)] transition-colors group-hover:text-[var(--color-green)]">
                   {siteConfig.name}
                 </span>
-                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-soft)] -mt-0.5">
-                  Creative Studio
+                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-green)] -mt-0.5">
+                  Digital & Design
                 </span>
               </div>
             </Link>
 
-            {/* ── Desktop navigation ── */}
-            <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-8">
+            {/* Desktop Navigation */}
+            <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-7">
               {primaryNav.map((item) => (
                 <NavLink
                   key={item.href}
                   to={item.href}
                   end={item.href === '/'}
                   className={({ isActive }) =>
-                    `group relative py-1 text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-soft)] rounded-sm ${
+                    `group relative py-1 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green)] rounded-sm ${
                       isActive
-                        ? 'text-[var(--color-soft-white)]'
-                        : 'text-[var(--color-subtle-gray)] hover:text-[var(--color-soft-white)]'
+                        ? 'text-[var(--color-deep-green)]'
+                        : 'text-[var(--color-text-muted)] hover:text-[var(--color-deep-green)]'
                     }`
                   }
                 >
                   {({ isActive }) => (
                     <>
                       <span>{item.label}</span>
-                      <span
-                        className={`absolute -bottom-0.5 left-0 h-px w-full origin-left bg-[var(--color-accent)] transition-transform duration-300 ${
-                          isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                        }`}
-                        aria-hidden="true"
-                      />
+                      {isActive && (
+                        <span
+                          className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-[var(--color-green)]"
+                          aria-hidden="true"
+                        />
+                      )}
                     </>
                   )}
                 </NavLink>
               ))}
             </nav>
 
-            {/* ── Desktop CTA + mobile trigger ── */}
-            <div className="flex items-center gap-3">
+            {/* Header Right Actions */}
+            <div className="flex items-center gap-3 sm:gap-4">
               <Button
                 to="/contact"
-                size="sm"
                 variant="primary"
-                iconRight={<ArrowUpRight size={14} />}
-                className="hidden lg:inline-flex"
+                size="sm"
+                className="hidden sm:inline-flex"
               >
-                Start a Project
+                Let's Talk
               </Button>
 
+              {/* Mobile menu toggle */}
               <button
                 type="button"
-                aria-label={isMobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--color-muted-border)] bg-white text-[var(--color-deep-green)] hover:bg-[var(--color-green-light)] lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green)]"
+                onClick={() => setIsMobileOpen(!isMobileOpen)}
                 aria-expanded={isMobileOpen}
-                aria-controls="mobile-nav"
-                onClick={() => setIsMobileOpen((prev) => !prev)}
-                className="lg:hidden flex items-center justify-center h-10 w-10 rounded-xl border border-[var(--color-slate-border)] bg-[var(--color-slate-card)] text-[var(--color-soft-white)] hover:border-[var(--color-accent)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-soft)]"
+                aria-label={isMobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
               >
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.span
-                    key={isMobileOpen ? 'close' : 'open'}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    {isMobileOpen ? (
-                      <X size={20} aria-hidden="true" />
-                    ) : (
-                      <Menu size={20} aria-hidden="true" />
-                    )}
-                  </motion.span>
-                </AnimatePresence>
+                {isMobileOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
             </div>
           </div>
@@ -134,9 +116,9 @@ export function Header() {
       </header>
 
       <MobileNavigation
-        id="mobile-nav"
         isOpen={isMobileOpen}
         onClose={() => setIsMobileOpen(false)}
+        id="mobile-nav"
       />
     </>
   );

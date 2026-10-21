@@ -4,61 +4,75 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap");
 
 /* ==========================================================================
-   NEXZIVO — Creative & Digital Studio Design System
+   NEXZIVO — White & Deep Green Brand Palette
    Tailwind CSS v4 CSS-first configuration
    ========================================================================== */
 
 @import "tailwindcss";
 
 /* --------------------------------------------------------------------------
-   Studio Design Tokens — CSS Custom Properties
+   Brand Design Tokens — CSS Custom Properties
+   White base, Deep Green (#102820), Secondary Green (#247A55), Lime (#C6F36B)
    -------------------------------------------------------------------------- */
 :root {
-  /* Refined Studio Palette: neutral charcoal base + single restrained blue accent */
-  --color-obsidian:       #0A0C10;
-  --color-slate-dark:     #0E1219;
-  --color-slate-card:     #141A23;
-  --color-slate-border:   #212836;
+  /* Brand Core Colors */
+  --color-deep-green:     #102820;   /* Deep brand forest green */
+  --color-deep-green-dark:#0B1C16;   /* Richer dark green for contrast */
+  --color-green:          #247A55;   /* Secondary emerald green */
+  --color-green-light:    #E9F4EE;   /* Soft green tint */
+  --color-lime:           #C6F36B;   /* Vibrant signature lime accent */
+  --color-lime-hover:     #B5E556;
   --color-pure-white:     #FFFFFF;
-  --color-soft-white:     #EDEFF3;
-  --color-subtle-gray:    #8A93A2;
+  --color-off-white:      #F8FAF8;   /* Pristine clean warm background */
+  --color-cream-card:     #FFFFFF;   /* Clean white card surface */
+  --color-muted-border:   #E2E8E4;   /* Subtle soft green-gray border */
+  --color-dark-border:    #1C3D32;   /* Border for deep-green sections */
 
-  /* Restrained accent system (muted, non-neon blue) */
-  --color-accent-strong:  #2E5A8C;   /* solid fills */
-  --color-accent:         #4B7CB0;   /* mid accent */
-  --color-accent-soft:    #9FBEDF;   /* text / links / labels on dark */
+  /* Text Colors */
+  --color-text-dark:      #111915;   /* Near-black readable text on white */
+  --color-text-body:      #334139;   /* Smooth body text on light backgrounds */
+  --color-text-muted:     #63756A;   /* Subtitle and helper text */
+  --color-soft-white:     #FFFFFF;   /* White text on deep green */
+  --color-light-muted:    #B2C7BC;   /* Muted text on deep green */
 
-  /* Backwards-compatible aliases (formerly electric blue / cyan glow) */
-  --color-electric-blue:  var(--color-accent);
-  --color-cyan-glow:      var(--color-accent-soft);
+  /* Semantic Aliases for compatibility */
+  --color-obsidian:       var(--color-pure-white);
+  --color-slate-dark:     var(--color-off-white);
+  --color-slate-card:     var(--color-pure-white);
+  --color-slate-border:   var(--color-muted-border);
+  --color-subtle-gray:    var(--color-text-muted);
 
-  /* Aliases for semantic mapping */
-  --surface-page:         var(--color-obsidian);
-  --surface-card:         var(--color-slate-dark);
-  --surface-card-hover:   var(--color-slate-card);
-  --border-subtle:        var(--color-slate-border);
-  --border-focus:         var(--color-accent-soft);
+  --color-accent-strong:  var(--color-deep-green);
+  --color-accent:         var(--color-green);
+  --color-accent-soft:    var(--color-green);
 
-  --text-primary:         var(--color-soft-white);
-  --text-secondary:       var(--color-subtle-gray);
-  --text-accent:          var(--color-accent-soft);
-  --text-blue:            var(--color-accent);
+  --surface-page:         var(--color-pure-white);
+  --surface-card:         var(--color-pure-white);
+  --surface-card-hover:   var(--color-off-white);
+  --border-subtle:        var(--color-muted-border);
+  --border-focus:         var(--color-green);
 
-  /* Realistic (non-glow) elevation */
-  --shadow-card:          0 1px 2px rgba(0,0,0,0.30), 0 12px 28px -18px rgba(0,0,0,0.55);
-  --shadow-lift:          0 2px 4px rgba(0,0,0,0.35), 0 22px 44px -24px rgba(0,0,0,0.65);
+  --text-primary:         var(--color-text-dark);
+  --text-secondary:       var(--color-text-body);
+  --text-accent:          var(--color-green);
+
+  /* Clean subtle elevation shadows */
+  --shadow-subtle:        0 1px 3px rgba(16, 40, 32, 0.05), 0 4px 12px rgba(16, 40, 32, 0.04);
+  --shadow-card:          0 4px 20px -2px rgba(16, 40, 32, 0.06), 0 2px 6px -1px rgba(16, 40, 32, 0.03);
+  --shadow-lift:          0 12px 32px -4px rgba(16, 40, 32, 0.12), 0 4px 12px -2px rgba(16, 40, 32, 0.05);
+  --shadow-green:         0 8px 24px -4px rgba(16, 40, 32, 0.35);
 
   /* Typography */
   --font-heading:         'Space Grotesk', system-ui, -apple-system, sans-serif;
   --font-body:            'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono:            'JetBrains Mono', monospace;
 
-  /* Layout */
-  --container-max-width:  1280px;
-  --container-padding-x:  clamp(1.25rem, 5vw, 4rem);
-  --section-padding-y:    clamp(5rem, 9vw, 9rem);
+  /* Layout — Compact horizontal padding to reduce left & right gap size */
+  --container-max-width:  1360px;
+  --container-padding-x:  clamp(0.75rem, 2.5vw, 2rem);
+  --section-padding-y:    clamp(4rem, 6.5vw, 6.5rem);
 
-  /* Micro-interactions */
+  /* Transitions */
   --transition-fast:      150ms cubic-bezier(0.2, 0.8, 0.2, 1);
   --transition-smooth:    300ms cubic-bezier(0.16, 1, 0.3, 1);
   --transition-spring:    500ms cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -68,18 +82,28 @@
    Tailwind CSS v4 — Theme Extension via @theme
    -------------------------------------------------------------------------- */
 @theme {
-  --color-obsidian:       #0A0C10;
-  --color-slate-dark:     #0E1219;
-  --color-slate-card:     #141A23;
-  --color-slate-border:   #212836;
-  --color-electric-blue:  #4B7CB0;
-  --color-cyan-glow:      #9FBEDF;
-  --color-accent-strong:  #2E5A8C;
-  --color-accent:         #4B7CB0;
-  --color-accent-soft:    #9FBEDF;
-  --color-soft-white:     #EDEFF3;
-  --color-subtle-gray:    #8A93A2;
+  --color-deep-green:     #102820;
+  --color-deep-green-dark:#0B1C16;
+  --color-green:          #247A55;
+  --color-green-light:    #E9F4EE;
+  --color-lime:           #C6F36B;
+  --color-lime-hover:     #B5E556;
   --color-pure-white:     #FFFFFF;
+  --color-off-white:      #F8FAF8;
+  --color-text-dark:      #111915;
+  --color-text-body:      #334139;
+  --color-text-muted:     #63756A;
+  --color-muted-border:   #E2E8E4;
+
+  --color-obsidian:       #FFFFFF;
+  --color-slate-dark:     #F8FAF8;
+  --color-slate-card:     #FFFFFF;
+  --color-slate-border:   #E2E8E4;
+  --color-accent-strong:  #102820;
+  --color-accent:         #247A55;
+  --color-accent-soft:    #247A55;
+  --color-soft-white:     #FFFFFF;
+  --color-subtle-gray:    #63756A;
 
   --font-heading:         'Space Grotesk', system-ui, -apple-system, sans-serif;
   --font-body:            'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -99,8 +123,8 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   tab-size: 4;
-  background-color: var(--surface-page);
-  color: var(--text-primary);
+  background-color: var(--color-pure-white);
+  color: var(--color-text-body);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -121,8 +145,8 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
-  background-color: var(--surface-page);
-  color: var(--text-primary);
+  background-color: var(--color-pure-white);
+  color: var(--color-text-body);
   font-family: var(--font-body);
   font-size: 1rem;
   line-height: 1.65;
@@ -130,36 +154,48 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* On desktop with fine pointer, hide the default system cursor for the body while preserving text selection for inputs/text */
-@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  body, a, button, [role="button"] {
-    cursor: none !important;
-  }
-
-  /* Retain native text cursor when selecting text or in form fields */
-  input, textarea, select, [contenteditable="true"] {
-    cursor: text !important;
-  }
-}
-
 #root {
   display: contents;
 }
 
-/* Headings use Space Grotesk */
+/* Headings use Space Grotesk with bold contrast */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  line-height: 1.15;
+  line-height: 1.18;
   font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
+  color: var(--color-deep-green);
+  letter-spacing: -0.025em;
+}
+
+/* Headings in dark / deep-green containers or elements with text-white */
+.section--deep-green h1,
+.section--deep-green h2,
+.section--deep-green h3,
+.section--deep-green h4,
+.section--deep-green h5,
+.section--deep-green h6,
+[class*="bg-[var(--color-deep-green)]"] h1,
+[class*="bg-[var(--color-deep-green)]"] h2,
+[class*="bg-[var(--color-deep-green)]"] h3,
+[class*="bg-[var(--color-deep-green)]"] h4,
+[class*="bg-[var(--color-deep-green)]"] h5,
+[class*="bg-[var(--color-deep-green)]"] h6,
+.text-white h1,
+.text-white h2,
+.text-white h3,
+.text-white h4,
+h1.text-white,
+h2.text-white,
+h3.text-white,
+h4.text-white {
+  color: #FFFFFF !important;
 }
 
 /* Accessible focus states */
 :focus-visible {
-  outline: 2px solid var(--color-accent-soft);
+  outline: 2px solid var(--color-green);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 :focus:not(:focus-visible) {
@@ -174,10 +210,10 @@ video {
   max-width: 100%;
 }
 
-/* Text selection — restrained, no neon */
+/* Text selection with brand green */
 ::selection {
-  background-color: var(--color-accent);
-  color: var(--color-pure-white);
+  background-color: var(--color-deep-green);
+  color: var(--color-lime);
 }
 
 /* --------------------------------------------------------------------------
@@ -193,15 +229,6 @@ video {
 
 .font-mono {
   font-family: var(--font-mono);
-}
-
-/* Restrained accent-text utilities (formerly gradient text — no longer gradients) */
-.text-gradient {
-  color: var(--color-accent-soft);
-}
-
-.text-gradient-blue {
-  color: var(--color-accent-soft);
 }
 
 /* --------------------------------------------------------------------------
@@ -223,42 +250,49 @@ video {
   width: auto;
   height: auto;
   padding: 0.85rem 1.75rem;
-  background: var(--color-accent-strong);
-  color: var(--color-pure-white);
+  background: var(--color-deep-green);
+  color: var(--color-lime);
   font-weight: 700;
   font-size: 0.875rem;
   border-radius: 0.5rem;
-  outline: 2px solid var(--color-accent-soft);
+  outline: 2px solid var(--color-lime);
   outline-offset: 3px;
 }
 
 /* --------------------------------------------------------------------------
-   Section Spacing & Studio Surfaces
+   Section Spacing & Surfaces
    -------------------------------------------------------------------------- */
 .section {
   padding-block: var(--section-padding-y);
 }
 
-.section--slate {
-  background-color: var(--color-slate-dark);
+.section--white {
+  background-color: var(--color-pure-white);
+  color: var(--color-text-body);
 }
 
-.section--obsidian {
-  background-color: var(--color-obsidian);
+.section--off-white {
+  background-color: var(--color-off-white);
+  color: var(--color-text-body);
 }
 
-/* Card surface utility — clean borders + realistic shadow, no glow */
-.glow-card {
+.section--deep-green {
+  background-color: var(--color-deep-green);
+  color: var(--color-soft-white);
+}
+
+/* Premium Card Surfaces */
+.brand-card {
   position: relative;
-  background: var(--color-slate-dark);
-  border: 1px solid var(--color-slate-border);
-  border-radius: 1rem;
+  background: var(--color-pure-white);
+  border: 1px solid var(--color-muted-border);
+  border-radius: 1.25rem;
   box-shadow: var(--shadow-card);
-  transition: border-color var(--transition-smooth), transform var(--transition-smooth), box-shadow var(--transition-smooth);
+  transition: all var(--transition-smooth);
 }
 
-.glow-card:hover {
-  border-color: var(--color-accent);
+.brand-card:hover {
+  border-color: var(--color-green);
   box-shadow: var(--shadow-lift);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 }

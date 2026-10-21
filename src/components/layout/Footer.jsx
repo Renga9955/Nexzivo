@@ -29,13 +29,11 @@ const socialLinks = [
 ];
 
 /**
- * NEXZIVO Studio Footer.
- * Deep obsidian backdrop, electric blue highlights, clean navigation groups,
- * and high-contrast typography.
+ * NEXZIVO Footer — Deep green backdrop (#102820) with off-white text and lime accents.
  */
 export function Footer() {
   return (
-    <footer className="bg-[#080A0F] text-[#F3F5F9] border-t border-[#232B3E]" role="contentinfo">
+    <footer className="bg-[var(--color-deep-green)] text-white border-t border-[var(--color-dark-border)]" role="contentinfo">
       <Container>
         {/* Main footer grid */}
         <div className="grid grid-cols-1 gap-12 py-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
@@ -43,25 +41,25 @@ export function Footer() {
           <div className="lg:col-span-2 flex flex-col gap-5">
             <Link
               to="/"
-              className="inline-flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] group"
-              aria-label={`${siteConfig.name} — studio homepage`}
+              className="inline-flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-lime)] group"
+              aria-label={`${siteConfig.name} — homepage`}
             >
               <img
                 src={logoSrc}
                 alt={`${siteConfig.name} logo`}
                 className="h-9 w-auto"
               />
-              <span className="font-heading text-xl font-bold text-white tracking-tight">
+              <span className="font-heading text-2xl font-bold text-white tracking-tight">
                 {siteConfig.name}
               </span>
             </Link>
 
             {/* Tagline */}
-            <p className="text-sm font-medium text-[var(--color-accent-soft)] tracking-wide">
+            <p className="text-sm font-semibold text-[var(--color-lime)] tracking-wide">
               {siteConfig.tagline}
             </p>
 
-            <p className="max-w-sm text-sm leading-relaxed text-[#8B95A5]">
+            <p className="max-w-sm text-sm leading-relaxed text-[var(--color-light-muted)]">
               {siteConfig.description}
             </p>
 
@@ -74,7 +72,7 @@ export function Footer() {
                   target={external ? '_blank' : undefined}
                   rel={external ? 'noopener noreferrer' : undefined}
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#151A26] border border-[#232B3E] text-[#8B95A5] hover:text-white hover:border-[var(--color-accent)]/50 hover:bg-[#1E2536] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white/80 hover:text-[var(--color-lime)] hover:border-[var(--color-lime)]/40 hover:bg-white/10 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-lime)]"
                 >
                   <Icon size={18} aria-hidden="true" />
                 </a>
@@ -85,7 +83,7 @@ export function Footer() {
           {/* Navigation groups */}
           {Object.entries(footerNav).map(([groupLabel, items]) => (
             <nav key={groupLabel} aria-label={`${groupLabel} links`}>
-              <h3 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-soft)]">
+              <h3 className="mb-5 text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-lime)]">
                 {groupLabel}
               </h3>
               <ul className="flex flex-col gap-3">
@@ -93,10 +91,10 @@ export function Footer() {
                   <li key={item.href}>
                     <Link
                       to={item.href}
-                      className="text-sm text-[#8B95A5] hover:text-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] rounded-sm inline-flex items-center gap-1 group"
+                      className="text-sm text-[var(--color-light-muted)] hover:text-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-lime)] rounded-sm inline-flex items-center gap-1 group"
                     >
                       <span>{item.label}</span>
-                      <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity text-[var(--color-accent-soft)]" />
+                      <ArrowUpRight size={13} className="opacity-0 group-hover:opacity-100 transition-opacity text-[var(--color-lime)]" />
                     </Link>
                   </li>
                 ))}
@@ -105,13 +103,11 @@ export function Footer() {
           ))}
         </div>
 
-        {/* Legal bar */}
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-[#232B3E]/60 py-6 sm:flex-row text-xs text-[#8B95A5]">
-          <p>
-            &copy; {currentYear} {siteConfig.name} Studio. All rights reserved.
-          </p>
-          <p className="font-mono text-[11px] text-[#8B95A5]/80">
-            Engineered with React 19 · Vite · Motion
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-8 border-t border-white/10 text-xs text-[var(--color-light-muted)]">
+          <p>© {currentYear} {siteConfig.name}. All rights reserved.</p>
+          <p className="flex items-center gap-1">
+            <span>Modern digital technology &amp; practical innovation.</span>
           </p>
         </div>
       </Container>

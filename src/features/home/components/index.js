@@ -1,5 +1,8 @@
 export { HeroSection } from './HeroSection';
+export { WhoWeAreSection } from './WhoWeAreSection';
+export { OurMissionSection } from './OurMissionSection';
 export { ServicesSection } from './ServicesSection';
+export { WhyChooseUsSection } from './WhyChooseUsSection';
 export { ApproachSection } from './ApproachSection';
 export { WorkShowcaseSection } from './WorkShowcaseSection';
 export { ProductsSection } from './ProductsSection';

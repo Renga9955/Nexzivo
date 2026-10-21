@@ -5,9 +5,9 @@ const alignClasses = {
 };
 
 /**
- * NEXZIVO Studio SectionHeading.
- * Editorial typography hierarchy with a restrained eyebrow, solid headline,
- * and balanced subtitle. No glow, no gradient text, no pulsing indicators.
+ * NEXZIVO Brand SectionHeading.
+ * Crisp typography with deep green headings, green/lime eyebrow badges,
+ * and clear readable body typography.
  */
 export function SectionHeading({
   eyebrow,
@@ -16,22 +16,41 @@ export function SectionHeading({
   align = 'left',
   as: Tag = 'h2',
   className = '',
+  theme = 'light', // 'light' (on white/off-white) or 'dark' (on deep green)
 }) {
   const alignClass = alignClasses[align] || alignClasses.left;
+  const isDark = theme === 'dark';
 
   return (
-    <div className={`flex flex-col gap-4 ${alignClass} ${className}`}>
+    <div className={`flex flex-col gap-3.5 ${alignClass} ${className}`}>
       {eyebrow && (
-        <span className="inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-soft)]">
-          <span className="h-px w-6 bg-[var(--color-accent)]/60" aria-hidden="true" />
+        <span
+          className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-[0.18em] ${
+            isDark
+              ? 'bg-[var(--color-lime)]/15 text-[var(--color-lime)] border border-[var(--color-lime)]/30'
+              : 'bg-[var(--color-green-light)] text-[var(--color-green)] border border-[var(--color-green)]/20'
+          }`}
+        >
+          <span
+            className={`h-1.5 w-1.5 rounded-full ${isDark ? 'bg-[var(--color-lime)]' : 'bg-[var(--color-green)]'}`}
+            aria-hidden="true"
+          />
           <span>{eyebrow}</span>
         </span>
       )}
-      <Tag className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl text-[var(--color-soft-white)]">
+      <Tag
+        className={`text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.12] tracking-tight ${
+          isDark ? 'text-white' : 'text-[var(--color-deep-green)]'
+        }`}
+      >
         {heading}
       </Tag>
       {description && (
-        <p className="max-w-2xl text-base leading-relaxed sm:text-lg text-[var(--color-subtle-gray)]">
+        <p
+          className={`max-w-2xl text-base sm:text-lg leading-relaxed ${
+            isDark ? 'text-[var(--color-light-muted)]' : 'text-[var(--color-text-muted)]'
+          }`}
+        >
           {description}
         </p>
       )}

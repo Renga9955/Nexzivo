@@ -1,99 +1,168 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
-import { SectionHeading } from '@/components/ui/SectionHeading';
 import { SectionReveal } from '@/components/ui/SectionReveal';
-import { staggerContainer, staggerChild, scrollViewport } from '@/lib/motion';
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference';
 import { servicesContent } from '../data/homeContent';
 
 /**
- * ServicesSection — Studio editorial grid showcasing Website Development,
- * Poster & Graphic Design, UI/UX, and Innovation.
+ * ServicesSection — What We Do
+ * Matches the reference design with:
+ * - Centered "What We Do" heading + subheadline
+ * - 3 horizontal cards visible on desktop, auto-sliding every 2 seconds
+ * - Bottom teal underline indicator on card titles
+ * - Teal "Learn More" buttons
+ * - Pagination indicator dots at the bottom
  */
 export function ServicesSection() {
+  const [startIndex, setStartIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const reducedMotion = useReducedMotionPreference();
 
+  const totalServices = servicesContent.items.length;
+  // 3 items shown per desktop view
+  const visibleCount = 3;
+
+  // 2-second automatic sliding loop
+  useEffect(() => {
+    if (isPaused) return;
+
+    const timer = setInterval(() => {
+      setStartIndex((prev) => (prev + 1) % totalServices);
+    }, 2000); // 2 seconds auto-scroll
+
+    return () => clearInterval(timer);
+  }, [isPaused, totalServices]);
+
+  const handlePrev = () => {
+    setStartIndex((prev) => (prev - 1 + totalServices) % totalServices);
+  };
+
+  const handleNext = () => {
+    setStartIndex((prev) => (prev + 1) % totalServices);
+  };
+
+  // Get current circular 3 items
+  const currentItems = Array.from({ length: visibleCount }).map((_, i) => {
+    return servicesContent.items[(startIndex + i) % totalServices];
+  });
+
   return (
-    <section id="services" className="section bg-[var(--color-slate-dark)] relative border-t border-[var(--color-slate-border)]">
+    <section
+      id="services"
+      className="py-14 sm:py-20 bg-[var(--color-off-white)] relative border-t border-[var(--color-muted-border)] overflow-hidden"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      aria-label="What We Do - Services"
+    >
       <Container>
         <SectionReveal>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
-            <SectionHeading
-              eyebrow={servicesContent.eyebrow}
-              heading={servicesContent.heading}
-              description={servicesContent.description}
-              align="left"
-            />
-            <Link
-              to="/services"
-              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--color-accent-soft)] hover:text-white transition-colors self-start md:self-end pb-2 group"
-            >
-              <span>Explore all studio capabilities</span>
-              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-            </Link>
+          {/* Centred Section Heading identical to user reference */}
+          <div className="flex flex-col items-center text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--color-deep-green)]">
+              What <span className="text-[var(--color-green)]">We Do</span>
+            </h2>
+
+            <p className="mt-3 max-w-2xl text-base sm:text-lg text-[var(--color-text-muted)]">
+              Delivering smart tech solutions to modern challenges.
+            </p>
           </div>
         </SectionReveal>
 
-        <motion.div
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2"
-          variants={reducedMotion ? undefined : staggerContainer}
-          initial={reducedMotion ? undefined : 'hidden'}
-          whileInView={reducedMotion ? undefined : 'visible'}
-          viewport={scrollViewport}
-        >
-          {servicesContent.items.map((service) => {
-            const Icon = service.icon;
-            const targetUrl = `/services/${service.slug}`;
+        {/* Carousel Viewport Container */}
+        <div className="relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={startIndex}
+              initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 24 }}
+              animate={reducedMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
+              exit={reducedMotion ? { opacity: 0 } : { opacity: 0, x: -24 }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {currentItems.map((service, index) => {
+                const Icon = service.icon;
+                const targetUrl = `/services/${service.slug}`;
 
-            return (
-              <motion.div
-                key={service.title}
-                variants={reducedMotion ? undefined : staggerChild}
-                className="relative"
-              >
-                <Link
-                  to={targetUrl}
-                  className="group relative flex flex-col justify-between gap-8 p-8 sm:p-10 rounded-2xl bg-[var(--color-slate-card)] border border-[var(--color-slate-border)] hover:border-[var(--color-accent)]/60 transition-all duration-300 hover:shadow-[var(--shadow-lift)] h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-soft)]"
-                  aria-label={`Explore ${service.title}`}
-                >
-                  {/* Top Bar with Number and Icon */}
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-3xl sm:text-4xl font-bold text-[var(--color-subtle-gray)]/40 group-hover:text-[var(--color-accent-soft)] transition-colors">
-                      {service.number}
-                    </span>
+                return (
+                  <div
+                    key={`${service.slug}-${index}`}
+                    className="flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-white border border-[var(--color-muted-border)] hover:border-[var(--color-green)]/50 hover:shadow-lg transition-all duration-300"
+                  >
+                    <div>
+                      {/* Top Header Row with Icon and Title */}
+                      <div className="flex items-start gap-4 mb-4">
+                        <span className="shrink-0 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-green-light)] text-[var(--color-green)] border border-[var(--color-green)]/20 shadow-xs">
+                          <Icon size={24} aria-hidden="true" />
+                        </span>
 
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-obsidian)] border border-[var(--color-slate-border)] text-[var(--color-accent-soft)] group-hover:bg-[var(--color-accent-strong)] group-hover:text-white group-hover:border-[var(--color-accent-strong)] transition-all duration-300">
-                      <Icon size={22} aria-hidden="true" />
-                    </span>
-                  </div>
+                        <div className="flex-1">
+                          <h3 className="text-lg sm:text-xl font-bold text-[var(--color-deep-green)] leading-snug">
+                            {service.title}
+                          </h3>
+                          {/* Accent underline bar as in reference image */}
+                          <div className="mt-2.5 h-0.5 w-full bg-[var(--color-green)]/30 rounded-full" />
+                        </div>
+                      </div>
 
-                  {/* Content Area */}
-                  <div className="flex flex-col gap-3">
-                    <span className="text-[11px] font-semibold tracking-widest uppercase text-[var(--color-accent-soft)]">
-                      {service.category}
-                    </span>
-                    <h3 className="text-2xl font-bold text-[var(--color-soft-white)] transition-colors group-hover:text-white">
-                      {service.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-[var(--color-subtle-gray)]">
-                      {service.shortDescription}
-                    </p>
-                  </div>
+                      {/* Description */}
+                      <p className="text-sm text-[var(--color-text-muted)] leading-relaxed mt-4 mb-6">
+                        {service.shortDescription}
+                      </p>
+                    </div>
 
-                  {/* Bottom Action Indicator */}
-                  <div className="pt-4 border-t border-[var(--color-slate-border)]/60 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-[var(--color-subtle-gray)] group-hover:text-[var(--color-accent-soft)] transition-colors">
-                    <span>View Specifications</span>
-                    <div className="flex items-center gap-1">
-                      <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    {/* Learn More Button matching reference styling */}
+                    <div className="pt-2">
+                      <Link
+                        to={targetUrl}
+                        className="inline-flex items-center justify-center px-5 py-2 rounded-lg bg-[var(--color-green)] hover:bg-[var(--color-deep-green)] text-white text-xs sm:text-sm font-semibold transition-all duration-200 shadow-xs hover:shadow-md"
+                      >
+                        <span>Learn More</span>
+                      </Link>
                     </div>
                   </div>
-                </Link>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+                );
+              })}
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Left / Right Carousel Navigation Arrows (desktop) */}
+          <button
+            type="button"
+            onClick={handlePrev}
+            className="absolute -left-3 lg:-left-5 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[var(--color-muted-border)] shadow-md text-[var(--color-deep-green)] hover:bg-[var(--color-green-light)] flex items-center justify-center transition-all z-10"
+            aria-label="Previous service"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button
+            type="button"
+            onClick={handleNext}
+            className="absolute -right-3 lg:-right-5 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-white border border-[var(--color-muted-border)] shadow-md text-[var(--color-deep-green)] hover:bg-[var(--color-green-light)] flex items-center justify-center transition-all z-10"
+            aria-label="Next service"
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
+
+        {/* 2-Second Looping Indicator Dots at Bottom */}
+        <div className="flex items-center justify-center gap-2 mt-8 sm:mt-10" aria-label="Carousel pagination">
+          {servicesContent.items.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setStartIndex(i)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                startIndex === i
+                  ? 'w-6 bg-[var(--color-green)]'
+                  : 'w-2 bg-[var(--color-muted-border)] hover:bg-[var(--color-green)]/40'
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
       </Container>
     </section>
   );
