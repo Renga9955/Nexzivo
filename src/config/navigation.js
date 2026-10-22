@@ -8,6 +8,7 @@ export const primaryNav = [
   { label: 'Work', href: '/work' },
   { label: 'Approach', href: '/approach' },
   { label: 'About', href: '/about' },
+  { label: 'Careers', href: '/careers' },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -22,6 +23,7 @@ export const footerNav = {
     { label: 'Selected Work', href: '/work' },
     { label: 'Creative Process', href: '/approach' },
     { label: 'About NEXZIVO', href: '/about' },
+    { label: 'Careers', href: '/careers' },
     { label: 'Start a Project', href: '/contact' },
   ],
 };

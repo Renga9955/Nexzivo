@@ -9,21 +9,21 @@ const sizeClasses = {
 
 const variantClasses = {
   primary:
-    'bg-[var(--color-deep-green)] text-white hover:bg-[var(--color-green)] shadow-sm hover:shadow-md border border-[var(--color-deep-green)]',
+    'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)] shadow-sm hover:shadow-md border border-[var(--color-primary)]',
   lime:
-    'bg-[var(--color-lime)] text-[var(--color-deep-green)] font-bold hover:bg-[var(--color-lime-hover)] shadow-sm hover:shadow-md border border-transparent',
+    'bg-[var(--color-secondary)] text-[#0B132B] font-bold hover:bg-[var(--color-secondary-hover)] shadow-sm hover:shadow-md border border-transparent',
   secondary:
-    'bg-[var(--color-green-light)] text-[var(--color-deep-green)] hover:bg-[var(--color-green)]/15 border border-[var(--color-green)]/20',
+    'bg-[var(--color-primary-light)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white border border-[var(--color-primary)]/20',
   outline:
-    'border border-[var(--color-deep-green)] text-[var(--color-deep-green)] hover:bg-[var(--color-deep-green)] hover:text-white',
+    'border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white',
   outlineLight:
-    'border border-white/30 text-white hover:bg-white hover:text-[var(--color-deep-green)]',
+    'border border-white/30 text-white hover:bg-white hover:text-[var(--color-navy)]',
   ghost:
-    'text-[var(--color-text-body)] hover:text-[var(--color-deep-green)] hover:bg-[var(--color-green-light)]',
+    'text-[var(--color-text-body)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-light)]',
 };
 
 const baseClasses =
-  'inline-flex items-center justify-center rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-green)] focus-visible:ring-offset-2 disabled:opacity-40 disabled:pointer-events-none select-none tracking-tight';
+  'inline-flex items-center justify-center rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 disabled:opacity-40 disabled:pointer-events-none select-none tracking-tight';
 
 const motionProps = {
   whileHover: { scale: 1.02 },
@@ -32,7 +32,7 @@ const motionProps = {
 };
 
 /**
- * NEXZIVO Button Component — with brand deep-green, lime, and clean contrast styles.
+ * NEXZIVO Button Component — with brand Cobalt (#2764F5) primary and harmonic secondary.
  */
 export function Button({
   variant = 'primary',

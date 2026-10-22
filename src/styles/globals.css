@@ -1,10 +1,10 @@
 /* --------------------------------------------------------------------------
-   Google Fonts — Space Grotesk (headings) + Plus Jakarta Sans (body) + JetBrains Mono (labels)
+   Google Fonts — PT Sans (headings & body) + JetBrains Mono (labels)
    -------------------------------------------------------------------------- */
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 /* ==========================================================================
-   NEXZIVO — White & Deep Green Brand Palette
+   NEXZIVO — Royal Cobalt (#2764F5) & Cyan / Navy Color Palette
    Tailwind CSS v4 CSS-first configuration
    ========================================================================== */
 
@@ -12,62 +12,82 @@
 
 /* --------------------------------------------------------------------------
    Brand Design Tokens — CSS Custom Properties
-   White base, Deep Green (#102820), Secondary Green (#247A55), Lime (#C6F36B)
+   Primary: #2764F5 (Cobalt Blue)
+   Secondary: #00D2BA (Fresh Teal/Cyan)
+   Deep Navy Surface: #0B132B / #0F172A
+   Soft Tint: #EDF2FE
+   Accent Amber/Gold: #FFB703
    -------------------------------------------------------------------------- */
 :root {
   /* Brand Core Colors */
-  --color-deep-green:     #102820;   /* Deep brand forest green */
-  --color-deep-green-dark:#0B1C16;   /* Richer dark green for contrast */
-  --color-green:          #247A55;   /* Secondary emerald green */
-  --color-green-light:    #E9F4EE;   /* Soft green tint */
-  --color-lime:           #C6F36B;   /* Vibrant signature lime accent */
-  --color-lime-hover:     #B5E556;
+  --color-primary:        #2764F5;   /* Primary vibrant royal cobalt blue */
+  --color-primary-dark:   #1A4DC0;   /* Deeper cobalt for hover/pressed */
+  --color-primary-light:  #EDF2FE;   /* Very soft tinted blue background */
+  
+  --color-secondary:      #00BFA5;   /* High-energy harmonic teal/cyan */
+  --color-secondary-hover:#00A891;
+  --color-secondary-light:#E0F7F4;   /* Soft teal tint */
+  
+  --color-navy:           #0B132B;   /* Deep luxury navy canvas for dark sections */
+  --color-navy-dark:      #060B18;   /* Rich abyss navy */
+  --color-navy-card:      #121D3D;   /* Dark navy card surface */
+  --color-dark-border:    #1E2C52;   /* Border for navy sections */
+  
+  --color-accent-gold:    #FFB703;   /* High-contrast CTA accent */
+  --color-accent-gold-hover: #F0A500;
+
   --color-pure-white:     #FFFFFF;
-  --color-off-white:      #F8FAF8;   /* Pristine clean warm background */
-  --color-cream-card:     #FFFFFF;   /* Clean white card surface */
-  --color-muted-border:   #E2E8E4;   /* Subtle soft green-gray border */
-  --color-dark-border:    #1C3D32;   /* Border for deep-green sections */
+  --color-off-white:      #F7FAFD;   /* Ultra-clean bright slate page background */
+  --color-cream-card:     #FFFFFF;   /* Crisp white card surface */
+  --color-muted-border:   #E2E8F0;   /* Light clean border */
 
   /* Text Colors */
-  --color-text-dark:      #111915;   /* Near-black readable text on white */
-  --color-text-body:      #334139;   /* Smooth body text on light backgrounds */
-  --color-text-muted:     #63756A;   /* Subtitle and helper text */
-  --color-soft-white:     #FFFFFF;   /* White text on deep green */
-  --color-light-muted:    #B2C7BC;   /* Muted text on deep green */
+  --color-text-dark:      #0B132B;   /* Crisp navy-black text for headings */
+  --color-text-body:      #334155;   /* Readable slate body text on light backgrounds */
+  --color-text-muted:     #64748B;   /* Helper and secondary text */
+  --color-soft-white:     #FFFFFF;   /* White text on dark sections */
+  --color-light-muted:    #94A3B8;   /* Muted text on dark sections */
 
-  /* Semantic Aliases for compatibility */
+  /* Semantic Aliases */
+  --color-deep-green:     var(--color-navy);         /* backward-compatible alias */
+  --color-deep-green-dark:var(--color-navy-dark);
+  --color-green:          var(--color-primary);      /* maps to primary cobalt #2764F5 */
+  --color-green-light:    var(--color-primary-light);
+  --color-lime:           var(--color-secondary);    /* maps to vibrant secondary teal #00BFA5 */
+  --color-lime-hover:     var(--color-secondary-hover);
+
   --color-obsidian:       var(--color-pure-white);
   --color-slate-dark:     var(--color-off-white);
   --color-slate-card:     var(--color-pure-white);
   --color-slate-border:   var(--color-muted-border);
   --color-subtle-gray:    var(--color-text-muted);
 
-  --color-accent-strong:  var(--color-deep-green);
-  --color-accent:         var(--color-green);
-  --color-accent-soft:    var(--color-green);
+  --color-accent-strong:  var(--color-primary);
+  --color-accent:         var(--color-primary);
+  --color-accent-soft:    var(--color-primary);
 
   --surface-page:         var(--color-pure-white);
   --surface-card:         var(--color-pure-white);
   --surface-card-hover:   var(--color-off-white);
   --border-subtle:        var(--color-muted-border);
-  --border-focus:         var(--color-green);
+  --border-focus:         var(--color-primary);
 
   --text-primary:         var(--color-text-dark);
   --text-secondary:       var(--color-text-body);
-  --text-accent:          var(--color-green);
+  --text-accent:          var(--color-primary);
 
-  /* Clean subtle elevation shadows */
-  --shadow-subtle:        0 1px 3px rgba(16, 40, 32, 0.05), 0 4px 12px rgba(16, 40, 32, 0.04);
-  --shadow-card:          0 4px 20px -2px rgba(16, 40, 32, 0.06), 0 2px 6px -1px rgba(16, 40, 32, 0.03);
-  --shadow-lift:          0 12px 32px -4px rgba(16, 40, 32, 0.12), 0 4px 12px -2px rgba(16, 40, 32, 0.05);
-  --shadow-green:         0 8px 24px -4px rgba(16, 40, 32, 0.35);
+  /* Elevation Shadows */
+  --shadow-subtle:        0 1px 3px rgba(39, 100, 245, 0.05), 0 4px 12px rgba(11, 19, 43, 0.04);
+  --shadow-card:          0 4px 20px -2px rgba(39, 100, 245, 0.06), 0 2px 6px -1px rgba(11, 19, 43, 0.03);
+  --shadow-lift:          0 12px 32px -4px rgba(39, 100, 245, 0.15), 0 4px 12px -2px rgba(11, 19, 43, 0.05);
+  --shadow-primary:       0 8px 24px -4px rgba(39, 100, 245, 0.35);
 
   /* Typography */
-  --font-heading:         'Space Grotesk', system-ui, -apple-system, sans-serif;
-  --font-body:            'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-heading:         'PT Sans', system-ui, -apple-system, sans-serif;
+  --font-body:            'PT Sans', system-ui, -apple-system, sans-serif;
   --font-mono:            'JetBrains Mono', monospace;
 
-  /* Layout — Compact horizontal padding to reduce left & right gap size */
+  /* Layout */
   --container-max-width:  1360px;
   --container-padding-x:  clamp(0.75rem, 2.5vw, 2rem);
   --section-padding-y:    clamp(4rem, 6.5vw, 6.5rem);
@@ -82,31 +102,41 @@
    Tailwind CSS v4 — Theme Extension via @theme
    -------------------------------------------------------------------------- */
 @theme {
-  --color-deep-green:     #102820;
-  --color-deep-green-dark:#0B1C16;
-  --color-green:          #247A55;
-  --color-green-light:    #E9F4EE;
-  --color-lime:           #C6F36B;
-  --color-lime-hover:     #B5E556;
+  --color-primary:        #2764F5;
+  --color-primary-dark:   #1A4DC0;
+  --color-primary-light:  #EDF2FE;
+  --color-secondary:      #00BFA5;
+  --color-secondary-hover:#00A891;
+  --color-secondary-light:#E0F7F4;
+  --color-navy:           #0B132B;
+  --color-navy-dark:      #060B18;
+  --color-navy-card:      #121D3D;
+
+  --color-deep-green:     #0B132B;
+  --color-deep-green-dark:#060B18;
+  --color-green:          #2764F5;
+  --color-green-light:    #EDF2FE;
+  --color-lime:           #00BFA5;
+  --color-lime-hover:     #00A891;
   --color-pure-white:     #FFFFFF;
-  --color-off-white:      #F8FAF8;
-  --color-text-dark:      #111915;
-  --color-text-body:      #334139;
-  --color-text-muted:     #63756A;
-  --color-muted-border:   #E2E8E4;
+  --color-off-white:      #F7FAFD;
+  --color-text-dark:      #0B132B;
+  --color-text-body:      #334155;
+  --color-text-muted:     #64748B;
+  --color-muted-border:   #E2E8F0;
 
   --color-obsidian:       #FFFFFF;
-  --color-slate-dark:     #F8FAF8;
+  --color-slate-dark:     #F7FAFD;
   --color-slate-card:     #FFFFFF;
-  --color-slate-border:   #E2E8E4;
-  --color-accent-strong:  #102820;
-  --color-accent:         #247A55;
-  --color-accent-soft:    #247A55;
+  --color-slate-border:   #E2E8F0;
+  --color-accent-strong:  #2764F5;
+  --color-accent:         #2764F5;
+  --color-accent-soft:    #2764F5;
   --color-soft-white:     #FFFFFF;
-  --color-subtle-gray:    #63756A;
+  --color-subtle-gray:    #64748B;
 
-  --font-heading:         'Space Grotesk', system-ui, -apple-system, sans-serif;
-  --font-body:            'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-heading:         'PT Sans', system-ui, -apple-system, sans-serif;
+  --font-body:            'PT Sans', system-ui, -apple-system, sans-serif;
   --font-mono:            'JetBrains Mono', monospace;
 }
 
@@ -163,11 +193,11 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   line-height: 1.18;
   font-weight: 700;
-  color: var(--color-deep-green);
+  color: var(--color-text-dark);
   letter-spacing: -0.025em;
 }
 
-/* Headings in dark / deep-green containers or elements with text-white */
+/* Headings in dark / navy / deep containers or elements with text-white */
 .section--deep-green h1,
 .section--deep-green h2,
 .section--deep-green h3,
@@ -180,6 +210,8 @@ h1, h2, h3, h4, h5, h6 {
 [class*="bg-[var(--color-deep-green)]"] h4,
 [class*="bg-[var(--color-deep-green)]"] h5,
 [class*="bg-[var(--color-deep-green)]"] h6,
+.bg-navy h1,
+.bg-navy h2,
 .text-white h1,
 .text-white h2,
 .text-white h3,
@@ -193,7 +225,7 @@ h4.text-white {
 
 /* Accessible focus states */
 :focus-visible {
-  outline: 2px solid var(--color-green);
+  outline: 2px solid var(--color-primary);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -210,10 +242,10 @@ video {
   max-width: 100%;
 }
 
-/* Text selection with brand green */
+/* Text selection with brand cobalt */
 ::selection {
-  background-color: var(--color-deep-green);
-  color: var(--color-lime);
+  background-color: var(--color-primary);
+  color: #FFFFFF;
 }
 
 /* --------------------------------------------------------------------------
@@ -250,12 +282,12 @@ video {
   width: auto;
   height: auto;
   padding: 0.85rem 1.75rem;
-  background: var(--color-deep-green);
-  color: var(--color-lime);
+  background: var(--color-primary);
+  color: #FFFFFF;
   font-weight: 700;
   font-size: 0.875rem;
   border-radius: 0.5rem;
-  outline: 2px solid var(--color-lime);
+  outline: 2px solid var(--color-secondary);
   outline-offset: 3px;
 }
 
@@ -277,7 +309,7 @@ video {
 }
 
 .section--deep-green {
-  background-color: var(--color-deep-green);
+  background-color: var(--color-navy);
   color: var(--color-soft-white);
 }
 
@@ -292,7 +324,43 @@ video {
 }
 
 .brand-card:hover {
-  border-color: var(--color-green);
+  border-color: var(--color-primary);
   box-shadow: var(--shadow-lift);
   transform: translateY(-3px);
 }
+
+/* --------------------------------------------------------------------------
+   Hover Border Trace Effect (Starts Top-Left, traces full box perimeter)
+   Gradient: Cobalt Blue (#2764F5) to Emerald/Teal (#00BFA5)
+   -------------------------------------------------------------------------- */
+.founder-trace-card {
+  position: relative;
+  border-radius: 1rem;
+}
+
+.founder-trace-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 20;
+  overflow: visible;
+}
+
+.founder-trace-rect {
+  fill: none;
+  stroke: url(#founder-gradient);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  transition: stroke-dashoffset 1.75s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  opacity: 0;
+}
+
+.founder-trace-card:hover .founder-trace-rect {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
