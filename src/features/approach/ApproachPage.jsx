@@ -10,10 +10,10 @@ export function ApproachPage() {
   return (
     <>
       <Helmet>
-        <title>Creative Process &amp; Methodology — {siteConfig.name} Studio</title>
+        <title>Our Approach — {siteConfig.name}</title>
         <meta
           name="description"
-          content="Explore NEXZIVO's 4-step creative and engineering process: Immersion & Direction, Concept & Composition, Craft & Engineering, Launch & Evolution."
+          content="Learn how NEXZIVO understands project needs, shapes the experience, builds with purpose, and reviews the result."
         />
       </Helmet>
 
@@ -96,10 +96,10 @@ export function ApproachPage() {
         <Container>
           <div className="max-w-2xl mx-auto text-center flex flex-col items-center gap-6">
             <h2 className="text-3xl sm:text-4xl font-bold text-white">
-              Direct access, zero bureaucratic friction.
+              Clear communication from start to handover.
             </h2>
             <p className="text-[#8B95A5] leading-relaxed">
-              We collaborate in tight, high-visibility sprints. You talk directly with the designers and engineers shaping your project, resulting in faster decision loops and exceptional outcomes.
+              We value clear expectations, shared progress, and practical next steps throughout a project.
             </p>
             <Button to="/contact" variant="primary" size="lg">
               Start Your Project

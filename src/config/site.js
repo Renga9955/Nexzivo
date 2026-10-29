@@ -6,7 +6,7 @@ export const siteConfig = {
   name: 'NEXZIVO',
   tagline: "Build What's Next.",
   description:
-    'NEXZIVO is a corporate technology company delivering innovative digital solutions, software products, and strategic consulting for forward-thinking organisations.',
+    'NEXZIVO is a digital technology and design company building websites, applications, and practical software solutions for businesses and individuals.',
   url: 'https://nexzivo.com',
   ogImage: '/images/og-image.png',
   /** CTA label used in header and mobile nav. */

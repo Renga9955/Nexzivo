@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Cpu } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { SectionReveal } from '@/components/ui/SectionReveal';
@@ -49,7 +49,7 @@ export function ProductsPage() {
         <Container>
           <div className="flex flex-col gap-10">
             {productsContent.items.map((prod) => {
-              const Icon = prod.icon;
+              const Icon = prod.icon || Cpu;
               return (
                 <SectionReveal key={prod.name}>
                   <div className="bg-[#0F1420] p-8 sm:p-12 rounded-3xl border border-white/10 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center hover:border-[var(--color-accent-soft)]/30 transition-all duration-300">

@@ -4,35 +4,36 @@ import { motion } from 'motion/react';
 const sizeClasses = {
   sm: 'px-4 py-2 text-xs font-semibold gap-1.5',
   md: 'px-5 py-2.5 text-sm font-semibold gap-2',
-  lg: 'px-7 py-3.5 text-base font-semibold gap-2.5',
+  lg: 'px-6 py-3.5 text-base font-semibold gap-2.5',
 };
 
 const variantClasses = {
   primary:
-    'bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)] shadow-sm hover:shadow-md border border-[var(--color-primary)]',
-  lime:
-    'bg-[var(--color-secondary)] text-[#0B132B] font-bold hover:bg-[var(--color-secondary-hover)] shadow-sm hover:shadow-md border border-transparent',
+    'bg-[#2764F5] text-white hover:bg-[#1E52D0] shadow-sm hover:shadow active:bg-[#1844B5]',
   secondary:
-    'bg-[var(--color-primary-light)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white border border-[var(--color-primary)]/20',
+    'bg-white text-[#141B2A] border border-[#E3E8F0] hover:bg-[#F7F9FC] hover:border-[#CBD5E1] shadow-sm',
   outline:
-    'border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white',
-  outlineLight:
-    'border border-white/30 text-white hover:bg-white hover:text-[var(--color-navy)]',
+    'border border-[#2764F5] text-[#2764F5] hover:bg-[#2764F5]/5 active:bg-[#2764F5]/10',
+  outlineDark:
+    'border border-white/30 text-white hover:bg-white/10 active:bg-white/20',
   ghost:
-    'text-[var(--color-text-body)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-light)]',
+    'text-[#687386] hover:text-[#141B2A] hover:bg-black/5',
+  cyan:
+    'bg-[#35C5E8] text-[#101B2D] hover:bg-[#24B2D4] font-bold shadow-sm',
 };
 
 const baseClasses =
-  'inline-flex items-center justify-center rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 disabled:opacity-40 disabled:pointer-events-none select-none tracking-tight';
+  'inline-flex items-center justify-center rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2764F5] focus-visible:ring-offset-2 disabled:opacity-40 disabled:pointer-events-none select-none tracking-tight font-medium cursor-pointer';
 
 const motionProps = {
-  whileHover: { scale: 1.02 },
-  whileTap: { scale: 0.98 },
-  transition: { type: 'spring', stiffness: 400, damping: 25 },
+  whileHover: { y: -1 },
+  whileTap: { y: 1 },
+  transition: { duration: 0.15 },
 };
 
 /**
- * NEXZIVO Button Component — with brand Cobalt (#2764F5) primary and harmonic secondary.
+ * NEXZIVO Studio Button Component.
+ * Supports primary brand blue, secondary white card, outline, and ghost.
  */
 export function Button({
   variant = 'primary',
@@ -48,7 +49,7 @@ export function Button({
   children,
   'aria-label': ariaLabel,
 }) {
-  const classes = [baseClasses, sizeClasses[size], variantClasses[variant] || variantClasses.primary, className].join(' ');
+  const classes = [baseClasses, sizeClasses[size], variantClasses[variant], className].join(' ');
 
   const content = (
     <>

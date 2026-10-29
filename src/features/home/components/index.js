@@ -1,10 +1,8 @@
 export { HeroSection } from './HeroSection';
-export { WhoWeAreSection } from './WhoWeAreSection';
-export { OurMissionSection } from './OurMissionSection';
+export { WhatWeDoSection } from './WhatWeDoSection';
 export { ServicesSection } from './ServicesSection';
-export { WhyChooseUsSection } from './WhyChooseUsSection';
-export { ApproachSection } from './ApproachSection';
+export { VisionMissionSection } from './VisionMissionSection';
 export { WorkShowcaseSection } from './WorkShowcaseSection';
-export { ProductsSection } from './ProductsSection';
-export { BrandPhilosophySection } from './BrandPhilosophySection';
+export { AboutStudioSection } from './AboutStudioSection';
+export { ApproachSection } from './ApproachSection';
 export { ContactCTASection } from './ContactCTASection';

@@ -10,12 +10,21 @@ export function ScrollToTop() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    const lenis = window.__lenis;
     if (!hash) {
-      window.scrollTo(0, 0);
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo(0, 0);
+      }
     } else {
       const element = document.querySelector(hash);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        if (lenis) {
+          lenis.scrollTo(element, { offset: -80 });
+        } else {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     }
   }, [pathname, hash]);

@@ -1,0 +1,105 @@
+
+.nexzivo-flower-scene {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  right: -8%;
+  width: min(62vw, 760px);
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  pointer-events: none;
+  perspective: 1200px;
+  opacity: 0.92;
+  overflow: visible;
+}
+
+.nexzivo-flower {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: nexzivo-flower-rotate 32s linear infinite;
+}
+
+.nexzivo-flower-petal {
+  position: absolute;
+  left: 37%;
+  top: 8%;
+  width: 26%;
+  height: 43%;
+  border-radius: 50% 50% 46% 46%;
+
+  transform-origin: 50% 98%;
+  transform:
+    rotate(var(--petal-angle))
+    translateZ(24px);
+
+  background: linear-gradient(
+    145deg,
+    #f5f5ef 0%,
+    #c6f36b 23%,
+    #71b85b 48%,
+    #247a55 72%,
+    #102820 100%
+  );
+
+  border: 1px solid rgb(245 245 239 / 20%);
+
+  box-shadow:
+    inset -16px -12px 28px rgb(16 40 32 / 32%),
+    inset 7px 7px 20px rgb(245 245 239 / 16%);
+}
+
+.nexzivo-flower-petal:nth-child(3n + 1) {
+  filter: brightness(1.12);
+}
+
+.nexzivo-flower-petal:nth-child(3n + 2) {
+  filter: brightness(0.78);
+}
+
+.nexzivo-flower-core {
+  position: absolute;
+  z-index: 2;
+  left: 40%;
+  top: 40%;
+  width: 20%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle at 35% 30%,
+    #f5f5ef 0%,
+    #c6f36b 18%,
+    #247a55 55%,
+    #102820 100%
+  );
+
+  box-shadow: 0 0 50px rgb(198 243 107 / 20%);
+  transform: translateZ(36px);
+}
+
+@keyframes nexzivo-flower-rotate {
+  from {
+    transform: rotateX(14deg) rotateY(0deg) rotateZ(0deg);
+  }
+
+  to {
+    transform: rotateX(14deg) rotateY(360deg) rotateZ(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .nexzivo-flower-scene {
+    width: 100vw;
+    right: -38%;
+    top: 34%;
+    opacity: 0.38;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nexzivo-flower {
+    animation: none;
+  }
+}

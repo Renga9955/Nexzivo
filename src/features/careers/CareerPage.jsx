@@ -3,384 +3,347 @@ import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Briefcase,
-  Sparkles,
-  Heart,
-  TrendingUp,
   MapPin,
   Clock,
-  Send,
+  ArrowRight,
   CheckCircle2,
-  ChevronDown,
-  ChevronUp,
+  Users,
+  Heart,
+  TrendingUp,
   Laptop,
   GraduationCap,
-  Users,
-  Compass,
-  ArrowRight,
-  Shield,
-  FileCheck,
-  Check,
-  Zap,
+  ChevronRight,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { SectionReveal } from '@/components/ui/SectionReveal';
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference';
-import { siteConfig } from '@/config/site';
+import heroMockup from '@/assets/hero1.png';
 
-// Benefits & Perks
+const EASE_OUT_EXPO = [0.22, 1, 0.36, 1];
+
+// Studio Benefits & Perks
 const perks = [
   {
     icon: Laptop,
-    title: 'Modern Tech Stack & Autonomy',
-    desc: 'Work with clean architectures, modern React, Tailwind, Next.js, and cutting-edge design tooling with genuine creative freedom.',
+    title: 'Modern Tooling & Hardware',
+    desc: 'Work with the latest MacBooks, cloud setups, and premier design/developer licenses with zero friction.',
   },
   {
     icon: TrendingUp,
-    title: 'Fast-Track Career Growth',
-    desc: 'Rapid progression path with direct mentorship from company founders, architecting real products right from day one.',
+    title: 'Accelerated Career Growth',
+    desc: 'Direct mentorship with studio leadership and opportunities to spearhead client initiatives end-to-end.',
   },
   {
     icon: Clock,
-    title: 'Flexible & Hybrid Work',
-    desc: 'We care about output and quality, not rigid clock-watching. Enjoy collaborative remote-friendly arrangements.',
-  },
-  {
-    icon: GraduationCap,
-    title: 'Continuous Learning & Upskilling',
-    desc: 'Budget and sponsored access for books, professional certifications, hackathons, and industry workshops.',
+    title: 'Autonomous & Flexible Hours',
+    desc: 'We focus on clear deliverables, high craft standards, and deep work rather than clock-watching.',
   },
   {
     icon: Heart,
-    title: 'People-First Culture',
-    desc: 'Inclusive, transparent team that values open discussions, empathy, mental wellness, and celebration of wins.',
+    title: 'Health & Wellness Focus',
+    desc: 'Paid time off, mental rejuvenation days, and a balanced work ethic that respects personal time.',
   },
   {
-    icon: Zap,
-    title: 'Competitive Compensation & Bonuses',
-    desc: 'Rewarding packages, project completion incentives, and performance bonuses that grow as NEXZIVO expands.',
+    icon: GraduationCap,
+    title: 'Continuous Learning Stipend',
+    desc: 'Annual education budget for industry conferences, masterclasses, design books, and certifications.',
+  },
+  {
+    icon: Users,
+    title: 'Collaborative Studio Culture',
+    desc: 'Zero-ego, highly supportive teammates who review each other’s craft with constructive feedback.',
   },
 ];
 
-// Open Positions Data
-const jobOpenings = [
+// Open Career Positions
+const jobListings = [
   {
-    id: 'frontend-engineer',
-    title: 'Frontend Engineer (React / Next.js)',
+    id: 'fullstack-dev',
+    title: 'Senior Full-Stack Engineer',
     department: 'Engineering',
     location: 'Remote / Hybrid (India)',
-    type: 'Full-Time',
-    experience: '1 - 3 Years / High Aptitude Freshers',
-    description:
-      'We are looking for a dedicated Frontend Engineer who takes pride in pixel-perfection, smooth micro-interactions, and writing modular, maintainable React/TypeScript code.',
+    type: 'Full-time',
+    experience: '3–5 Years',
+    overview:
+      'We are looking for a senior full-stack engineer who takes pride in building robust, high-performance web applications using modern JavaScript/TypeScript, React, Node.js, and scalable cloud databases.',
     responsibilities: [
-      'Build performant, responsive, and accessible web applications using React, Next.js, and Tailwind CSS.',
-      'Collaborate with UI/UX designers to bring wireframes, animations, and design tokens to life.',
-      'Integrate REST/GraphQL APIs and optimize client-side performance, core web vitals, and SEO.',
-      'Contribute to internal reusable UI component libraries and design systems.',
+      'Architect and build resilient digital products, client dashboards, and custom software systems.',
+      'Collaborate closely with UI/UX designers to translate Figma prototypes into pixel-perfect code.',
+      'Write clean, accessible, and thoroughly tested production software.',
+      'Mentor junior engineers and contribute to code review standards.',
     ],
     requirements: [
-      'Strong proficiency in JavaScript (ES6+), React, Tailwind CSS, and HTML5/CSS3.',
-      'Familiarity with state management, component lifecycle, and animation libraries like Framer Motion.',
-      'Eye for design aesthetics, clean typography, responsive layouts, and cross-browser quirks.',
-      'Git workflow proficiency and passion for code quality.',
+      '3+ years of professional full-stack development experience.',
+      'Strong mastery of React, TypeScript, Next.js or Vite, and Tailwind CSS.',
+      'Proven experience designing scalable REST & GraphQL APIs and relational/NoSQL databases.',
+      'Solid understanding of performance optimization, accessibility, and modern Git workflows.',
     ],
   },
   {
-    id: 'ui-ux-designer',
-    title: 'UI/UX & Product Designer',
-    department: 'Design Studio',
-    location: 'Remote / Hybrid (India)',
-    type: 'Full-Time',
-    experience: '1 - 3 Years / Strong Portfolio',
-    description:
-      'Join our creative design arm to create striking digital experiences, sleek brand design systems, and intuitive SaaS dashboards for global clients.',
+    id: 'uiux-designer',
+    title: 'Lead UI/UX & Product Designer',
+    department: 'Design',
+    location: 'Remote (India)',
+    type: 'Full-time',
+    experience: '2–4 Years',
+    overview:
+      'NEXZIVO is seeking an exceptional UI/UX designer with a deep visual sensibility, passion for design systems, and strong prototyping capabilities to elevate our client experiences.',
     responsibilities: [
-      'Design high-fidelity user interfaces, user flows, wireframes, and interactive clickable prototypes in Figma.',
-      'Develop cohesive design systems, icon kits, and visual assets aligned with brand guidelines.',
-      'Conduct usability tests, user research, and refine UX flows based on client feedback.',
-      'Work alongside developers during handoff to ensure fidelity and interaction nuances are preserved.',
+      'Design comprehensive user interfaces, wireframes, and interactive prototypes in Figma.',
+      'Develop cohesive design systems, icon kits, and responsive component libraries.',
+      'Conduct client requirement sessions and translate business goals into intuitive user flows.',
+      'Partner closely with front-end developers to ensure flawless visual execution.',
     ],
     requirements: [
-      'Demonstrated portfolio showcasing end-to-end web & mobile app design projects in Figma.',
-      'Strong grasp of visual hierarchy, modern color theory, responsive layout grids, and micro-interactions.',
-      'Understanding of web feasibility, HTML/CSS layout concepts, and design system governance.',
-      'Strong verbal communication to present ideas and design rationale to stakeholders.',
+      '2+ years in digital product, web, and mobile interface design.',
+      'Mastery of Figma (auto-layout, components, interactive prototyping, variables).',
+      'Strong portfolio showcasing polished visual aesthetics, typography, and clear design rationale.',
+      'Understanding of front-end capabilities (HTML/CSS layout principles).',
     ],
   },
   {
-    id: 'fullstack-engineer',
-    title: 'Full-Stack Developer (Node.js / React)',
+    id: 'mobile-dev',
+    title: 'Mobile App Developer (React Native / Flutter)',
     department: 'Engineering',
-    location: 'Hybrid / On-site',
-    type: 'Full-Time',
-    experience: '2 - 4 Years',
-    description:
-      'Lead end-to-end feature delivery across frontend and backend services, architecting reliable databases, secure authentication systems, and cloud-native solutions.',
-    responsibilities: [
-      'Develop robust RESTful APIs, microservices, and database models using Node.js/Express, PostgreSQL, or MongoDB.',
-      'Connect backend services with high-performing React/Next.js interfaces.',
-      'Implement security standards, JWT authentication, role-based permissions, and cloud deployment pipelines.',
-      'Troubleshoot architecture bottlenecks, optimize queries, and maintain unit/integration tests.',
-    ],
-    requirements: [
-      'Solid experience with Node.js, Express, PostgreSQL/MySQL or MongoDB, and React.',
-      'Understanding of cloud services (AWS, Vercel, Docker) and CI/CD pipelines.',
-      'Clean coding practices, modular architecture patterns, and debugging acumen.',
-      'Self-driven mindset to architect features from concept to production deployment.',
-    ],
-  },
-  {
-    id: 'graphic-brand-designer',
-    title: 'Brand & Graphic Designer (Posters & Media)',
-    department: 'Creative Studio',
     location: 'Remote / Hybrid',
-    type: 'Full-Time / Contract',
-    experience: '1+ Years / Impressive Portfolio',
-    description:
-      'Create high-impact visual stories, editorial posters, marketing collateral, social media creative systems, and distinctive corporate branding assets.',
+    type: 'Full-time',
+    experience: '2+ Years',
+    overview:
+      'Build sleek, buttery-smooth cross-platform iOS and Android applications that delight users and solve practical everyday problems for businesses.',
     responsibilities: [
-      'Produce bold graphic designs, promotional posters, event visuals, and digital assets.',
-      'Craft brand identities including logos, typography guides, and brand books for emerging businesses.',
-      'Collaborate with the marketing and engineering team to produce launch campaigns and website visuals.',
-      'Maintain visual consistency across all touchpoints and client deliverables.',
+      'Build native-feeling, high-performance mobile apps using React Native or Flutter.',
+      'Integrate seamless offline caching, push notifications, and third-party APIs.',
+      'Manage app store submission workflows (App Store & Google Play).',
+      'Optimize bundle size, launch times, and 60fps animations.',
     ],
     requirements: [
-      'Proficiency in Adobe Creative Suite (Photoshop, Illustrator, InDesign) and Figma.',
-      'Solid eye for experimental typography, layout composition, and contemporary aesthetics.',
-      'Strong attention to detail and ability to iterate quickly based on creative briefs.',
-      'Portfolio displaying branding systems, editorial layouts, or graphic art.',
+      'Proven portfolio of published apps on the iOS App Store or Google Play.',
+      'Strong background with React Native, TypeScript, or Flutter.',
+      'Familiarity with state management libraries and native module integrations.',
+      'Strong focus on animations, micro-interactions, and mobile ergonomics.',
     ],
   },
   {
-    id: 'software-intern',
-    title: 'Software Engineering Intern',
-    department: 'Engineering & Innovation',
-    location: 'Hybrid / Remote',
-    type: 'Internship (3 - 6 Months)',
-    experience: 'Final Year Students / Fresh Graduates',
-    description:
-      'Kickstart your engineering career. Receive hands-on experience on live client projects, learn industry standards, and get considered for a full-time role upon completion.',
+    id: 'frontend-intern',
+    title: 'Junior Front-End Developer / Intern',
+    department: 'Engineering',
+    location: 'Remote (India)',
+    type: 'Internship / Full-time',
+    experience: '0–1 Year (Students Welcome)',
+    overview:
+      'Passionate about writing clean code and creating stunning web animations? Join our core studio team to learn directly under senior engineers on real-world client builds.',
     responsibilities: [
-      'Collaborate with senior developers on building frontend components and API endpoints.',
-      'Write clean, readable code and participate in peer code reviews.',
-      'Assist in testing, bug fixes, and documentation of software products.',
-      'Explore emerging frameworks, tools, and technical best practices.',
+      'Assist in implementing modern responsive web pages and components using React and Tailwind.',
+      'Debug cross-browser layout inconsistencies and ensure mobile responsiveness.',
+      'Contribute to internal studio tools and component showcase documentation.',
     ],
     requirements: [
-      'Solid grounding in computer science fundamentals, data structures, and web technologies.',
-      'Familiarity with JavaScript, React, Python, or Node.js through academic or personal projects.',
-      'Curiosity, hunger to learn fast, and great problem-solving aptitude.',
-      'Active GitHub profile or portfolio showcasing projects is an advantage.',
+      'Strong foundational knowledge of HTML5, CSS3, and modern JavaScript (ES6+).',
+      'Basic familiarity with React and Tailwind CSS.',
+      'Eager curiosity to learn, communicate transparently, and receive constructive feedback.',
     ],
   },
 ];
 
-// Hiring Process Steps
-const hiringSteps = [
-  {
-    step: '01',
-    title: 'Application Review',
-    desc: 'Submit your resume and portfolio. Our hiring leads carefully review every submission for relevant work and alignment.',
-  },
-  {
-    step: '02',
-    title: 'Introductory Conversation',
-    desc: 'A relaxed 20-30 min chat to know your story, aspirations, values, and how NEXZIVO fits your career trajectory.',
-  },
-  {
-    step: '03',
-    title: 'Technical / Design Challenge',
-    desc: 'A practical, real-world task or portfolio deep-dive. No trick algorithm puzzles — just practical craftsmanship.',
-  },
-  {
-    step: '04',
-    title: 'Offer & Welcome',
-    desc: 'Clear, competitive offer letter followed by a structured onboarding experience with direct mentorship.',
-  },
-];
-
-/**
- * CareerPage — Modern, inspiring, conversion-focused careers page for NEXZIVO.
- */
 export function CareerPage() {
   const reducedMotion = useReducedMotionPreference();
   const [selectedDept, setSelectedDept] = useState('All');
-  const [expandedJobId, setExpandedJobId] = useState('frontend-engineer');
-  const [applicationModal, setApplicationModal] = useState({
-    isOpen: false,
-    jobTitle: '',
-  });
-
-  // Application Form State
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [applicationSubmitted, setApplicationSubmitted] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
     phone: '',
     portfolio: '',
-    experience: 'Fresher / Entry-Level',
-    resumeUrl: '',
+    linkedin: '',
     coverNote: '',
   });
 
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const departments = ['All', 'Engineering', 'Design'];
 
-  // Departments for filtering
-  const departments = ['All', 'Engineering', 'Design Studio', 'Creative Studio', 'Engineering & Innovation'];
+  const filteredJobs =
+    selectedDept === 'All'
+      ? jobListings
+      : jobListings.filter((job) => job.department === selectedDept);
 
-  const filteredJobs = selectedDept === 'All'
-    ? jobOpenings
-    : jobOpenings.filter((job) => job.department.toLowerCase().includes(selectedDept.toLowerCase()));
-
-  const handleApplyClick = (jobTitle) => {
-    setApplicationModal({
-      isOpen: true,
-      jobTitle: jobTitle || 'General Application',
-    });
-    setFormSubmitted(false);
+  const handleApplyClick = (job) => {
+    setSelectedJob(job);
+    setApplicationSubmitted(false);
   };
 
-  const handleInputChange = (e) => {
+  const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      setFormSubmitted(true);
-    }, 700);
+    setApplicationSubmitted(true);
+  };
+
+  const fadeUp = (delay = 0, yOffset = 16, duration = 0.55) => {
+    if (reducedMotion) {
+      return {
+        initial: { opacity: 1, y: 0 },
+        animate: { opacity: 1, y: 0 },
+      };
+    }
+    return {
+      initial: { opacity: 0, y: yOffset },
+      animate: { opacity: 1, y: 0 },
+      transition: { duration, delay, ease: EASE_OUT_EXPO },
+    };
+  };
+
+  const showcaseVariant = () => {
+    if (reducedMotion) {
+      return {
+        initial: { opacity: 1, scale: 1 },
+        animate: { opacity: 1, scale: 1 },
+      };
+    }
+    return {
+      initial: { opacity: 0, scale: 0.94, y: 12 },
+      animate: { opacity: 1, scale: 1, y: 0 },
+      transition: { duration: 0.8, delay: 0.22, ease: EASE_OUT_EXPO },
+    };
   };
 
   return (
     <>
       <Helmet>
-        <title>Careers at NEXZIVO | Build What’s Next</title>
+        <title>Careers at NEXZIVO — Build High-Impact Digital Products</title>
         <meta
           name="description"
-          content="Explore high-impact career opportunities at NEXZIVO. Join our passionate team of developers, designers, and innovators building digital products that matter."
+          content="Join the team at NEXZIVO. Explore open engineering, design, and software development positions at our creative digital studio."
         />
       </Helmet>
 
       {/* ───────────────────────────────────────────────────────────
-          1. HERO SECTION
+          1. HERO SECTION (2-Column Studio Atmosphere)
           ─────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-white text-[var(--color-text-body)] pt-32 pb-20 lg:pt-40 lg:pb-28 border-b border-[var(--color-muted-border)]">
-        {/* Subtle decorative background gradients */}
+      <section
+        id="career-hero"
+        className="relative bg-[#F7F9FC] text-[#141B2A] pt-24 pb-14 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20 xl:pb-24 border-b border-[#E3E8F0] overflow-hidden"
+      >
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-          <div className="absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full bg-[var(--color-green-light)]/60 blur-3xl" />
-          <div className="absolute bottom-0 -left-32 h-[400px] w-[400px] rounded-full bg-[var(--color-lime)]/15 blur-3xl" />
-          <div
-            className="absolute inset-0 opacity-[0.3]"
-            style={{
-              backgroundImage:
-                'linear-gradient(rgba(39,100,245,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(39,100,245,0.04) 1px, transparent 1px)',
-              backgroundSize: '48px 48px',
-            }}
-          />
+          <div className="absolute -top-32 right-[-5%] h-[620px] w-[620px] lg:h-[700px] lg:w-[700px] rounded-full bg-gradient-to-br from-[#2764F5]/7 via-[#35C5E8]/5 to-transparent blur-3xl" />
+          <div className="absolute top-1/4 left-[-10%] h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-[#35C5E8]/6 via-[#2764F5]/4 to-transparent blur-3xl" />
+
+          {/* Dotted pattern right */}
+          <svg
+            className="absolute top-20 right-10 lg:right-20 w-64 h-64 text-[#2764F5]/[0.05] hidden sm:block"
+            viewBox="0 0 240 240"
+            fill="currentColor"
+          >
+            <pattern id="career-dots-right" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+              <circle cx="3" cy="3" r="1.5" />
+            </pattern>
+            <rect width="240" height="240" fill="url(#career-dots-right)" />
+          </svg>
         </div>
 
-        <Container className="relative z-10">
-          <div className="max-w-3xl mx-auto text-center flex flex-col items-center gap-6">
-            <motion.div
-              initial={reducedMotion ? {} : { opacity: 0, y: 12 }}
-              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--color-green-light)] text-[var(--color-green)] border border-[var(--color-green)]/20 text-xs font-bold uppercase tracking-[0.2em]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-green)]" />
-                CAREERS AT NEXZIVO
-              </span>
-            </motion.div>
+        <Container className="relative z-10 max-w-[1440px] xl:max-w-[1540px]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-4 xl:gap-8 items-center">
+            {/* Left Column: Eyebrow, Heading, Description, CTA */}
+            <div className="lg:col-span-5 xl:col-span-5 flex flex-col items-start gap-5 sm:gap-6 order-1 pr-0 lg:pr-2">
+              <motion.div {...fadeUp(0.04, 12, 0.45)}>
+                <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2764F5]">
+                  <span className="h-0.5 w-5 rounded-full bg-[#2764F5]" aria-hidden="true" />
+                  <span>JOIN OUR TEAM</span>
+                </span>
+              </motion.div>
 
-            <motion.h1
-              initial={reducedMotion ? {} : { opacity: 0, y: 16 }}
-              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[var(--color-deep-green)] leading-[1.12]"
-            >
-              Do the Best Work of Your Career.{' '}
-              <span className="text-[var(--color-green)]">
-                Build What’s Next.
-              </span>
-            </motion.h1>
+              <h1 className="font-heading text-[2.25rem] sm:text-[2.85rem] md:text-[3.3rem] lg:text-[clamp(2.45rem,2.9vw,3.35rem)] xl:text-[clamp(2.85rem,3.3vw,3.75rem)] font-extrabold tracking-tight leading-[1.12] text-[#141B2A] max-w-xl text-left">
+                <motion.span className="block" {...fadeUp(0.1, 16, 0.55)}>
+                  Build What's Next with
+                </motion.span>
+                <motion.span className="block text-[#2764F5]" {...fadeUp(0.18, 16, 0.55)}>
+                  Creative Freedom.
+                </motion.span>
+              </h1>
 
-            <motion.p
-              initial={reducedMotion ? {} : { opacity: 0, y: 16 }}
-              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg sm:text-xl text-[var(--color-text-muted)] leading-relaxed"
-            >
-              We are a team of curious problem-solvers, engineers, and creators. At NEXZIVO, you won’t just write code or make mockups — you will shape products that empower real businesses.
-            </motion.p>
-
-            <motion.div
-              initial={reducedMotion ? {} : { opacity: 0, y: 16 }}
-              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-wrap items-center justify-center gap-4 pt-2"
-            >
-              <a href="#open-positions">
-                <Button variant="primary" size="lg" iconRight={<Briefcase size={18} />}>
-                  View Open Roles ({jobOpenings.length})
-                </Button>
-              </a>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() => handleApplyClick('General Talent Pool')}
-                iconRight={<Send size={16} />}
+              <motion.p
+                className="max-w-lg text-[15px] sm:text-[16.5px] lg:text-[17px] text-[#687386] leading-relaxed text-left"
+                {...fadeUp(0.36, 14, 0.5)}
               >
-                Send Open Application
-              </Button>
-            </motion.div>
+                We are a close-knit collective of engineers, designers, and innovators. We build high-impact web systems, mobile apps, and custom digital software for ambitious businesses around the world.
+              </motion.p>
 
-            {/* Quick Metrics Bar */}
-            <motion.div
-              initial={reducedMotion ? {} : { opacity: 0, y: 16 }}
-              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-10 mt-6 border-t border-[var(--color-muted-border)] w-full max-w-2xl"
-            >
-              <div className="flex flex-col items-center">
-                <span className="text-2xl sm:text-3xl font-bold text-[var(--color-deep-green)]">100%</span>
-                <span className="text-xs text-[var(--color-text-muted)] mt-1 font-medium">Collaborative Team</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-2xl sm:text-3xl font-bold text-[var(--color-deep-green)]">Flexible</span>
-                <span className="text-xs text-[var(--color-text-muted)] mt-1 font-medium">Work Environment</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-2xl sm:text-3xl font-bold text-[var(--color-deep-green)]">High</span>
-                <span className="text-xs text-[var(--color-text-muted)] mt-1 font-medium">Impact Ownership</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-2xl sm:text-3xl font-bold text-[var(--color-deep-green)]">Zero</span>
-                <span className="text-xs text-[var(--color-text-muted)] mt-1 font-medium">Micromanagement</span>
-              </div>
-            </motion.div>
+              <motion.div
+                className="flex flex-wrap items-center gap-3.5 sm:gap-4 pt-1"
+                {...fadeUp(0.44, 14, 0.5)}
+              >
+                <a
+                  href="#open-roles"
+                  className="inline-flex items-center justify-center rounded-xl px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-[15.5px] font-semibold bg-[#2764F5] text-white hover:bg-[#1E52D0] shadow-sm hover:shadow transition-all duration-200"
+                >
+                  View Open Roles
+                  <ArrowRight size={17} className="ml-2" />
+                </a>
+                <Button
+                  to="/about"
+                  variant="secondary"
+                  size="md"
+                  className="px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-[15.5px]"
+                >
+                  About Our Studio
+                </Button>
+              </motion.div>
+
+              {/* Studio Culture Highlights */}
+              <motion.div
+                className="flex flex-wrap items-center gap-x-3.5 gap-y-2 pt-5 sm:pt-6 mt-1 border-t border-[#E3E8F0] w-full text-[12.5px] sm:text-[13px] font-semibold text-[#141B2A]"
+                {...fadeUp(0.52, 10, 0.5)}
+              >
+                <span className="text-[11.5px] sm:text-xs font-bold uppercase tracking-wider text-[#2764F5]">
+                  Culture:
+                </span>
+                <span>Remote Friendly</span>
+                <span className="text-[#CBD5E1]">·</span>
+                <span>Craft Focused</span>
+                <span className="text-[#CBD5E1]">·</span>
+                <span>Zero Micro-management</span>
+                <span className="text-[#CBD5E1]">·</span>
+                <span>Rapid Impact</span>
+              </motion.div>
+            </div>
+
+            {/* Right Column: Visual Mockup */}
+            <div className="lg:col-span-7 xl:col-span-7 w-full order-2 flex items-center justify-center lg:justify-end">
+              <motion.div
+                className="relative w-full max-w-[560px] lg:max-w-[620px] xl:max-w-[680px] flex items-center justify-center lg:justify-end"
+                {...showcaseVariant()}
+              >
+                <img
+                  src={heroMockup}
+                  alt="NEXZIVO Studio team & project showcase"
+                  className="w-full h-auto max-h-[380px] sm:max-h-[440px] md:max-h-[480px] lg:max-h-[520px] xl:max-h-[560px] object-contain drop-shadow-[0_16px_36px_rgba(16,27,45,0.07)]"
+                  loading="eager"
+                  decoding="async"
+                />
+              </motion.div>
+            </div>
           </div>
         </Container>
       </section>
 
       {/* ───────────────────────────────────────────────────────────
-          2. CULTURE & VALUES
+          2. STUDIO CULTURE & PERKS (Left-Aligned Heading + 6 Cards)
           ─────────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-24 bg-[var(--color-off-white)] border-b border-[var(--color-muted-border)]">
+      <section className="py-16 sm:py-24 bg-white border-b border-[#E3E8F0]">
         <Container>
           <SectionReveal>
-            <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-              <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-green)] block mb-2">
-                LIFE AT NEXZIVO
+            <div className="text-left max-w-2xl mb-12 sm:mb-16">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#2764F5] block mb-2">
+                WHY WORK WITH US
               </span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-[var(--color-deep-green)]">
-                Why You’ll Love Working Here
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-[#141B2A] text-left">
+                Perks &amp; Studio Environment
               </h2>
-              <p className="mt-2 text-sm sm:text-base text-[var(--color-text-muted)]">
-                We believe exceptional work happens when talented individuals are trusted, supported, and given room to innovate.
+              <p className="mt-2 text-sm sm:text-base text-[#687386] text-left">
+                We believe that great software and intuitive designs are created by happy, inspired teams with true autonomy.
               </p>
             </div>
           </SectionReveal>
@@ -390,14 +353,14 @@ export function CareerPage() {
               const Icon = perk.icon;
               return (
                 <SectionReveal key={perk.title} delay={i * 0.08}>
-                  <div className="h-full flex flex-col p-8 rounded-2xl bg-white border border-[var(--color-muted-border)] shadow-xs hover:shadow-md hover:border-[var(--color-green)]/40 transition-all duration-300">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-green-light)] text-[var(--color-green)] mb-5">
+                  <div className="h-full flex flex-col p-8 rounded-2xl bg-[#F7F9FC] border border-[#E3E8F0] shadow-xs hover:border-[#2764F5]/40 hover:bg-white hover:shadow-md transition-all duration-300 text-left">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#EEF4FF] text-[#2764F5] mb-5">
                       <Icon size={24} />
                     </span>
-                    <h3 className="text-xl font-bold text-[var(--color-deep-green)] mb-3">
+                    <h3 className="font-heading text-xl font-bold text-[#141B2A] mb-2.5 text-left">
                       {perk.title}
                     </h3>
-                    <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">
+                    <p className="text-sm text-[#687386] leading-relaxed text-left">
                       {perk.desc}
                     </p>
                   </div>
@@ -409,34 +372,34 @@ export function CareerPage() {
       </section>
 
       {/* ───────────────────────────────────────────────────────────
-          3. OPEN ROLES ACCORDION / LIST
+          3. OPEN ROLES DIRECTORY & APPLICATION INTERFACE
           ─────────────────────────────────────────────────────────── */}
-      <section id="open-positions" className="py-16 sm:py-24 bg-white border-b border-[var(--color-muted-border)] scroll-mt-20">
+      <section id="open-roles" className="py-16 sm:py-24 bg-[#FAFBFD] border-b border-[#E3E8F0]">
         <Container>
           <SectionReveal>
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-green)] block mb-2">
-                  JOIN OUR ROSTER
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
+              <div className="text-left max-w-2xl">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#2764F5] block mb-2">
+                  OPPORTUNITIES
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-bold text-[var(--color-deep-green)]">
+                <h2 className="font-heading text-3xl sm:text-4xl font-bold text-[#141B2A] text-left">
                   Current Open Positions
                 </h2>
-                <p className="mt-2 text-sm sm:text-base text-[var(--color-text-muted)]">
-                  Find the role that matches your skills, passion, and ambition.
+                <p className="mt-2 text-sm sm:text-base text-[#687386] text-left">
+                  Explore available roles below. Don't see an exact match? We are always happy to meet passionate developers and creators.
                 </p>
               </div>
 
-              {/* Department Filter Chips */}
-              <div className="flex flex-wrap items-center gap-2">
+              {/* Department Filter Tabs */}
+              <div className="flex items-center gap-2 p-1.5 rounded-xl bg-white border border-[#E3E8F0] shadow-2xs self-start md:self-end">
                 {departments.map((dept) => (
                   <button
                     key={dept}
                     onClick={() => setSelectedDept(dept)}
-                    className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 cursor-pointer ${
                       selectedDept === dept
-                        ? 'bg-[var(--color-deep-green)] text-white shadow-sm'
-                        : 'bg-[var(--color-off-white)] border border-[var(--color-muted-border)] text-[var(--color-text-muted)] hover:text-[var(--color-deep-green)] hover:border-[var(--color-green)]'
+                        ? 'bg-[#101B2D] text-white shadow-2xs'
+                        : 'text-[#687386] hover:text-[#141B2A]'
                     }`}
                   >
                     {dept}
@@ -446,444 +409,263 @@ export function CareerPage() {
             </div>
           </SectionReveal>
 
-          {/* Job Listings */}
-          <div className="flex flex-col gap-4">
-            {filteredJobs.length === 0 ? (
-              <div className="p-12 text-center bg-[var(--color-off-white)] rounded-2xl border border-[var(--color-muted-border)]">
-                <p className="text-base text-[var(--color-text-muted)] font-medium">
-                  No positions currently matching this category.
-                </p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mt-4"
-                  onClick={() => setSelectedDept('All')}
-                >
-                  Clear Filter
-                </Button>
-              </div>
-            ) : (
-              filteredJobs.map((job) => {
-                const isExpanded = expandedJobId === job.id;
-                return (
-                  <div
-                    key={job.id}
-                    className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
-                      isExpanded
-                        ? 'border-[var(--color-green)] bg-[var(--color-off-white)]/50 shadow-md ring-1 ring-[var(--color-green)]/20'
-                        : 'border-[var(--color-muted-border)] bg-white hover:border-[var(--color-green)]/50 hover:shadow-xs'
-                    }`}
-                  >
-                    {/* Job Header Bar */}
-                    <div
-                      className="p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-pointer select-none"
-                      onClick={() => setExpandedJobId(isExpanded ? null : job.id)}
-                    >
-                      <div className="flex flex-col gap-2">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="px-2.5 py-0.5 rounded-md bg-[var(--color-green-light)] text-[var(--color-green)] text-xs font-semibold">
-                            {job.department}
-                          </span>
-                          <span className="px-2.5 py-0.5 rounded-md bg-white border border-[var(--color-muted-border)] text-[var(--color-text-muted)] text-xs font-medium">
-                            {job.type}
-                          </span>
-                        </div>
-                        <h3 className="text-xl sm:text-2xl font-bold text-[var(--color-deep-green)]">
-                          {job.title}
-                        </h3>
-                        <div className="flex flex-wrap items-center gap-4 text-xs text-[var(--color-text-muted)]">
-                          <span className="flex items-center gap-1.5">
-                            <MapPin size={14} className="text-[var(--color-green)]" />
-                            {job.location}
-                          </span>
-                          <span className="flex items-center gap-1.5">
-                            <Clock size={14} className="text-[var(--color-green)]" />
-                            Exp: {job.experience}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-3 pt-2 md:pt-0">
-                        <Button
-                          variant="primary"
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleApplyClick(job.title);
-                          }}
-                        >
-                          Apply Now
-                        </Button>
-                        <button
-                          type="button"
-                          className="h-10 w-10 rounded-xl bg-white border border-[var(--color-muted-border)] flex items-center justify-center text-[var(--color-text-muted)] hover:text-[var(--color-deep-green)] transition-colors"
-                          aria-label={isExpanded ? 'Collapse role details' : 'Expand role details'}
-                        >
-                          {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                        </button>
-                      </div>
+          {/* Job Listings Grid */}
+          <div className="grid grid-cols-1 gap-5">
+            {filteredJobs.map((job) => (
+              <SectionReveal key={job.id}>
+                <div className="group p-6 sm:p-8 rounded-2xl bg-white border border-[#E3E8F0] hover:border-[#2764F5]/50 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                  <div className="flex-1 text-left">
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <span className="inline-block text-[11px] font-mono font-bold uppercase tracking-wider text-[#2764F5] bg-[#EEF4FF] px-2.5 py-0.5 rounded border border-[#DCE4F0]">
+                        {job.department}
+                      </span>
+                      <span className="inline-block text-[11px] font-mono font-bold text-[#687386] bg-[#F7F9FC] px-2.5 py-0.5 rounded border border-[#E3E8F0]">
+                        {job.type}
+                      </span>
                     </div>
 
-                    {/* Collapsible Details */}
-                    <AnimatePresence>
-                      {isExpanded && (
-                        <motion.div
-                          initial={reducedMotion ? {} : { height: 0, opacity: 0 }}
-                          animate={reducedMotion ? {} : { height: 'auto', opacity: 1 }}
-                          exit={reducedMotion ? {} : { height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="px-6 pb-7 sm:px-7 sm:pb-8 pt-2 border-t border-[var(--color-muted-border)]/60 text-sm"
-                        >
-                          <p className="text-[var(--color-text-muted)] text-base leading-relaxed mb-6">
-                            {job.description}
-                          </p>
-
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                            <div>
-                              <h4 className="font-bold text-[var(--color-deep-green)] uppercase text-xs tracking-wider mb-3">
-                                Key Responsibilities
-                              </h4>
-                              <ul className="flex flex-col gap-2.5">
-                                {job.responsibilities.map((resp, i) => (
-                                  <li key={i} className="flex items-start gap-2.5 text-[var(--color-text-body)]">
-                                    <CheckCircle2 size={16} className="text-[var(--color-green)] shrink-0 mt-0.5" />
-                                    <span>{resp}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-
-                            <div>
-                              <h4 className="font-bold text-[var(--color-deep-green)] uppercase text-xs tracking-wider mb-3">
-                                What We Look For
-                              </h4>
-                              <ul className="flex flex-col gap-2.5">
-                                {job.requirements.map((req, i) => (
-                                  <li key={i} className="flex items-start gap-2.5 text-[var(--color-text-body)]">
-                                    <Sparkles size={16} className="text-[var(--color-lime)] shrink-0 mt-0.5" />
-                                    <span>{req}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-4 pt-4 border-t border-[var(--color-muted-border)]">
-                            <Button
-                              variant="primary"
-                              size="md"
-                              onClick={() => handleApplyClick(job.title)}
-                              iconRight={<ArrowRight size={16} />}
-                            >
-                              Apply for {job.title}
-                            </Button>
-                            <span className="text-xs text-[var(--color-text-muted)]">
-                              Questions? Reach us at <a href={`mailto:${siteConfig.contact.email}`} className="text-[var(--color-green)] underline">careers@nexzivo.com</a>
-                            </span>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </Container>
-      </section>
-
-      {/* ───────────────────────────────────────────────────────────
-          4. HIRING PROCESS (Straightforward, transparent)
-          ─────────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-24 bg-[var(--color-off-white)] border-b border-[var(--color-muted-border)]">
-        <Container>
-          <SectionReveal>
-            <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-              <span className="text-xs font-bold uppercase tracking-widest text-[var(--color-green)] block mb-2">
-                TRANSPARENCY FIRST
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-[var(--color-deep-green)]">
-                Our Hiring Process
-              </h2>
-              <p className="mt-2 text-sm sm:text-base text-[var(--color-text-muted)]">
-                Simple, conversational, and respectful of your time. No tedious 6-round marathons.
-              </p>
-            </div>
-          </SectionReveal>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {hiringSteps.map((step, idx) => (
-              <SectionReveal key={step.step} delay={idx * 0.1}>
-                <div className="h-full p-6 sm:p-7 rounded-2xl bg-white border border-[var(--color-muted-border)] flex flex-col justify-between shadow-xs">
-                  <div>
-                    <span className="font-mono text-3xl font-extrabold text-[var(--color-green)] block mb-3">
-                      {step.step}
-                    </span>
-                    <h3 className="text-lg font-bold text-[var(--color-deep-green)] mb-2">
-                      {step.title}
+                    <h3 className="font-heading text-xl sm:text-2xl font-bold text-[#141B2A] group-hover:text-[#2764F5] transition-colors">
+                      {job.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-[var(--color-text-muted)] leading-relaxed">
-                      {step.desc}
+
+                    <p className="text-sm text-[#687386] mt-2 mb-4 max-w-3xl leading-relaxed">
+                      {job.overview}
                     </p>
+
+                    <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-[#8E9AA8]">
+                      <span className="inline-flex items-center gap-1.5">
+                        <MapPin size={14} className="text-[#2764F5]" />
+                        {job.location}
+                      </span>
+                      <span>·</span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <Briefcase size={14} className="text-[#2764F5]" />
+                        {job.experience}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="shrink-0 flex items-center gap-3">
+                    <button
+                      onClick={() => handleApplyClick(job)}
+                      className="px-6 py-3 rounded-xl bg-[#2764F5] text-white hover:bg-[#1E52D0] font-semibold text-sm transition-all duration-200 cursor-pointer shadow-sm hover:shadow flex items-center gap-2"
+                    >
+                      <span>Apply Now</span>
+                      <ChevronRight size={16} />
+                    </button>
                   </div>
                 </div>
               </SectionReveal>
             ))}
           </div>
+
+          {/* Application Modal */}
+          <AnimatePresence>
+            {selectedJob && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 15 }}
+                  transition={{ duration: 0.25 }}
+                  className="relative w-full max-w-2xl bg-white rounded-3xl p-6 sm:p-10 shadow-2xl border border-[#E3E8F0] my-8 text-left"
+                >
+                  <button
+                    onClick={() => setSelectedJob(null)}
+                    className="absolute top-6 right-6 text-[#8E9AA8] hover:text-[#141B2A] text-2xl font-bold cursor-pointer"
+                  >
+                    ✕
+                  </button>
+
+                  {!applicationSubmitted ? (
+                    <>
+                      <div className="mb-6">
+                        <span className="text-xs font-mono font-bold text-[#2764F5] uppercase tracking-wider">
+                          APPLICATION FORM
+                        </span>
+                        <h3 className="font-heading text-2xl sm:text-3xl font-bold text-[#141B2A] mt-1">
+                          {selectedJob.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-[#687386] mt-1">
+                          {selectedJob.department} · {selectedJob.location} · {selectedJob.type}
+                        </p>
+                      </div>
+
+                      <form onSubmit={handleFormSubmit} className="space-y-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-xs font-bold text-[#141B2A] mb-1">
+                              Full Name *
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              name="name"
+                              value={formData.name}
+                              onChange={handleFormChange}
+                              placeholder="e.g. John Doe"
+                              className="w-full px-4 py-2.5 rounded-xl border border-[#E3E8F0] focus:border-[#2764F5] focus:outline-none text-sm text-[#141B2A]"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-bold text-[#141B2A] mb-1">
+                              Email Address *
+                            </label>
+                            <input
+                              type="email"
+                              required
+                              name="email"
+                              value={formData.email}
+                              onChange={handleFormChange}
+                              placeholder="john@example.com"
+                              className="w-full px-4 py-2.5 rounded-xl border border-[#E3E8F0] focus:border-[#2764F5] focus:outline-none text-sm text-[#141B2A]"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-xs font-bold text-[#141B2A] mb-1">
+                              Phone Number *
+                            </label>
+                            <input
+                              type="tel"
+                              required
+                              name="phone"
+                              value={formData.phone}
+                              onChange={handleFormChange}
+                              placeholder="+91 98765 43210"
+                              className="w-full px-4 py-2.5 rounded-xl border border-[#E3E8F0] focus:border-[#2764F5] focus:outline-none text-sm text-[#141B2A]"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-bold text-[#141B2A] mb-1">
+                              Portfolio / GitHub URL
+                            </label>
+                            <input
+                              type="url"
+                              name="portfolio"
+                              value={formData.portfolio}
+                              onChange={handleFormChange}
+                              placeholder="https://github.com/yourhandle"
+                              className="w-full px-4 py-2.5 rounded-xl border border-[#E3E8F0] focus:border-[#2764F5] focus:outline-none text-sm text-[#141B2A]"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-bold text-[#141B2A] mb-1">
+                            LinkedIn Profile URL
+                          </label>
+                          <input
+                            type="url"
+                            name="linkedin"
+                            value={formData.linkedin}
+                            onChange={handleFormChange}
+                            placeholder="https://linkedin.com/in/yourhandle"
+                            className="w-full px-4 py-2.5 rounded-xl border border-[#E3E8F0] focus:border-[#2764F5] focus:outline-none text-sm text-[#141B2A]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-bold text-[#141B2A] mb-1">
+                            Short Note / Why NEXZIVO? *
+                          </label>
+                          <textarea
+                            rows={3}
+                            required
+                            name="coverNote"
+                            value={formData.coverNote}
+                            onChange={handleFormChange}
+                            placeholder="Tell us briefly about your background and what you love building..."
+                            className="w-full px-4 py-2.5 rounded-xl border border-[#E3E8F0] focus:border-[#2764F5] focus:outline-none text-sm text-[#141B2A]"
+                          />
+                        </div>
+
+                        <div className="pt-2 flex items-center justify-end gap-3">
+                          <button
+                            type="button"
+                            onClick={() => setSelectedJob(null)}
+                            className="px-5 py-2.5 rounded-xl border border-[#E3E8F0] text-[#687386] hover:bg-[#F7F9FC] text-sm font-semibold cursor-pointer"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            className="px-6 py-2.5 rounded-xl bg-[#2764F5] text-white hover:bg-[#1E52D0] font-semibold text-sm cursor-pointer shadow-sm hover:shadow"
+                          >
+                            Submit Application
+                          </button>
+                        </div>
+                      </form>
+                    </>
+                  ) : (
+                    <div className="py-8 text-center flex flex-col items-center gap-4">
+                      <div className="h-16 w-16 rounded-full bg-[#EEF4FF] text-[#2764F5] flex items-center justify-center">
+                        <CheckCircle2 size={32} />
+                      </div>
+                      <h4 className="font-heading text-2xl font-bold text-[#141B2A]">
+                        Application Received!
+                      </h4>
+                      <p className="text-sm text-[#687386] max-w-md">
+                        Thank you for applying for the <strong>{selectedJob.title}</strong> role. Our team will review your credentials and get back to you within 3 business days.
+                      </p>
+                      <button
+                        onClick={() => setSelectedJob(null)}
+                        className="mt-3 px-6 py-2.5 rounded-xl bg-[#101B2D] text-white hover:bg-[#18263E] text-sm font-semibold cursor-pointer"
+                      >
+                        Close Window
+                      </button>
+                    </div>
+                  )}
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
         </Container>
       </section>
 
       {/* ───────────────────────────────────────────────────────────
-          5. APPLICATION MODAL / DIALOG
+          4. CLOSING CTA BANNER (Deep Navy Banner)
           ─────────────────────────────────────────────────────────── */}
-      <AnimatePresence>
-        {applicationModal.isOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setApplicationModal({ isOpen: false, jobTitle: '' })}
-              className="fixed inset-0 bg-black/60 backdrop-blur-xs"
-              aria-hidden="true"
-            />
-
-            {/* Modal Dialog Card */}
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 15 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 15 }}
-              transition={{ duration: 0.2 }}
-              className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-[var(--color-muted-border)] p-6 sm:p-8 z-10 my-8 text-left max-h-[90vh] overflow-y-auto"
-            >
-              {formSubmitted ? (
-                <div className="py-12 flex flex-col items-center text-center gap-4">
-                  <div className="h-16 w-16 rounded-full bg-[var(--color-green-light)] text-[var(--color-green)] flex items-center justify-center">
-                    <CheckCircle2 size={36} />
-                  </div>
-                  <h3 className="text-2xl font-bold text-[var(--color-deep-green)]">
-                    Application Received!
-                  </h3>
-                  <p className="text-sm text-[var(--color-text-muted)] max-w-md">
-                    Thank you, <strong>{formData.fullName}</strong>. We have received your application for <strong>{applicationModal.jobTitle}</strong>. Our hiring team will review your profile and reach out within 2-3 business days.
-                  </p>
-                  <Button
-                    variant="primary"
-                    className="mt-4"
-                    onClick={() => {
-                      setApplicationModal({ isOpen: false, jobTitle: '' });
-                      setFormSubmitted(false);
-                      setFormData({
-                        fullName: '',
-                        email: '',
-                        phone: '',
-                        portfolio: '',
-                        experience: 'Fresher / Entry-Level',
-                        resumeUrl: '',
-                        coverNote: '',
-                      });
-                    }}
-                  >
-                    Done
-                  </Button>
-                </div>
-              ) : (
-                <>
-                  <div className="flex items-center justify-between pb-4 border-b border-[var(--color-muted-border)] mb-6">
-                    <div>
-                      <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[var(--color-green)]">
-                        APPLYING FOR
-                      </span>
-                      <h3 className="text-xl sm:text-2xl font-bold text-[var(--color-deep-green)]">
-                        {applicationModal.jobTitle}
-                      </h3>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setApplicationModal({ isOpen: false, jobTitle: '' })}
-                      className="text-[var(--color-text-muted)] hover:text-[var(--color-deep-green)] p-1.5 rounded-lg hover:bg-[var(--color-off-white)] transition-colors"
-                      aria-label="Close dialog"
-                    >
-                      ✕
-                    </button>
-                  </div>
-
-                  <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-[var(--color-deep-green)]">
-                          Full Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="fullName"
-                          required
-                          value={formData.fullName}
-                          onChange={handleInputChange}
-                          placeholder="e.g. Priyanshu Sharma"
-                          className="h-11 px-3.5 rounded-xl border border-[var(--color-muted-border)] text-sm focus:border-[var(--color-green)] focus:ring-1 focus:ring-[var(--color-green)] outline-none"
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-[var(--color-deep-green)]">
-                          Email Address <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          required
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          placeholder="priyanshu@example.com"
-                          className="h-11 px-3.5 rounded-xl border border-[var(--color-muted-border)] text-sm focus:border-[var(--color-green)] focus:ring-1 focus:ring-[var(--color-green)] outline-none"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-[var(--color-deep-green)]">
-                          Contact / WhatsApp Number <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          required
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          placeholder="+91 98765 43210"
-                          className="h-11 px-3.5 rounded-xl border border-[var(--color-muted-border)] text-sm focus:border-[var(--color-green)] focus:ring-1 focus:ring-[var(--color-green)] outline-none"
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-[var(--color-deep-green)]">
-                          Experience Level
-                        </label>
-                        <select
-                          name="experience"
-                          value={formData.experience}
-                          onChange={handleInputChange}
-                          className="h-11 px-3.5 rounded-xl border border-[var(--color-muted-border)] text-sm focus:border-[var(--color-green)] focus:ring-1 focus:ring-[var(--color-green)] outline-none bg-white"
-                        >
-                          <option value="Fresher / Entry-Level">Fresher / Entry-Level (0 - 1 yr)</option>
-                          <option value="1 - 3 Years">Mid-Level (1 - 3 yrs)</option>
-                          <option value="3+ Years">Senior (3+ yrs)</option>
-                          <option value="Student Intern">Student / Intern</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-[var(--color-deep-green)]">
-                          Portfolio / GitHub / LinkedIn URL <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="url"
-                          name="portfolio"
-                          required
-                          value={formData.portfolio}
-                          onChange={handleInputChange}
-                          placeholder="https://github.com/yourhandle"
-                          className="h-11 px-3.5 rounded-xl border border-[var(--color-muted-border)] text-sm focus:border-[var(--color-green)] focus:ring-1 focus:ring-[var(--color-green)] outline-none"
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-[var(--color-deep-green)]">
-                          Resume Drive / PDF Link
-                        </label>
-                        <input
-                          type="url"
-                          name="resumeUrl"
-                          value={formData.resumeUrl}
-                          onChange={handleInputChange}
-                          placeholder="Google Drive / Dropbox / Notion link"
-                          className="h-11 px-3.5 rounded-xl border border-[var(--color-muted-border)] text-sm focus:border-[var(--color-green)] focus:ring-1 focus:ring-[var(--color-green)] outline-none"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold text-[var(--color-deep-green)]">
-                        Why are you excited to join NEXZIVO?
-                      </label>
-                      <textarea
-                        name="coverNote"
-                        rows={3}
-                        value={formData.coverNote}
-                        onChange={handleInputChange}
-                        placeholder="Tell us briefly about your projects, skills, or what drives you..."
-                        className="p-3 rounded-xl border border-[var(--color-muted-border)] text-sm focus:border-[var(--color-green)] focus:ring-1 focus:ring-[var(--color-green)] outline-none resize-none"
-                      />
-                    </div>
-
-                    <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--color-muted-border)] mt-2">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="md"
-                        onClick={() => setApplicationModal({ isOpen: false, jobTitle: '' })}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        size="md"
-                        disabled={submitting}
-                        iconRight={<Send size={15} />}
-                      >
-                        {submitting ? 'Submitting...' : 'Submit Application'}
-                      </Button>
-                    </div>
-                  </form>
-                </>
-              )}
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* ───────────────────────────────────────────────────────────
-          6. CLOSING CTA BANNER
-          ─────────────────────────────────────────────────────────── */}
-      <section className="py-20 lg:py-28 bg-[var(--color-deep-green)] text-white relative overflow-hidden">
-        {/* Ambient glow */}
+      <section className="relative overflow-hidden bg-[#F7F9FC] py-14 sm:py-18 lg:py-20">
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-          <div className="absolute top-0 right-1/4 h-80 w-80 rounded-full bg-[var(--color-green)]/30 blur-3xl" />
-          <div className="absolute bottom-0 left-1/4 h-80 w-80 rounded-full bg-[var(--color-lime)]/15 blur-3xl" />
+          <div className="absolute top-1/2 left-[-5%] h-[400px] w-[400px] rounded-full bg-[#2764F5]/4 blur-3xl" />
+          <div className="absolute top-1/2 right-[-5%] h-[400px] w-[400px] rounded-full bg-[#35C5E8]/4 blur-3xl" />
         </div>
 
         <Container className="relative z-10">
-          <div className="max-w-2xl mx-auto text-center flex flex-col items-center gap-6">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[var(--color-lime)]/15 border border-[var(--color-lime)]/30 text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-lime)]">
-              DON’T SEE A FIT?
-            </span>
+          <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl bg-[#101B2D] p-8 sm:p-12 lg:p-14 text-white shadow-xl border border-[#273752]">
+            <div
+              className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#2764F5]/20 blur-2xl"
+              aria-hidden="true"
+            />
+            <div
+              className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#35C5E8]/15 blur-2xl"
+              aria-hidden="true"
+            />
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-              We Are Always Looking for Exceptional Talent.
-            </h2>
+            <div className="relative z-10 max-w-2xl mx-auto text-center flex flex-col items-center gap-6">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#35C5E8]/15 border border-[#35C5E8]/30 text-xs font-bold uppercase tracking-[0.2em] text-[#35C5E8]">
+                SPONTANEOUS APPLICATION
+              </span>
 
-            <p className="text-base sm:text-lg text-[var(--color-light-muted)] leading-relaxed">
-              If you’re passionate about modern engineering, clean user experience, or brand design, introduce yourself. We’d love to speak with you.
-            </p>
+              <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                Don't See Your Role? Say Hello Anyway.
+              </h2>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
-              <Button
-                variant="lime"
-                size="lg"
-                onClick={() => handleApplyClick('Open / General Application')}
-                iconRight={<ArrowRight size={18} />}
-              >
-                Send General Application
-              </Button>
-              <Button to="/about" variant="outlineLight" size="lg">
-                About NEXZIVO
-              </Button>
+              <p className="text-base sm:text-lg text-[#CBD5E1] leading-relaxed">
+                We are constantly expanding our engineering and design capabilities. Send us your portfolio, project work, or Github profile.
+              </p>
+
+              <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
+                <Button to="/contact" variant="primary" size="lg" iconRight={<ArrowRight size={18} />}>
+                  Contact Our Studio
+                </Button>
+                <Button to="/work" variant="outlineDark" size="lg">
+                  Explore Case Studies
+                </Button>
+              </div>
             </div>
           </div>
         </Container>

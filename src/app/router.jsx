@@ -8,8 +8,8 @@ import { ApproachPage } from '@/features/approach/ApproachPage';
 import { WorkArchivePage } from '@/features/work/WorkArchivePage';
 import { ProjectDetailPage } from '@/features/work/ProjectDetailPage';
 import { ProductsPage } from '@/features/products/ProductsPage';
-import { CareerPage } from '@/features/careers/CareerPage';
 import { ContactPage } from '@/features/contact/ContactPage';
+import { CareerPage } from '@/features/careers/CareerPage';
 import { PlaceholderPage } from '@/features/shared/PlaceholderPage';
 import { RouteErrorBoundary } from '@/features/shared/RouteErrorBoundary';
 
@@ -40,6 +40,10 @@ export const router = createBrowserRouter([
         element: <AboutPage />,
       },
       {
+        path: 'careers',
+        element: <CareerPage />,
+      },
+      {
         path: 'approach',
         element: <ApproachPage />,
       },
@@ -58,10 +62,6 @@ export const router = createBrowserRouter([
       {
         path: 'insights',
         element: <PlaceholderPage title="Insights &amp; Publications" />,
-      },
-      {
-        path: 'careers',
-        element: <CareerPage />,
       },
       {
         path: 'contact',
