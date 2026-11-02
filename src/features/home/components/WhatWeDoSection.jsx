@@ -30,6 +30,167 @@ const serviceIcons = {
 };
 
 /**
+ * WhatWeDoCard — Individual carousel service card with directional mouse-following circle reveal.
+ * When the cursor enters anywhere on the card, a blue circle expands from the cursor's exact coordinates.
+ * When the cursor leaves, the blue circle collapses back down to the exact exit point (e.g. corner/edge).
+ */
+function WhatWeDoCard({ service, Icon, reducedMotion }) {
+  const cardRef = useRef(null);
+  const overlayRef = useRef(null);
+  const lastPos = useRef({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = (e) => {
+    setIsHovered(true);
+    if (reducedMotion) return;
+
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect || !overlayRef.current) return;
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    lastPos.current = { x, y };
+
+    // Set initial 0px circle at the cursor entry position without animation
+    overlayRef.current.style.transition = 'none';
+    overlayRef.current.style.clipPath = `circle(0px at ${x}px ${y}px)`;
+    // Force reflow so the starting state is recorded by the compositor
+    void overlayRef.current.offsetHeight;
+    // Animate expanding circle to cover the full card
+    overlayRef.current.style.transition = 'clip-path 600ms cubic-bezier(0.22, 1, 0.36, 1)';
+    overlayRef.current.style.clipPath = `circle(150% at ${x}px ${y}px)`;
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    lastPos.current = {
+      x: Math.max(0, Math.min(rect.width, e.clientX - rect.left)),
+      y: Math.max(0, Math.min(rect.height, e.clientY - rect.top)),
+    };
+  };
+
+  const handleMouseLeave = (e) => {
+    setIsHovered(false);
+    if (reducedMotion) return;
+
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect || !overlayRef.current) return;
+
+    // Use current mouse coordinate or fall back to last recorded position
+    const rawX = e.clientX !== undefined ? e.clientX - rect.left : lastPos.current.x;
+    const rawY = e.clientY !== undefined ? e.clientY - rect.top : lastPos.current.y;
+
+    const x = Math.max(0, Math.min(rect.width, rawX));
+    const y = Math.max(0, Math.min(rect.height, rawY));
+
+    // Collapse the blue circle into the exact point where cursor left
+    overlayRef.current.style.transition = 'clip-path 500ms cubic-bezier(0.22, 1, 0.36, 1)';
+    overlayRef.current.style.clipPath = `circle(0px at ${x}px ${y}px)`;
+  };
+
+  return (
+    <Link
+      to={service.link}
+      ref={cardRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="group relative flex flex-col justify-between h-full rounded-2xl bg-white border border-[#E3E8F0] shadow-[0_4px_20px_-4px_rgba(16,27,45,0.06)] hover:shadow-[0_20px_40px_-8px_rgba(39,100,245,0.22)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2764F5] text-left block"
+      aria-label={`Learn more about ${service.title}`}
+    >
+      {/* ── BASE LAYER (Default Crisp Light Card) ── */}
+      <div className="flex flex-col justify-between h-full p-7 sm:p-8">
+        <div>
+          {/* Header: Icon & Category Tag */}
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <div className="flex h-13 w-13 items-center justify-center rounded-xl bg-[#EEF4FF] text-[#2764F5] border border-[#DCE4F0] shadow-2xs">
+              <Icon size={24} />
+            </div>
+
+            <span className="text-[11px] font-mono font-semibold text-[#2764F5] uppercase tracking-wider bg-[#EEF4FF] px-2.5 py-1 rounded-md border border-[#DCE4F0]">
+              {service.tag}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h3 className="font-heading text-xl sm:text-[22px] font-bold text-[#141B2A] tracking-tight mb-3 leading-snug">
+            {service.title}
+          </h3>
+
+          {/* Description */}
+          <p className="text-[14.5px] leading-relaxed text-[#687386]">
+            {service.description}
+          </p>
+        </div>
+
+        {/* Footer: Learn More */}
+        <div className="mt-8 pt-5 border-t border-[#EEF2F6] flex items-center justify-between">
+          <div className="inline-flex items-center gap-2 text-sm font-bold text-[#2764F5]">
+            <span>Learn More</span>
+            <ArrowRight size={16} />
+          </div>
+        </div>
+      </div>
+
+      {/* ── BLUE REVEAL OVERLAY (Directional expanding/shrinking circular mask) ── */}
+      <div
+        ref={overlayRef}
+        aria-hidden="true"
+        className="absolute inset-0 z-10 flex flex-col justify-between p-7 sm:p-8 rounded-2xl bg-gradient-to-br from-[#2764F5] via-[#2058DE] to-[#1546B8] text-white pointer-events-none overflow-hidden select-none"
+        style={{
+          clipPath: reducedMotion
+            ? isHovered
+              ? 'circle(150% at 50% 50%)'
+              : 'circle(0% at 50% 50%)'
+            : 'circle(0px at 50% 50%)',
+          willChange: 'clip-path',
+        }}
+      >
+        {/* Ambient glowing radial orbs inside blue layer */}
+        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-white/15 blur-2xl pointer-events-none" />
+        <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-[#35C5E8]/25 blur-2xl pointer-events-none" />
+
+        {/* Watermark service icon in the background */}
+        <div className="absolute -right-4 -bottom-4 text-white/[0.08] pointer-events-none select-none">
+          <Icon size={120} strokeWidth={1.2} />
+        </div>
+
+        {/* Content in Vibrant Blue Theme */}
+        <div className="relative z-10">
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <div className="flex h-13 w-13 items-center justify-center rounded-xl bg-white text-[#2764F5] shadow-md border border-white/40">
+              <Icon size={24} />
+            </div>
+
+            <span className="text-[11px] font-mono font-semibold text-white uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-md border border-white/30 backdrop-blur-xs">
+              {service.tag}
+            </span>
+          </div>
+
+          <h3 className="font-heading text-xl sm:text-[22px] font-bold text-white tracking-tight mb-3 leading-snug">
+            {service.title}
+          </h3>
+
+          <p className="text-[14.5px] leading-relaxed text-white/90">
+            {service.description}
+          </p>
+        </div>
+
+        {/* Footer in Blue Overlay */}
+        <div className="relative z-10 mt-8 pt-5 border-t border-white/20 flex items-center justify-between">
+          <div className="inline-flex items-center gap-2 text-sm font-bold text-white">
+            <span>Learn More</span>
+            <ArrowRight size={16} className="translate-x-1 transition-transform" />
+          </div>
+          <span className="h-1.5 w-1.5 rounded-full bg-[#35C5E8] shadow-xs" />
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+/**
  * WhatWeDoSection
  * - Continuous automatic carousel that slides every 4 seconds.
  * - Robust CSS calc-based translateX tracking so it never stalls.
@@ -51,6 +212,7 @@ export function WhatWeDoSection() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardsPerView, setCardsPerView] = useState(3);
+  const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
 
@@ -85,16 +247,16 @@ export function WhatWeDoSection() {
     setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
   }, [maxIndex]);
 
-  // Guaranteed 4-second automatic carousel interval
+  // Guaranteed 4-second automatic carousel interval (pauses on hover)
   useEffect(() => {
-    if (reducedMotion) return;
+    if (reducedMotion || isPaused) return;
 
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
     }, AUTOPLAY_INTERVAL);
 
     return () => clearInterval(timer);
-  }, [maxIndex, reducedMotion]);
+  }, [maxIndex, reducedMotion, isPaused]);
 
   // Touch Swipe handlers
   const handleTouchStart = (e) => {
@@ -250,6 +412,8 @@ export function WhatWeDoSection() {
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
           className="relative overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-[#2764F5] rounded-2xl py-2 -my-2"
         >
           {/* Animated Moving Carousel Track with Exact 4-Second Automatic Sliding */}
@@ -277,52 +441,11 @@ export function WhatWeDoSection() {
                   }}
                   className="flex flex-col shrink-0"
                 >
-                  <article className="group relative flex flex-col justify-between h-full p-7 sm:p-8 rounded-2xl bg-white border border-[#E3E8F0] hover:border-[#2764F5]/50 shadow-[0_4px_20px_-4px_rgba(16,27,45,0.06)] hover:shadow-[0_16px_36px_-6px_rgba(39,100,245,0.15)] hover:-translate-y-1 transition-all duration-200 overflow-hidden">
-                    {/* Top Brand Accent Strip on Hover */}
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#2764F5] to-[#35C5E8] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-
-                    {/* Card Content Area */}
-                    <div>
-                      {/* Header: Brand-tinted Icon & Category Tag */}
-                      <div className="flex items-center justify-between gap-4 mb-6">
-                        <div className="flex h-13 w-13 items-center justify-center rounded-xl bg-[#EEF4FF] text-[#2764F5] border border-[#DCE4F0] group-hover:bg-[#2764F5] group-hover:text-white transition-colors duration-200 shadow-2xs">
-                          <Icon
-                            size={24}
-                            className="transition-transform duration-200 group-hover:scale-110"
-                          />
-                        </div>
-
-                        <span className="text-[11px] font-mono font-semibold text-[#2764F5] uppercase tracking-wider bg-[#EEF4FF] px-2.5 py-1 rounded-md border border-[#DCE4F0]">
-                          {service.tag}
-                        </span>
-                      </div>
-
-                      {/* Service Title */}
-                      <h3 className="font-heading text-xl sm:text-[22px] font-bold text-[#141B2A] tracking-tight mb-3 group-hover:text-[#2764F5] transition-colors leading-snug">
-                        {service.title}
-                      </h3>
-
-                      {/* Service Description */}
-                      <p className="text-[14.5px] leading-relaxed text-[#687386]">
-                        {service.description}
-                      </p>
-                    </div>
-
-                    {/* Card Footer: "Learn More" Action with Restrained Directional Motion */}
-                    <div className="mt-8 pt-5 border-t border-[#EEF2F6]">
-                      <Link
-                        to={service.link}
-                        className="inline-flex items-center gap-2 text-sm font-bold text-[#2764F5] hover:text-[#1E52D0] transition-colors group/link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2764F5] rounded-md"
-                        aria-label={`Learn more about ${service.title}`}
-                      >
-                        <span>Learn More</span>
-                        <ArrowRight
-                          size={16}
-                          className="transition-transform duration-200 group-hover/link:translate-x-1"
-                        />
-                      </Link>
-                    </div>
-                  </article>
+                  <WhatWeDoCard
+                    service={service}
+                    Icon={Icon}
+                    reducedMotion={reducedMotion}
+                  />
                 </motion.div>
               );
             })}

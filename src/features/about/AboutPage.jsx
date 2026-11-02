@@ -1,4 +1,6 @@
+import { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import {
   ArrowRight,
@@ -89,25 +91,193 @@ const whyChooseUs = [
     icon: Users,
     title: 'Client-Centered Partnership',
     desc: 'We speak your language with zero unnecessary jargon. You collaborate directly with the designers and developers building your project.',
+    tag: 'Direct Collaboration',
+    color: '#2764F5',
   },
   {
     icon: ShieldCheck,
     title: 'Quality & Longevity',
     desc: 'Every line of code and interface element is built cleanly, securely, and structured to grow smoothly as your needs expand.',
+    tag: 'Clean & Scalable Code',
+    color: '#00D2BA',
   },
   {
     icon: Zap,
     title: 'Fast & Predictable Delivery',
     desc: 'Clear milestones, transparent pricing, and structured progress updates from first concept to final launch.',
+    tag: 'On-Time Milestones',
+    color: '#35C5E8',
   },
 ];
 
-// Simple 4-Step Working Process
+/**
+ * WhyWorkCard — 3D Perspective Gyroscopic Tilt, Electric Perimeter Laser Beam,
+ * Multi-layer Parallax Depth, Dynamic Holographic Grid, and Watermark Parallax.
+ */
+function WhyWorkCard({ pillar, index, isHovered, isAnyHovered, onHover, onLeave, reducedMotion }) {
+  const cardRef = useRef(null);
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  const Icon = pillar.icon;
+
+  const handleMouseMove = (e) => {
+    if (reducedMotion) return;
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotX = ((y - centerY) / centerY) * -10;
+    const rotY = ((x - centerX) / centerX) * 10;
+    setRotate({ x: rotX, y: rotY });
+  };
+
+  const handleMouseLeave = () => {
+    setRotate({ x: 0, y: 0 });
+    onLeave();
+  };
+
+  return (
+    <div
+      style={{ perspective: 1000 }}
+      className={`h-full transition-all duration-300 ${
+        isAnyHovered && !isHovered ? 'opacity-65 scale-[0.98]' : 'opacity-100 scale-100'
+      }`}
+    >
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={onHover}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          transform: reducedMotion
+            ? 'none'
+            : `rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
+          transformStyle: 'preserve-3d',
+          transition: rotate.x === 0 && rotate.y === 0 ? 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)' : 'transform 0.08s ease-out',
+        }}
+        className="group relative h-full flex flex-col justify-between p-8 rounded-2xl bg-[#F7F9FC] border border-[#E3E8F0] shadow-xs hover:shadow-[0_20px_40px_-15px_rgba(39,100,245,0.18)] transition-shadow duration-300 cursor-pointer overflow-hidden text-left"
+      >
+        {/* Electric Perimeter Laser Border Beam */}
+        <div className="absolute -inset-[1.5px] rounded-2xl overflow-hidden pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0">
+          <div
+            className="absolute inset-[-150%] bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0deg,transparent_70deg,#2764F5_100deg,#35C5E8_130deg,#00D2BA_155deg,transparent_180deg)] animate-[spin_3.5s_linear_infinite]"
+          />
+        </div>
+
+        {/* Inner Card Background Mask */}
+        <div className="absolute inset-[1.5px] rounded-[15px] bg-[#F7F9FC] group-hover:bg-white transition-colors duration-300 z-0" />
+
+        {/* Dynamic Holographic Dot Matrix Grid */}
+        <div
+          className="absolute inset-[1.5px] rounded-[15px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
+          style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, #2764F5 1px, transparent 0)',
+            backgroundSize: '16px 16px',
+            opacity: 0.05,
+          }}
+        />
+
+        {/* Giant Watermark Background Icon (Layered Parallax in -Z) */}
+        <div
+          className="pointer-events-none absolute -bottom-6 -right-6 text-[#2764F5]/[0.035] group-hover:text-[#2764F5]/[0.08] transition-colors duration-500 z-0 select-none"
+          style={{
+            transform: reducedMotion ? 'none' : 'translateZ(-10px)',
+          }}
+        >
+          <Icon size={160} strokeWidth={1.2} />
+        </div>
+
+        {/* Top/Main Content Area with 3D Depth */}
+        <div
+          className="relative z-10"
+          style={{
+            transform: reducedMotion ? 'none' : 'translateZ(26px)',
+            transformStyle: 'preserve-3d',
+          }}
+        >
+          {/* Floating Icon with Halo Pulse */}
+          <div className="relative mb-5 inline-flex">
+            <span className="absolute -inset-1 rounded-xl bg-[#2764F5]/25 opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300" />
+
+            <div
+              className="relative inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#EEF4FF] text-[#2764F5] border border-[#DCE4F0] group-hover:bg-gradient-to-br group-hover:from-[#2764F5] group-hover:to-[#1746C9] group-hover:text-white group-hover:shadow-[0_8px_20px_-3px_rgba(39,100,245,0.4)] transition-all duration-300"
+              style={{
+                transform: reducedMotion ? 'none' : 'translateZ(14px)',
+              }}
+            >
+              <Icon size={24} className="transition-transform duration-300 group-hover:scale-110" />
+            </div>
+          </div>
+
+          <h3 className="font-heading text-xl font-bold text-[#141B2A] group-hover:text-[#2764F5] transition-colors duration-200 mb-3 text-left">
+            {pillar.title}
+          </h3>
+
+          <p className="text-sm text-[#687386] leading-relaxed text-left group-hover:text-[#4A5568] transition-colors duration-200">
+            {pillar.desc}
+          </p>
+        </div>
+
+        {/* Bottom Interactive Feature Badge with 3D lift */}
+        <div
+          className="relative z-10 mt-6 pt-4 border-t border-[#E3E8F0]/70 flex items-center justify-between"
+          style={{
+            transform: reducedMotion ? 'none' : 'translateZ(20px)',
+          }}
+        >
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-white border border-[#E3E8F0] text-[#141B2A] group-hover:border-[#2764F5]/30 group-hover:text-[#2764F5] group-hover:bg-[#EEF4FF] transition-all duration-200 shadow-2xs">
+            <span
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ backgroundColor: pillar.color || '#2764F5' }}
+            />
+            {pillar.tag}
+          </span>
+
+          <span className="text-[11px] font-mono font-bold text-[#8E9AA8] group-hover:text-[#2764F5] transition-colors">
+            0{index + 1}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Simple 4-Step Working Process with Phase Milestones
 const simpleProcess = [
-  { step: '01', title: 'Listen & Plan', desc: 'We understand your goals, audience, and project requirements.' },
-  { step: '02', title: 'Design', desc: 'We create clear wireframes and interactive visual prototypes.' },
-  { step: '03', title: 'Develop', desc: 'We engineer fast, secure, and modern digital solutions.' },
-  { step: '04', title: 'Launch & Support', desc: 'We test thoroughly, deploy cleanly, and help you grow.' },
+  {
+    step: '01',
+    phase: 'Discovery & Scope',
+    percent: '25%',
+    offset: 66,
+    title: 'Listen & Plan',
+    desc: 'We understand your goals, audience, and project requirements to map out a clear roadmap.',
+  },
+  {
+    step: '02',
+    phase: 'Architecture & UX',
+    percent: '50%',
+    offset: 44,
+    title: 'Design',
+    desc: 'We create clear wireframes, user journeys, and interactive visual prototypes.',
+  },
+  {
+    step: '03',
+    phase: 'Engineering & QA',
+    percent: '75%',
+    offset: 22,
+    title: 'Develop',
+    desc: 'We engineer fast, secure, and modern digital solutions with clean, scalable code.',
+  },
+  {
+    step: '04',
+    phase: 'Deployment & Growth',
+    percent: '100%',
+    offset: 0,
+    title: 'Launch & Support',
+    desc: 'We test thoroughly, deploy cleanly, and provide ongoing support to help you scale.',
+  },
 ];
 
 /**
@@ -118,6 +288,16 @@ const simpleProcess = [
  */
 export function AboutPage() {
   const reducedMotion = useReducedMotionPreference();
+  const [hoveredPillarIndex, setHoveredPillarIndex] = useState(null);
+  const [activeProcessStep, setActiveProcessStep] = useState(null);
+
+  const handleSpotlightMove = (e, varName) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty(`--${varName}-x`, `${x}px`);
+    e.currentTarget.style.setProperty(`--${varName}-y`, `${y}px`);
+  };
 
   // Coordinated entrance animation variants matching homepage hero
   const fadeUp = (delay = 0, yOffset = 16, duration = 0.55) => {
@@ -340,43 +520,150 @@ export function AboutPage() {
       </section>
 
       {/* ───────────────────────────────────────────────────────────
-          2. MISSION & VISION (Side-by-side cards, clean & clear)
+          2. MISSION & VISION (Dual Contrast Cyber-Sonar & Prismatic Horizon)
           ─────────────────────────────────────────────────────────── */}
       <section className="py-16 sm:py-20 bg-white border-b border-[#E3E8F0]">
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            {/* Our Mission */}
+            {/* Our Mission (Dark Cyber-Sonar Card) */}
             <SectionReveal>
-              <div className="h-full flex flex-col justify-between p-8 sm:p-10 rounded-2xl bg-[#101B2D] text-white shadow-lg border border-[#273752] relative overflow-hidden">
+              <div
+                onMouseMove={(e) => handleSpotlightMove(e, 'mission')}
+                className="group relative h-full flex flex-col justify-between p-8 sm:p-10 rounded-2xl bg-[#0F172A] text-white border border-[#23354E] hover:border-[#35C5E8]/70 shadow-lg hover:shadow-[0_24px_55px_-12px_rgba(53,197,232,0.28)] hover:-translate-y-2 transition-all duration-400 ease-out overflow-hidden cursor-default text-left"
+              >
+                {/* Top Horizon Neon Laser Accent */}
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#35C5E8] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-center" />
+
+                {/* Dynamic Interactive Plasma / Nebula Light Spot */}
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background:
+                      'radial-gradient(500px circle at var(--mission-x, 50%) var(--mission-y, 50%), rgba(53, 197, 232, 0.16), rgba(39, 100, 245, 0.08), transparent 70%)',
+                  }}
+                />
+
+                {/* Cyber Sonar Radar Rings in Background */}
+                <div
+                  className="pointer-events-none absolute -bottom-12 -right-12 w-64 h-64 overflow-hidden select-none opacity-20 group-hover:opacity-45 transition-opacity duration-500"
+                  aria-hidden="true"
+                >
+                  <div className="absolute inset-0 rounded-full border border-dashed border-[#35C5E8]/40 animate-[spin_40s_linear_infinite]" />
+                  <div className="absolute inset-8 rounded-full border border-[#35C5E8]/30 group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-16 rounded-full border border-dashed border-[#2764F5]/40 animate-[spin_25s_linear_infinite_reverse]" />
+                  <div className="absolute inset-24 rounded-full border border-[#35C5E8]/50" />
+                  <Target size={48} className="absolute inset-0 m-auto text-[#35C5E8]/30 group-hover:scale-110 transition-transform duration-500" />
+                </div>
+
                 <div className="relative z-10 flex flex-col gap-4 text-left">
-                  <div className="flex items-center gap-2.5 text-xs font-mono font-bold uppercase tracking-wider text-[#35C5E8]">
-                    <Target size={16} />
-                    <span>OUR MISSION</span>
+                  {/* Badge with Live Pinging Sonar */}
+                  <div className="flex items-center justify-between">
+                    <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-lg bg-[#162744] border border-[#273F69] text-xs font-mono font-bold uppercase tracking-wider text-[#35C5E8] shadow-xs group-hover:border-[#35C5E8]/50 transition-colors">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#35C5E8] opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#35C5E8]" />
+                      </span>
+                      <Target size={15} className="group-hover:rotate-90 transition-transform duration-500 ease-out" />
+                      <span>OUR MISSION</span>
+                    </div>
+                    <span className="text-[11px] font-mono font-semibold text-[#64748B] group-hover:text-[#35C5E8] transition-colors">
+                      01
+                    </span>
                   </div>
-                  <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white text-left">
-                    Technology with Purpose
-                  </h2>
-                  <p className="text-sm sm:text-base text-[#DCE4F0] leading-relaxed text-left">
+
+                  {/* Heading with Expanding Glowing Line */}
+                  <div>
+                    <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white text-left tracking-tight">
+                      Technology with Purpose
+                    </h2>
+                    <div className="mt-2.5 h-0.5 w-12 bg-gradient-to-r from-[#35C5E8] to-transparent group-hover:w-28 transition-all duration-400 ease-out rounded-full" />
+                  </div>
+
+                  <p className="text-sm sm:text-base text-[#CBD5E1] leading-relaxed text-left group-hover:text-white transition-colors duration-300">
                     To make digital technology more useful, accessible, and reliable. We transform complex challenges into practical, beautiful solutions that help individuals and businesses take their next step with confidence.
                   </p>
+                </div>
+
+                {/* Sub-footer detail bar */}
+                <div className="relative z-10 mt-6 pt-4 border-t border-[#1E293B] flex items-center justify-between text-xs font-mono text-[#64748B] group-hover:text-[#94A3B8] transition-colors">
+                  <span className="flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#35C5E8]" />
+                    Core Purpose
+                  </span>
+                  <span>IMPACT &amp; UTILITY</span>
                 </div>
               </div>
             </SectionReveal>
 
-            {/* Our Vision */}
+            {/* Our Vision (Light Prismatic Horizon Card) */}
             <SectionReveal delay={0.15}>
-              <div className="h-full flex flex-col justify-between p-8 sm:p-10 rounded-2xl bg-[#F7F9FC] text-[#141B2A] border border-[#E3E8F0] shadow-xs">
-                <div className="flex flex-col gap-4 text-left">
-                  <div className="flex items-center gap-2.5 text-xs font-mono font-bold uppercase tracking-wider text-[#2764F5]">
-                    <Compass size={16} />
-                    <span>OUR VISION</span>
+              <div
+                onMouseMove={(e) => handleSpotlightMove(e, 'vision')}
+                className="group relative h-full flex flex-col justify-between p-8 sm:p-10 rounded-2xl bg-[#F8FAFC] text-[#141B2A] border border-[#E2E8F0] hover:border-[#2764F5]/60 shadow-xs hover:shadow-[0_24px_55px_-12px_rgba(39,100,245,0.20)] hover:-translate-y-2 transition-all duration-400 ease-out overflow-hidden cursor-default text-left"
+              >
+                {/* Top Horizon Neon Laser Accent */}
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#2764F5] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-center" />
+
+                {/* Dynamic Interactive Prismatic Spotlight */}
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background:
+                      'radial-gradient(500px circle at var(--vision-x, 50%) var(--vision-y, 50%), rgba(39, 100, 245, 0.12), rgba(53, 197, 232, 0.06), transparent 70%)',
+                  }}
+                />
+
+                {/* Prismatic Iridescent Diagonal Light Sheen Sweep */}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+
+                {/* Compass Gyroscope Dial in Background */}
+                <div
+                  className="pointer-events-none absolute -bottom-12 -right-12 w-64 h-64 overflow-hidden select-none opacity-20 group-hover:opacity-45 transition-opacity duration-500"
+                  aria-hidden="true"
+                >
+                  <div className="absolute inset-0 rounded-full border border-dashed border-[#2764F5]/40 animate-[spin_50s_linear_infinite]" />
+                  <div className="absolute inset-8 rounded-full border border-[#2764F5]/30 group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-16 rounded-full border border-dashed border-[#35C5E8]/40 animate-[spin_30s_linear_infinite_reverse]" />
+                  <div className="absolute inset-24 rounded-full border border-[#2764F5]/50" />
+                  <Compass size={48} className="absolute inset-0 m-auto text-[#2764F5]/30 group-hover:rotate-45 transition-transform duration-700 ease-out" />
+                </div>
+
+                <div className="relative z-10 flex flex-col gap-4 text-left">
+                  {/* Badge with Live Pinging Horizon */}
+                  <div className="flex items-center justify-between">
+                    <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-lg bg-white border border-[#DCE4F0] text-xs font-mono font-bold uppercase tracking-wider text-[#2764F5] shadow-2xs group-hover:border-[#2764F5]/40 transition-colors">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2764F5] opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2764F5]" />
+                      </span>
+                      <Compass size={15} className="group-hover:rotate-45 transition-transform duration-700 ease-out" />
+                      <span>OUR VISION</span>
+                    </div>
+                    <span className="text-[11px] font-mono font-semibold text-[#8E9AA8] group-hover:text-[#2764F5] transition-colors">
+                      02
+                    </span>
                   </div>
-                  <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#141B2A] text-left">
-                    Building What’s Next
-                  </h2>
-                  <p className="text-sm sm:text-base text-[#687386] leading-relaxed text-left">
+
+                  {/* Heading with Expanding Glowing Line */}
+                  <div>
+                    <h2 className="font-heading text-2xl sm:text-3xl font-bold text-[#141B2A] text-left tracking-tight group-hover:text-[#0C1523] transition-colors">
+                      Building What’s Next
+                    </h2>
+                    <div className="mt-2.5 h-0.5 w-12 bg-gradient-to-r from-[#2764F5] to-transparent group-hover:w-28 transition-all duration-400 ease-out rounded-full" />
+                  </div>
+
+                  <p className="text-sm sm:text-base text-[#687386] leading-relaxed text-left group-hover:text-[#334155] transition-colors duration-300">
                     To be the most trusted technology and creative design partner, recognized for exceptional quality, user-centered innovation, and long-term client success.
                   </p>
+                </div>
+
+                {/* Sub-footer detail bar */}
+                <div className="relative z-10 mt-6 pt-4 border-t border-[#E2E8F0] flex items-center justify-between text-xs font-mono text-[#8E9AA8] group-hover:text-[#475569] transition-colors">
+                  <span className="flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#2764F5]" />
+                    Future Horizon
+                  </span>
+                  <span>INNOVATION &amp; SCALE</span>
                 </div>
               </div>
             </SectionReveal>
@@ -408,25 +695,48 @@ export function AboutPage() {
               const Icon = item.icon;
               return (
                 <SectionReveal key={item.title} delay={idx * 0.08}>
-                  <div className="group h-full flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-white border border-[#E3E8F0] hover:border-[#2764F5]/50 hover:shadow-lg transition-all duration-300 text-left">
-                    <div>
-                      <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#EEF4FF] text-[#2764F5] group-hover:bg-[#2764F5] group-hover:text-white transition-colors duration-300 mb-5">
-                        <Icon size={22} />
-                      </span>
-                      <h3 className="font-heading text-lg sm:text-xl font-bold text-[#141B2A] mb-2 group-hover:text-[#2764F5] transition-colors text-left">
+                  <Link
+                    to={item.to}
+                    className="group relative h-full flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-white border border-[#E3E8F0] hover:border-[#2764F5]/50 shadow-[0_4px_20px_-4px_rgba(16,27,45,0.05)] hover:shadow-[0_20px_40px_-12px_rgba(39,100,245,0.18)] hover:-translate-y-2 transition-all duration-300 ease-out text-left overflow-hidden block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2764F5]"
+                  >
+                    {/* Top animated gradient accent strip */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#2764F5] via-[#35C5E8] to-[#00BFA5] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-out" />
+
+                    {/* Subtle radiant corner glow on hover */}
+                    <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-gradient-to-br from-[#2764F5]/15 via-[#35C5E8]/15 to-transparent blur-2xl opacity-0 group-hover:opacity-100 group-hover:scale-125 transition-all duration-500 pointer-events-none" />
+
+                    {/* Faint watermark silhouette icon */}
+                    <div className="absolute -right-4 -bottom-4 text-[#2764F5]/[0.03] group-hover:text-[#2764F5]/[0.08] group-hover:scale-125 group-hover:-rotate-12 transition-all duration-500 ease-out pointer-events-none select-none">
+                      <Icon size={110} strokeWidth={1.2} />
+                    </div>
+
+                    <div className="relative z-10">
+                      {/* Icon & Index Header */}
+                      <div className="flex items-center justify-between mb-5">
+                        <span className="relative inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#EEF4FF] text-[#2764F5] group-hover:bg-gradient-to-br group-hover:from-[#2764F5] group-hover:to-[#35C5E8] group-hover:text-white group-hover:scale-110 group-hover:-rotate-3 group-hover:shadow-lg group-hover:shadow-[#2764F5]/25 transition-all duration-300 ease-out">
+                          <Icon size={22} className="transition-transform duration-300 group-hover:scale-105" />
+                        </span>
+                        <span className="text-xs font-mono font-bold text-[#A0AEC0] group-hover:text-[#2764F5] group-hover:translate-x-0.5 transition-all duration-300 select-none">
+                          0{idx + 1}
+                        </span>
+                      </div>
+
+                      <h3 className="font-heading text-lg sm:text-xl font-bold text-[#141B2A] mb-2 group-hover:text-[#2764F5] group-hover:translate-x-0.5 transition-all duration-300 text-left">
                         {item.title}
                       </h3>
-                      <p className="text-xs sm:text-sm text-[#687386] leading-relaxed text-left">
+                      <p className="text-xs sm:text-sm text-[#687386] leading-relaxed text-left group-hover:text-[#475569] transition-colors duration-300">
                         {item.desc}
                       </p>
                     </div>
 
-                    <div className="pt-6 mt-4 border-t border-[#EEF2F6]">
-                      <Button to={item.to} variant="ghost" size="sm" iconRight={<ArrowRight size={14} />} className="p-0 text-xs font-bold text-[#2764F5] hover:bg-transparent">
+                    <div className="relative z-10 pt-6 mt-4 border-t border-[#EEF2F6] flex items-center justify-between">
+                      <span className="text-xs font-bold text-[#2764F5] inline-flex items-center gap-1.5 transition-colors duration-300">
                         Learn More
-                      </Button>
+                        <ArrowRight size={14} className="transition-transform duration-300 ease-out group-hover:translate-x-1.5" />
+                      </span>
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#E2E8F0] group-hover:bg-[#35C5E8] group-hover:scale-125 transition-all duration-300" />
                     </div>
-                  </div>
+                  </Link>
                 </SectionReveal>
               );
             })}
@@ -453,25 +763,23 @@ export function AboutPage() {
             </div>
           </SectionReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {whyChooseUs.map((pillar, i) => {
-              const Icon = pillar.icon;
-              return (
-                <SectionReveal key={pillar.title} delay={i * 0.1}>
-                  <div className="h-full flex flex-col p-8 rounded-2xl bg-[#F7F9FC] border border-[#E3E8F0] shadow-xs hover:border-[#2764F5]/40 hover:bg-white hover:shadow-md transition-all duration-300 text-left">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#EEF4FF] text-[#2764F5] mb-5">
-                      <Icon size={24} />
-                    </span>
-                    <h3 className="font-heading text-xl font-bold text-[#141B2A] mb-3 text-left">
-                      {pillar.title}
-                    </h3>
-                    <p className="text-sm text-[#687386] leading-relaxed text-left">
-                      {pillar.desc}
-                    </p>
-                  </div>
-                </SectionReveal>
-              );
-            })}
+          <div
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
+            onMouseLeave={() => setHoveredPillarIndex(null)}
+          >
+            {whyChooseUs.map((pillar, i) => (
+              <SectionReveal key={pillar.title} delay={i * 0.1}>
+                <WhyWorkCard
+                  pillar={pillar}
+                  index={i}
+                  isHovered={hoveredPillarIndex === i}
+                  isAnyHovered={hoveredPillarIndex !== null}
+                  onHover={() => setHoveredPillarIndex(i)}
+                  onLeave={() => setHoveredPillarIndex(null)}
+                  reducedMotion={reducedMotion}
+                />
+              </SectionReveal>
+            ))}
           </div>
         </Container>
       </section>
@@ -627,12 +935,12 @@ export function AboutPage() {
       </section>
 
       {/* ───────────────────────────────────────────────────────────
-          5. SIMPLE 4-STEP PROCESS (Left-Aligned Heading + 4 Cards)
+          5. SIMPLE 4-STEP PROCESS (Interactive Lifecycle Pipeline Stepper)
           ─────────────────────────────────────────────────────────── */}
       <section className="py-16 sm:py-24 bg-white border-b border-[#E3E8F0]">
         <Container>
           <SectionReveal>
-            <div className="text-left max-w-2xl mb-12 sm:mb-16">
+            <div className="text-left max-w-2xl mb-10 sm:mb-14">
               <span className="text-xs font-bold uppercase tracking-widest text-[#2764F5] block mb-2">
                 HOW WE WORK
               </span>
@@ -645,24 +953,139 @@ export function AboutPage() {
             </div>
           </SectionReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {simpleProcess.map((proc, idx) => (
-              <SectionReveal key={proc.step} delay={idx * 0.1}>
-                <div className="h-full p-6 sm:p-7 rounded-2xl bg-[#F7F9FC] border border-[#E3E8F0] hover:border-[#2764F5]/40 hover:bg-white hover:shadow-md transition-all duration-300 flex flex-col justify-between text-left">
-                  <div>
-                    <span className="font-mono text-3xl font-extrabold text-[#2764F5] block mb-3">
-                      {proc.step}
-                    </span>
-                    <h3 className="font-heading text-lg font-bold text-[#141B2A] mb-2 text-left">
-                      {proc.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-[#687386] leading-relaxed text-left">
-                      {proc.desc}
-                    </p>
+          {/* Desktop Interactive Pipeline Progress Bar */}
+          <div className="hidden lg:block mb-8 relative px-2">
+            <div className="h-1.5 w-full bg-[#E3E8F0] rounded-full overflow-hidden relative">
+              <div
+                className="h-full bg-gradient-to-r from-[#2764F5] via-[#35C5E8] to-[#00D2BA] rounded-full transition-all duration-500 ease-out"
+                style={{
+                  width:
+                    activeProcessStep === null
+                      ? '100%'
+                      : `${((activeProcessStep + 1) / 4) * 100}%`,
+                }}
+              />
+            </div>
+
+            {/* 4 Connected Milestone Nodes */}
+            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-8 pointer-events-none">
+              {[0, 1, 2, 3].map((stepIdx) => {
+                const isPastOrActive = activeProcessStep === null || stepIdx <= activeProcessStep;
+                return (
+                  <div
+                    key={stepIdx}
+                    className={`h-4 w-4 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
+                      isPastOrActive
+                        ? 'bg-[#2764F5] border-white shadow-xs scale-110'
+                        : 'bg-white border-[#CBD5E1]'
+                    }`}
+                  >
+                    {isPastOrActive && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
                   </div>
-                </div>
-              </SectionReveal>
-            ))}
+                );
+              })}
+            </div>
+          </div>
+
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            onMouseLeave={() => setActiveProcessStep(null)}
+          >
+            {simpleProcess.map((proc, idx) => {
+              const isHighlighted = activeProcessStep !== null && idx <= activeProcessStep;
+              const isCurrent = activeProcessStep === idx;
+
+              return (
+                <SectionReveal key={proc.step} delay={idx * 0.1}>
+                  <div
+                    onMouseEnter={() => setActiveProcessStep(idx)}
+                    className="group relative h-full p-6 sm:p-7 rounded-2xl bg-[#F8FAFC] border border-[#E3E8F0] hover:border-[#2764F5]/50 hover:bg-white hover:shadow-[0_20px_40px_-10px_rgba(39,100,245,0.12)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between text-left cursor-default overflow-hidden"
+                  >
+                    {/* Top Animated Gradient Accent Line */}
+                    <div className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#2764F5] via-[#35C5E8] to-[#00D2BA] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left rounded-t-2xl" />
+
+                    <div>
+                      {/* Step Header: Large Number + Circular Progress Gauge */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex flex-col">
+                          <span className="font-mono text-3xl sm:text-4xl font-extrabold text-[#2764F5] group-hover:text-[#1746C9] transition-colors leading-none tracking-tight">
+                            {proc.step}
+                          </span>
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#8E9AA8] group-hover:text-[#2764F5] mt-1.5 transition-colors">
+                            {proc.phase}
+                          </span>
+                        </div>
+
+                        {/* Circular Progress Gauge */}
+                        <div className="relative h-10 w-10 flex items-center justify-center shrink-0">
+                          <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                            <circle
+                              cx="18"
+                              cy="18"
+                              r="14"
+                              fill="none"
+                              stroke="#E2E8F0"
+                              strokeWidth="2.5"
+                            />
+                            <circle
+                              cx="18"
+                              cy="18"
+                              r="14"
+                              fill="none"
+                              stroke={isHighlighted ? '#2764F5' : '#94A3B8'}
+                              strokeWidth="2.5"
+                              strokeDasharray="88"
+                              strokeDashoffset={proc.offset}
+                              strokeLinecap="round"
+                              className="transition-all duration-500 ease-out group-hover:stroke-[#2764F5]"
+                            />
+                          </svg>
+                          <span className="absolute text-[9.5px] font-mono font-bold text-[#687386] group-hover:text-[#2764F5] transition-colors">
+                            {proc.percent}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <h3 className="font-heading text-lg font-bold text-[#141B2A] group-hover:text-[#2764F5] transition-colors mb-2 text-left">
+                        {proc.title}
+                      </h3>
+                      <p className="text-xs sm:text-[13px] text-[#687386] leading-relaxed text-left group-hover:text-[#475569] transition-colors">
+                        {proc.desc}
+                      </p>
+                    </div>
+
+                    {/* Bottom Status / Next Step Indicator */}
+                    <div className="pt-4 mt-4 border-t border-[#EEF2F6] flex items-center justify-between text-xs font-mono">
+                      {idx < 3 ? (
+                        <span className="text-[11px] text-[#8E9AA8] group-hover:text-[#2764F5] flex items-center gap-1 transition-colors">
+                          Next: {simpleProcess[idx + 1].title}
+                          <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform duration-200" />
+                        </span>
+                      ) : (
+                        <span className="text-[11px] text-[#00A88F] flex items-center gap-1.5 font-semibold">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00D2BA] opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00D2BA]" />
+                          </span>
+                          Live &amp; Scaling
+                        </span>
+                      )}
+
+                      <span
+                        className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                          isCurrent
+                            ? 'bg-[#2764F5] scale-125 shadow-xs'
+                            : isHighlighted
+                            ? 'bg-[#35C5E8]'
+                            : 'bg-[#CBD5E1]'
+                        }`}
+                      />
+                    </div>
+                  </div>
+                </SectionReveal>
+              );
+            })}
           </div>
         </Container>
       </section>
