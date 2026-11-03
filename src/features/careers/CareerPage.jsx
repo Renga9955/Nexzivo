@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -6,6 +6,7 @@ import {
   MapPin,
   Clock,
   ArrowRight,
+  ArrowUpRight,
   CheckCircle2,
   Users,
   Heart,
@@ -26,33 +27,69 @@ const EASE_OUT_EXPO = [0.22, 1, 0.36, 1];
 const perks = [
   {
     icon: Laptop,
+    number: '01',
     title: 'Modern Tooling & Hardware',
     desc: 'Work with the latest MacBooks, cloud setups, and premier design/developer licenses with zero friction.',
+    badge: 'M-Series Hardware • Cloud Credits',
+    color: '#0284C7',
+    bgLight: '#F0F9FF',
+    borderLight: '#BAE6FD',
+    spotlightRgba: 'rgba(2, 132, 199, 0.09)',
   },
   {
     icon: TrendingUp,
+    number: '02',
     title: 'Accelerated Career Growth',
     desc: 'Direct mentorship with studio leadership and opportunities to spearhead client initiatives end-to-end.',
+    badge: 'Direct Mentorship • Fast Track',
+    color: '#059669',
+    bgLight: '#ECFDF5',
+    borderLight: '#A7F3D0',
+    spotlightRgba: 'rgba(5, 150, 105, 0.09)',
   },
   {
     icon: Clock,
+    number: '03',
     title: 'Autonomous & Flexible Hours',
     desc: 'We focus on clear deliverables, high craft standards, and deep work rather than clock-watching.',
+    badge: 'Deep Work • Flexible Schedule',
+    color: '#D97706',
+    bgLight: '#FFFBEB',
+    borderLight: '#FDE68A',
+    spotlightRgba: 'rgba(217, 119, 6, 0.09)',
   },
   {
     icon: Heart,
+    number: '04',
     title: 'Health & Wellness Focus',
     desc: 'Paid time off, mental rejuvenation days, and a balanced work ethic that respects personal time.',
+    badge: 'Paid Time Off • Wellness Days',
+    color: '#E11D48',
+    bgLight: '#FFF1F2',
+    borderLight: '#FECDD3',
+    spotlightRgba: 'rgba(225, 29, 72, 0.09)',
   },
   {
     icon: GraduationCap,
+    number: '05',
     title: 'Continuous Learning Stipend',
     desc: 'Annual education budget for industry conferences, masterclasses, design books, and certifications.',
+    badge: 'Annual Budget • Certifications',
+    color: '#7C3AED',
+    bgLight: '#F5F3FF',
+    borderLight: '#DDD6FE',
+    spotlightRgba: 'rgba(124, 58, 237, 0.09)',
   },
   {
     icon: Users,
+    number: '06',
     title: 'Collaborative Studio Culture',
     desc: 'Zero-ego, highly supportive teammates who review each other’s craft with constructive feedback.',
+    badge: 'Zero-Ego Team • Studio Reviews',
+    color: '#2764F5',
+    bgLight: '#EEF4FF',
+    borderLight: '#BFDBFE',
+    spotlightRgba: 'rgba(39, 100, 245, 0.09)',
   },
 ];
 
@@ -159,6 +196,14 @@ export function CareerPage() {
     linkedin: '',
     coverNote: '',
   });
+
+  const handlePerkMouseMove = useCallback((e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty('--perk-x', `${x}px`);
+    e.currentTarget.style.setProperty('--perk-y', `${y}px`);
+  }, []);
 
   const departments = ['All', 'Engineering', 'Design'];
 
@@ -353,16 +398,104 @@ export function CareerPage() {
               const Icon = perk.icon;
               return (
                 <SectionReveal key={perk.title} delay={i * 0.08}>
-                  <div className="h-full flex flex-col p-8 rounded-2xl bg-[#F7F9FC] border border-[#E3E8F0] shadow-xs hover:border-[#2764F5]/40 hover:bg-white hover:shadow-md transition-all duration-300 text-left">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#EEF4FF] text-[#2764F5] mb-5">
-                      <Icon size={24} />
-                    </span>
-                    <h3 className="font-heading text-xl font-bold text-[#141B2A] mb-2.5 text-left">
-                      {perk.title}
-                    </h3>
-                    <p className="text-sm text-[#687386] leading-relaxed text-left">
-                      {perk.desc}
-                    </p>
+                  <div
+                    onMouseMove={handlePerkMouseMove}
+                    className="group relative h-full flex flex-col justify-between p-8 rounded-2xl bg-white border border-[#E3E8F0] shadow-xs hover:border-[#CBD5E1] hover:shadow-[0_20px_45px_-15px_rgba(20,27,42,0.12)] hover:-translate-y-1.5 transition-all duration-300 text-left overflow-hidden isolate"
+                  >
+                    {/* 1. Dynamic Chromatic Spotlight (tracks cursor) */}
+                    <div
+                      className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
+                      style={{
+                        background: `radial-gradient(380px circle at var(--perk-x, 50%) var(--perk-y, 50%), ${perk.spotlightRgba}, transparent 70%)`,
+                      }}
+                    />
+
+                    {/* 2. Dual Expanding Laser Horizon Rails */}
+                    <span
+                      className="absolute top-0 left-0 right-0 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-left pointer-events-none"
+                      style={{
+                        backgroundColor: perk.color,
+                        boxShadow: `0 0 10px ${perk.color}`,
+                      }}
+                    />
+                    <span
+                      className="absolute bottom-0 left-0 right-0 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out origin-right pointer-events-none"
+                      style={{
+                        backgroundColor: perk.color,
+                        boxShadow: `0 0 10px ${perk.color}`,
+                      }}
+                    />
+
+                    {/* 3. Ghost Watermark Glyph in Bottom-Right */}
+                    <div
+                      className="absolute -bottom-6 -right-6 pointer-events-none transition-all duration-500 ease-out opacity-[0.035] group-hover:opacity-[0.10] translate-x-3 translate-y-3 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:scale-105"
+                      style={{ color: perk.color }}
+                      aria-hidden="true"
+                    >
+                      <Icon size={140} strokeWidth={1.2} />
+                    </div>
+
+                    {/* Main Content (Top + Body) */}
+                    <div>
+                      {/* Top Row: Floating Icon + Chromatic Index */}
+                      <div className="flex items-center justify-between mb-6">
+                        <div
+                          className="relative inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#F7F9FC] border border-[#E3E8F0] transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:scale-110 group-hover:-rotate-3"
+                          style={{
+                            color: perk.color,
+                          }}
+                        >
+                          {/* Inner bloom tint on hover */}
+                          <div
+                            className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                            style={{
+                              backgroundColor: perk.bgLight,
+                              borderColor: perk.borderLight,
+                              boxShadow: `0 8px 20px -4px ${perk.color}35`,
+                            }}
+                          />
+                          <Icon size={24} className="relative z-10 transition-transform duration-300" />
+                        </div>
+
+                        {/* Chromatic Numerical Stamp & Pulse */}
+                        <div className="flex items-center gap-2">
+                          <span className="relative flex h-2 w-2">
+                            <span
+                              className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-0 group-hover:opacity-75 transition-opacity duration-300"
+                              style={{ backgroundColor: perk.color }}
+                            />
+                            <span
+                              className="relative inline-flex rounded-full h-2 w-2 opacity-30 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: perk.color }}
+                            />
+                          </span>
+                          <span className="font-mono text-xs font-bold tracking-wider text-[#94A3B8] group-hover:text-[#141B2A] transition-colors duration-300">
+                            {perk.number}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Title & Description */}
+                      <h3 className="font-heading text-xl font-bold text-[#141B2A] mb-2.5 text-left transition-colors duration-300 group-hover:text-[#0F172A]">
+                        {perk.title}
+                      </h3>
+                      <p className="text-sm text-[#687386] leading-relaxed text-left">
+                        {perk.desc}
+                      </p>
+                    </div>
+
+                    {/* 4. Bespoke Perk Status Capsule Pill */}
+                    <div className="mt-8 pt-4 border-t border-[#F0F3F7] group-hover:border-[#E2E8F0] flex items-center justify-between text-xs transition-colors duration-300">
+                      <span className="font-medium tracking-wide text-[#687386] group-hover:text-[#141B2A] transition-colors duration-200">
+                        {perk.badge}
+                      </span>
+                      <span
+                        className="inline-flex items-center transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        style={{ color: perk.color }}
+                      >
+                        <ArrowUpRight size={16} className="opacity-40 group-hover:opacity-100 transition-opacity duration-300" />
+                      </span>
+                    </div>
                   </div>
                 </SectionReveal>
               );

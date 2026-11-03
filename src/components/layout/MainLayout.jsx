@@ -11,7 +11,7 @@ import { SmoothScrollProvider } from './SmoothScrollProvider';
 export function MainLayout() {
   return (
     <SmoothScrollProvider>
-      <div className="flex min-h-screen flex-col bg-[#F7F9FC] text-[#141B2A] antialiased">
+      <div className="relative flex min-h-screen flex-col bg-[#F7F9FC] text-[#141B2A] antialiased">
         <ScrollToTop />
         <Header />
         <main id="main-content" className="flex-1" tabIndex={-1}>

@@ -497,7 +497,7 @@ export const aboutStudioContent = {
   eyebrow: 'About the Studio',
   heading: 'Thoughtful design. Useful technology. Creative problem-solving.',
   description:
-    'NEXZIVO is an independent creative digital studio. We work closely with businesses, founders, and creators to shape distinctive websites, intuitive mobile apps, high-impact graphic design, and custom business management software.',
+    'NEXZIVO is an independent digital studio that turns ideas into high-performing websites, intuitive mobile apps, and custom software.',
   pillars: [
     {
       title: 'Design with Intent',
