@@ -90,10 +90,29 @@ export function ContactPage() {
         }),
       });
 
-      const result = await response.json();
+      // Safely parse JSON response to prevent "Unexpected end of JSON input" SyntaxErrors
+      let result = null;
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        try {
+          result = await response.json();
+        } catch {
+          result = null;
+        }
+      } else {
+        const text = await response.text().catch(() => '');
+        try {
+          result = JSON.parse(text);
+        } catch {
+          result = null;
+        }
+      }
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || 'Unable to send your enquiry. Please try again later.');
+      if (!response.ok || !result?.success) {
+        const fallbackMsg = response.status === 404
+          ? 'Contact API endpoint not found. If running locally, make sure to use npm run dev with the built-in API handler or vercel dev.'
+          : 'Unable to send your enquiry. Please try again later.';
+        throw new Error(result?.message || fallbackMsg);
       }
 
       // Success: Clear form inputs and display confirmation
@@ -114,7 +133,7 @@ export function ContactPage() {
       setHoneypot('');
     } catch (err) {
       console.error('Contact submission error:', err);
-      // On error, preserve form data and display error message
+      // On error, preserve entered form data and display helpful feedback
       setStatus({
         submitting: false,
         submitted: false,
