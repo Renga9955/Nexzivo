@@ -44,15 +44,15 @@ const founders = [
     },
   },
   {
-    name: 'Vikky R',
+    name: 'Vignesh R',
     role: 'Co-Founder & CEO',
     subtitle: 'Technical Innovation & Engineering',
     bio: 'Drives technical execution, scalable cloud architecture, and modern mobile platforms, ensuring every solution built is fast, reliable, and scalable.',
     image: vikkyPhoto,
     focusAreas: ['Cloud Architecture', 'Mobile Apps & Web', 'Technical Operations'],
     socials: {
-      linkedin: 'https://linkedin.com',
-      email: 'cto@nexzivo.com',
+      linkedin: 'https://www.linkedin.com/in/vignesh-r-a634a2293/',
+      email: 'rvikky05@gmail.com',
     },
   },
 ];

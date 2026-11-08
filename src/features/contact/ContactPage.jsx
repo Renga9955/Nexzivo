@@ -9,7 +9,8 @@ import {
   ShieldCheck,
   Send,
   CheckCircle2,
-  ArrowRight,
+  AlertCircle,
+  Loader2,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
@@ -31,6 +32,8 @@ export function ContactPage() {
     message: '',
   });
 
+  const [honeypot, setHoneypot] = useState('');
+
   const [status, setStatus] = useState({
     submitting: false,
     submitted: false,
@@ -40,19 +43,84 @@ export function ContactPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (status.error) {
+      setStatus((prev) => ({ ...prev, error: null }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Prevent duplicate submissions while in progress
+    if (status.submitting) return;
+
+    // Validate required fields
+    if (!formData.name?.trim()) {
+      setStatus({ submitting: false, submitted: false, error: 'Please enter your name.' });
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email?.trim() || !emailRegex.test(formData.email.trim())) {
+      setStatus({ submitting: false, submitted: false, error: 'Please enter a valid email address.' });
+      return;
+    }
+
+    if (!formData.message?.trim()) {
+      setStatus({ submitting: false, submitted: false, error: 'Please enter your project context and goals.' });
+      return;
+    }
+
     setStatus({ submitting: true, submitted: false, error: null });
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message,
+          website_hp: honeypot,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Unable to send your enquiry. Please try again later.');
+      }
+
+      // Success: Clear form inputs and display confirmation
       setStatus({
         submitting: false,
         submitted: true,
         error: null,
       });
-    }, 600);
+
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        phone: '',
+        service: 'Website Development',
+        message: '',
+      });
+      setHoneypot('');
+    } catch (err) {
+      console.error('Contact submission error:', err);
+      // On error, preserve form data and display error message
+      setStatus({
+        submitting: false,
+        submitted: false,
+        error: err.message || 'Unable to send your enquiry. Please try again later.',
+      });
+    }
   };
 
   // Coordinated entrance animation variants matching homepage hero
@@ -159,30 +227,44 @@ export function ContactPage() {
               >
                 <a
                   href="#contact-form"
-                  className="inline-flex items-center justify-center gap-2 font-medium text-[15px] sm:text-[15.5px] text-white bg-[#2864FF] hover:bg-[#1a4acc] px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl shadow-sm hover:shadow transition-all"
+                  className="inline-flex items-center justify-center font-medium text-[15px] sm:text-[15.5px] text-white bg-[#2764F5] hover:bg-[#1E52D0] px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl shadow-sm hover:shadow transition-all"
                 >
-                  Send Inquiry Brief
-                  <ArrowRight size={17} />
+                  Fill Project Brief
                 </a>
                 <a
                   href={`mailto:${siteConfig.contact.email}`}
-                  className="inline-flex items-center justify-center font-medium text-[15px] sm:text-[15.5px] text-[#111B36] hover:text-[#2864FF] px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-[#DFE7F3] bg-white hover:bg-[#F5F9FF] transition-all shadow-sm"
+                  className="inline-flex items-center justify-center font-medium text-[15px] sm:text-[15.5px] text-[#141B2A] hover:text-[#2764F5] px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-[#DFE7F3] bg-white hover:bg-[#F8FAFC] transition-all shadow-sm"
                 >
-                  Email Directly
+                  Direct Email
                 </a>
+              </motion.div>
+
+              {/* Trust Indicators Pill Strip */}
+              <motion.div
+                className="flex flex-wrap items-center gap-y-2 gap-x-5 pt-4 border-t border-[#DFE7F3] w-full text-xs font-semibold text-[#141B2A]"
+                {...fadeUp(0.52, 10, 0.5)}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-[#00D2BA]" />
+                  <span>Available for New Projects</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#687386]">
+                  <Clock size={13} className="text-[#2764F5]" />
+                  <span>24hr Response Time</span>
+                </div>
               </motion.div>
             </div>
 
-            {/* Right Hero Image Showcase with Homepage Animation */}
-            <div className="lg:col-span-6 xl:col-span-7 w-full flex items-center justify-center lg:justify-end z-10">
+            {/* Right Column: Hero Visual Artwork */}
+            <div className="lg:col-span-6 xl:col-span-7 w-full flex items-center justify-center lg:justify-end">
               <motion.div
-                className="relative w-full max-w-[540px] lg:max-w-[600px] flex items-center justify-center lg:justify-end"
+                className="relative w-full max-w-[540px] lg:max-w-[580px] xl:max-w-[620px] flex items-center justify-center"
                 {...showcaseVariant()}
               >
                 <img
                   src={contactImg}
-                  alt="NEXZIVO Studio Contact Showcase — Let's talk and build something extraordinary"
-                  className="w-full h-auto max-h-[360px] sm:max-h-[420px] md:max-h-[460px] lg:max-h-[500px] xl:max-h-[540px] object-contain drop-shadow-[0_16px_36px_rgba(16,27,45,0.07)]"
+                  alt="Start a project collaboration with NEXZIVO"
+                  className="w-full h-auto max-h-[360px] sm:max-h-[420px] md:max-h-[460px] lg:max-h-[500px] object-contain drop-shadow-[0_16px_36px_rgba(16,27,45,0.07)]"
                   loading="eager"
                   decoding="async"
                 />
@@ -192,126 +274,89 @@ export function ContactPage() {
         </Container>
       </section>
 
-      {/* Contact Content & Form with Refined Architectural Background */}
-      <section id="contact-form" className="relative bg-[#FAFBFD] py-20 lg:py-28 overflow-hidden">
-        {/* Architectural Studio Atmosphere & Background Design Layers */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-          {/* Subtle Architectural / Digital Studio Precision Grid Pattern */}
-          <svg
-            className="absolute inset-0 w-full h-full text-[#2764F5]/[0.03]"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <pattern id="contact-studio-grid" width="48" height="48" patternUnits="userSpaceOnUse">
-                <path d="M 48 0 L 0 0 0 48" fill="none" stroke="currentColor" strokeWidth="1" />
-                <circle cx="0" cy="0" r="1.5" fill="currentColor" opacity="0.6" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#contact-studio-grid)" />
-          </svg>
-
-          {/* Soft Radial Ambient Vignettes */}
-          <div className="absolute -top-32 -left-32 h-[520px] w-[520px] rounded-full bg-gradient-to-br from-[#2764F5]/6 via-[#35C5E8]/4 to-transparent blur-3xl" />
-          <div className="absolute -bottom-36 -right-36 h-[560px] w-[560px] rounded-full bg-gradient-to-tl from-[#35C5E8]/6 via-[#2764F5]/4 to-transparent blur-3xl" />
-
-          {/* Dynamic Studio Wave Ribbon behind the form */}
-          <svg
-            className="absolute top-20 -right-20 w-[560px] h-[560px] text-[#2764F5]/[0.035]"
-            viewBox="0 0 600 600"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M 50 150 C 200 80, 350 320, 550 220"
-              stroke="currentColor"
-              strokeWidth="28"
-              strokeLinecap="round"
-            />
-            <path
-              d="M 80 200 C 220 140, 370 380, 580 270"
-              stroke="currentColor"
-              strokeWidth="4"
-              strokeDasharray="12 12"
-              strokeLinecap="round"
-            />
-          </svg>
-        </div>
-
-        <Container className="relative z-10 max-w-[1440px]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            {/* Direct Contact Info */}
-            <div className="lg:col-span-5 flex flex-col gap-8">
+      {/* Main Form & Studio Coordinates Section */}
+      <section id="contact-form" className="py-16 sm:py-24 bg-white relative">
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            {/* Left Studio Information Column */}
+            <div className="lg:col-span-5 flex flex-col justify-between">
               <div>
-                <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2764F5] mb-3">
-                  <span className="h-0.5 w-5 rounded-full bg-[#2764F5]" aria-hidden="true" />
-                  <span>STUDIO INQUIRIES</span>
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-[#111B36] mb-4">
-                  Direct lead designer &amp; engineer access
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#2864FF] block mb-2">
+                  Direct Inquiries
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-bold text-[#111B36] tracking-tight mb-4">
+                  Let’s talk about your next milestone.
                 </h2>
-                <p className="text-base text-[#526581] leading-relaxed mb-6">
-                  No junior account managers. You speak directly with the creative directors and developers who build the work.
+                <p className="text-base text-[#526581] mb-8 leading-relaxed">
+                  Have a specific scope, an RFP, or just an ambitious early concept? Reach out through our structured brief form or connect directly with our studio leads.
                 </p>
-              </div>
 
-              {/* Contact Channels */}
-              <div className="flex flex-col gap-4">
-                <a
-                  href={`mailto:${siteConfig.contact.email}`}
-                  className="flex items-center gap-4 p-5 rounded-2xl bg-white border border-[#DFE7F3] shadow-sm hover:border-[#2864FF]/45 hover:shadow-md transition-all group"
-                >
-                  <span className="h-12 w-12 rounded-xl bg-[#F5F9FF] border border-[#DFE7F3] text-[#2864FF] flex items-center justify-center shrink-0 group-hover:bg-[#2864FF] group-hover:text-white transition-colors">
-                    <Mail size={20} />
-                  </span>
-                  <div>
-                    <div className="text-[11px] font-mono uppercase tracking-wider text-[#526581]">
-                      Direct Electronic Mail
+                {/* Studio Coordinate Cards */}
+                <div className="space-y-4 mb-8">
+                  <div className="p-5 rounded-2xl bg-[#F8FAFC] border border-[#DFE7F3] flex items-start gap-4">
+                    <div className="h-10 w-10 rounded-xl bg-[#2864FF]/10 text-[#2864FF] flex items-center justify-center shrink-0">
+                      <Mail size={18} />
                     </div>
-                    <div className="text-base font-bold text-[#111B36] group-hover:text-[#2864FF] transition-colors">
-                      {siteConfig.contact.email}
+                    <div>
+                      <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#526581] mb-0.5">
+                        Email Us
+                      </div>
+                      <a
+                        href={`mailto:${siteConfig.contact.email}`}
+                        className="text-base font-bold text-[#111B36] hover:text-[#2864FF] transition-colors"
+                      >
+                        {siteConfig.contact.email}
+                      </a>
                     </div>
                   </div>
-                </a>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <a
-                    href={siteConfig.contact.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-4 rounded-xl bg-white border border-[#DFE7F3] shadow-sm hover:border-[#2864FF]/45 hover:shadow-sm transition-all text-[#526581] hover:text-[#2864FF]"
-                  >
-                    <Linkedin size={18} className="text-[#2864FF]" />
-                    <span className="text-sm font-semibold text-[#111B36]">LinkedIn</span>
-                  </a>
-                  <a
-                    href={siteConfig.contact.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-4 rounded-xl bg-white border border-[#DFE7F3] shadow-sm hover:border-[#2864FF]/45 hover:shadow-sm transition-all text-[#526581] hover:text-[#2864FF]"
-                  >
-                    <Twitter size={18} className="text-[#2864FF]" />
-                    <span className="text-sm font-semibold text-[#111B36]">X (Twitter)</span>
-                  </a>
+                  <div className="p-5 rounded-2xl bg-[#F8FAFC] border border-[#DFE7F3] flex items-start gap-4">
+                    <div className="h-10 w-10 rounded-xl bg-[#2864FF]/10 text-[#2864FF] flex items-center justify-center shrink-0">
+                      <Clock size={18} />
+                    </div>
+                    <div>
+                      <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#526581] mb-0.5">
+                        Turnaround Expectation
+                      </div>
+                      <div className="text-base font-bold text-[#111B36]">
+                        Within 24 Hours (Mon – Sat)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Professional Socials */}
+                <div className="pt-6 border-t border-[#DFE7F3]">
+                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#526581] block mb-3">
+                    Connect With Leadership
+                  </span>
+                  <div className="flex items-center gap-3">
+                    <a
+                      href={siteConfig.contact.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="h-10 w-10 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] flex items-center justify-center text-[#526581] hover:text-white hover:bg-[#2864FF] hover:border-[#2864FF] transition-all"
+                      aria-label="LinkedIn"
+                    >
+                      <Linkedin size={18} />
+                    </a>
+                    <a
+                      href={siteConfig.contact.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="h-10 w-10 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] flex items-center justify-center text-[#526581] hover:text-white hover:bg-[#2864FF] hover:border-[#2864FF] transition-all"
+                      aria-label="X / Twitter"
+                    >
+                      <Twitter size={18} />
+                    </a>
+                  </div>
                 </div>
               </div>
 
-              {/* Guarantees */}
-              <div className="p-6 rounded-2xl bg-white border border-[#DFE7F3] shadow-sm mt-2">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 rounded-lg bg-[#F5F9FF] border border-[#DFE7F3] flex items-center justify-center text-[#2864FF] shrink-0">
-                    <Clock size={16} />
-                  </div>
-                  <span className="text-sm font-bold text-[#111B36] font-mono">
-                    24-Hour Proposal Turnaround
-                  </span>
-                </div>
-                <p className="text-xs sm:text-sm text-[#526581] leading-relaxed mb-4">
-                  Every inquiry receives an initial creative and architectural estimate within one business day.
-                </p>
-                <div className="flex items-center gap-2 text-xs text-[#526581] pt-3 border-t border-[#DFE7F3]">
-                  <ShieldCheck size={16} className="text-[#2864FF] shrink-0" />
-                  <span>NDAs respected before initial creative discussion</span>
-                </div>
+              {/* Security & Confidentiality Tag */}
+              <div className="mt-8 pt-6 border-t border-[#DFE7F3] flex items-center gap-3 text-xs text-[#526581]">
+                <ShieldCheck size={16} className="text-[#2864FF] shrink-0" />
+                <span>All project briefs and intellectual property are kept strictly confidential under mutual NDA.</span>
               </div>
             </div>
 
@@ -331,23 +376,15 @@ export function ContactPage() {
                       <CheckCircle2 size={32} />
                     </span>
                     <h4 className="text-2xl font-bold text-[#111B36]">
-                      Brief Received
+                      Thank You!
                     </h4>
                     <p className="text-sm text-[#526581] max-w-md">
-                      Thank you, {formData.name}. We have received your submission regarding <strong>{formData.service}</strong>. A studio lead will follow up with you at <strong>{formData.email}</strong> within 24 hours.
+                      Your enquiry has been submitted successfully. We will contact you soon.
                     </p>
                     <Button
                       variant="primary"
                       onClick={() => {
                         setStatus({ submitting: false, submitted: false, error: null });
-                        setFormData({
-                          name: '',
-                          email: '',
-                          company: '',
-                          phone: '',
-                          service: 'Website Development',
-                          message: '',
-                        });
                       }}
                       className="mt-4"
                     >
@@ -356,6 +393,36 @@ export function ContactPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                    {/* Bot Honeypot field */}
+                    <div style={{ display: 'none' }} aria-hidden="true">
+                      <input
+                        type="text"
+                        name="website_hp"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={honeypot}
+                        onChange={(e) => setHoneypot(e.target.value)}
+                      />
+                    </div>
+
+                    {/* Error Feedback */}
+                    {status.error && (
+                      <div
+                        role="alert"
+                        className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm flex items-start gap-3 animate-in fade-in duration-200"
+                      >
+                        <AlertCircle size={18} className="text-red-500 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="font-semibold text-xs uppercase tracking-wider text-red-800">
+                            Submission Error
+                          </p>
+                          <p className="text-xs mt-0.5 text-red-600 leading-relaxed">
+                            {status.error}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="flex flex-col gap-2">
                         <label htmlFor="name" className="text-xs font-mono font-bold uppercase tracking-wider text-[#111B36]">
@@ -369,7 +436,8 @@ export function ContactPage() {
                           value={formData.name}
                           onChange={handleChange}
                           placeholder="e.g. Alex Rivera"
-                          className="h-12 px-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors"
+                          disabled={status.submitting}
+                          className="h-12 px-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors disabled:opacity-60"
                         />
                       </div>
 
@@ -385,7 +453,8 @@ export function ContactPage() {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="alex@studio.com"
-                          className="h-12 px-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors"
+                          disabled={status.submitting}
+                          className="h-12 px-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors disabled:opacity-60"
                         />
                       </div>
                     </div>
@@ -402,7 +471,8 @@ export function ContactPage() {
                           value={formData.company}
                           onChange={handleChange}
                           placeholder="Organization or project name"
-                          className="h-12 px-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors"
+                          disabled={status.submitting}
+                          className="h-12 px-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors disabled:opacity-60"
                         />
                       </div>
 
@@ -419,7 +489,8 @@ export function ContactPage() {
                           value={formData.phone}
                           onChange={handleChange}
                           placeholder="e.g. +1 555 123 4567"
-                          className="h-12 px-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors"
+                          disabled={status.submitting}
+                          className="h-12 px-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors disabled:opacity-60"
                         />
                       </div>
                     </div>
@@ -433,7 +504,8 @@ export function ContactPage() {
                         name="service"
                         value={formData.service}
                         onChange={handleChange}
-                        className="h-12 px-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors cursor-pointer"
+                        disabled={status.submitting}
+                        className="h-12 px-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors cursor-pointer disabled:opacity-60"
                       >
                         <option value="Website Development">Website Development</option>
                         <option value="Mobile App Development">Mobile App Development</option>
@@ -456,7 +528,8 @@ export function ContactPage() {
                         value={formData.message}
                         onChange={handleChange}
                         placeholder="Tell us about what you want to build or design, target timeline, and aesthetic direction..."
-                        className="p-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors resize-y"
+                        disabled={status.submitting}
+                        className="p-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors resize-y disabled:opacity-60"
                       />
                     </div>
 
@@ -465,10 +538,16 @@ export function ContactPage() {
                       variant="primary"
                       size="lg"
                       disabled={status.submitting}
-                      iconRight={<Send size={16} />}
-                      className="justify-center mt-2 rounded-xl shadow-md hover:shadow-lg"
+                      iconRight={
+                        status.submitting ? (
+                          <Loader2 size={16} className="animate-spin" />
+                        ) : (
+                          <Send size={16} />
+                        )
+                      }
+                      className="justify-center mt-2 rounded-xl shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                      {status.submitting ? 'Sending Request...' : 'Submit Project Brief'}
+                      {status.submitting ? 'Sending your enquiry...' : 'Submit Project Brief'}
                     </Button>
                   </form>
                 )}
