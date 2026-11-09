@@ -49,6 +49,8 @@ export function Footer() {
               <img
                 src={logoSrc}
                 alt={`${siteConfig.name} logo`}
+                width="160"
+                height="40"
                 className="h-10 w-auto object-contain"
                 loading="lazy"
                 decoding="async"

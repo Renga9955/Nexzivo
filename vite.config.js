@@ -94,4 +94,31 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
+  build: {
+    target: 'esnext',
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          // Isolate vendor libraries into optimized cached chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom') || id.includes('react-helmet-async')) {
+              return 'vendor-react';
+            }
+            if (id.includes('motion')) {
+              return 'vendor-motion';
+            }
+            if (id.includes('lucide-react')) {
+              return 'vendor-lucide';
+            }
+            if (id.includes('lenis')) {
+              return 'vendor-lenis';
+            }
+            return 'vendor-misc';
+          }
+        },
+      },
+    },
+  },
 });

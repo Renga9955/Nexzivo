@@ -19,7 +19,16 @@ export function Header() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -50,7 +59,11 @@ export function Header() {
               <img
                 src={logoSrc}
                 alt={`${siteConfig.name} logo`}
+                width="160"
+                height="40"
                 className="h-7 sm:h-9 md:h-10 w-auto object-contain shrink-0"
+                loading="eager"
+                fetchPriority="high"
                 decoding="async"
               />
               <div className="flex flex-col whitespace-nowrap">

@@ -26,7 +26,7 @@ export function MainLayout() {
         <ScrollToTop />
         <MemoizedHeader />
         <main id="main-content" className="flex-1" tabIndex={-1}>
-          <div key={location.pathname} className="page-transition">
+          <div key={location.pathname} className="page-transition will-change-[opacity,transform]">
             {currentOutlet}
           </div>
         </main>
