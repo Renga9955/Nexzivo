@@ -13,7 +13,7 @@ export const siteConfig = {
   ctaLabel: "Let's Talk",
   contact: {
     /** Placeholder — replace with real address when available */
-    email: 'hello@nexzivo.com',
+    email: 'Nexzivotechi@gmail.com',
     linkedin: 'https://linkedin.com/company/nexzivo',
     twitter: 'https://twitter.com/nexzivo',
   },

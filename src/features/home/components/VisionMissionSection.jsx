@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useInView } from 'motion/react';
 import {
   Globe,
   Code2,
@@ -47,6 +47,8 @@ export function VisionMissionSection() {
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
   const timerRef = useRef(null);
   const leftCardRef = useRef(null);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { amount: 0.1 });
 
   const activeContent = visionMissionContent[currentSlide];
   const isVision = currentSlide === 'vision';
@@ -61,9 +63,9 @@ export function VisionMissionSection() {
     goToSlide(next, next === 'mission' ? 1 : -1);
   }, [currentSlide, goToSlide]);
 
-  // Exact 7-second automatic carousel rotation with hover/focus pause & cleanup
+  // Keep the carousel idle when it is offscreen, paused, or motion is reduced.
   useEffect(() => {
-    if (reducedMotion || isPaused) {
+    if (reducedMotion || isPaused || !isInView) {
       if (timerRef.current) clearInterval(timerRef.current);
       return;
     }
@@ -75,7 +77,7 @@ export function VisionMissionSection() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [toggleSlide, isPaused, reducedMotion]);
+  }, [toggleSlide, isPaused, reducedMotion, isInView]);
 
   // Lightweight spotlight tracking on hover
   const handleCardMouseMove = useCallback((e) => {
@@ -115,6 +117,7 @@ export function VisionMissionSection() {
 
   return (
     <section
+      ref={sectionRef}
       id="vision-mission"
       aria-label="Our Vision and Our Mission"
       className="relative bg-[#FAFBFC] border-b border-[#E3E8F0] py-10 sm:py-12 lg:py-14 overflow-hidden"
@@ -283,6 +286,7 @@ export function VisionMissionSection() {
                           ? 'NEXZIVO Creative Studio Workspace — Website UI, responsive mobile design, and graphic design poster'
                           : 'NEXZIVO Digital Product Creation — Business dashboard interface, companion mobile app, and wireframes'
                       }
+                      loading="lazy"
                       decoding="async"
                       className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover/img:scale-[1.04]"
                     />

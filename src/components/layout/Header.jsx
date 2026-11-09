@@ -12,8 +12,7 @@ import logoSrc from '@/assets/logo.png';
 /**
  * NEXZIVO Studio Header.
  * Deep navy (#101B2D) background so the white, blue, and cyan logo is clearly visible.
- * Readable light text (#DCE4F0) for inactive links, brand blue (#2764F5) with cyan accent
- * for active link indicators, and prominent blue CTA button.
+ * Fully responsive across all mobile screens (320px, 375px, 390px, 425px), tablet, and desktop.
  */
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,30 +39,31 @@ export function Header() {
             : 'bg-[#101B2D] border-b border-[#273752]/80'
         }`}
       >
-        <Container>
-          <div className="flex h-20 items-center justify-between">
-            {/* ── Brand Logo (Original unaltered logo) ── */}
+        <Container className="px-3.5 xs:px-4 sm:px-6 lg:px-10 xl:px-12">
+          <div className="flex h-16 sm:h-20 items-center justify-between gap-2 sm:gap-4">
+            {/* ── Brand Logo (Left aligned, non-wrapping) ── */}
             <Link
               to="/"
-              className="flex items-center gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#35C5E8] group py-1"
+              className="flex items-center gap-2 sm:gap-3 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#35C5E8] group py-1 shrink-0 min-w-0"
               aria-label={`${siteConfig.name} — Homepage`}
             >
               <img
                 src={logoSrc}
                 alt={`${siteConfig.name} logo`}
-                className="h-9 sm:h-10 w-auto object-contain"
+                className="h-7 sm:h-9 md:h-10 w-auto object-contain shrink-0"
+                decoding="async"
               />
-              <div className="flex flex-col">
-                <span className="font-heading text-xl font-extrabold tracking-tight text-white transition-colors group-hover:text-[#35C5E8]">
+              <div className="flex flex-col whitespace-nowrap">
+                <span className="font-heading text-base sm:text-xl font-extrabold tracking-tight text-white transition-colors group-hover:text-[#35C5E8] leading-tight">
                   {siteConfig.name}
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#35C5E8] -mt-0.5">
+                <span className="text-[8.5px] sm:text-[10px] font-bold uppercase tracking-[0.16em] sm:tracking-[0.2em] text-[#35C5E8] leading-none mt-0.5 sm:-mt-0.5">
                   Creative Studio
                 </span>
               </div>
             </Link>
 
-            {/* ── Desktop navigation ── */}
+            {/* ── Desktop navigation (Hidden on mobile/tablet) ── */}
             <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-8">
               {primaryNav.map((item) => (
                 <NavLink
@@ -93,25 +93,27 @@ export function Header() {
               ))}
             </nav>
 
-            {/* ── Desktop CTA + mobile trigger ── */}
-            <div className="flex items-center gap-3">
+            {/* ── Actions: CTA Button + Hamburger Menu (Right aligned) ── */}
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              {/* Start a Project button: responsive sizing on mobile (hidden below 360px if needed, otherwise ultra-compact) */}
               <Button
                 to="/contact"
                 size="md"
                 variant="primary"
-                iconRight={<ArrowUpRight size={15} />}
-                className="hidden lg:inline-flex"
+                iconRight={<ArrowUpRight size={14} className="hidden xs:inline-block" />}
+                className="hidden xs:inline-flex lg:inline-flex px-3 py-1.5 xs:px-3.5 xs:py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-semibold whitespace-nowrap rounded-lg sm:rounded-xl shadow-xs"
               >
                 Start a Project
               </Button>
 
+              {/* Hamburger Toggle */}
               <button
                 type="button"
                 aria-label={isMobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
                 aria-expanded={isMobileOpen}
                 aria-controls="mobile-nav"
                 onClick={() => setIsMobileOpen((prev) => !prev)}
-                className="lg:hidden flex items-center justify-center h-10 w-10 rounded-xl border border-[#273752] bg-[#18263E] text-white hover:bg-[#20314F] hover:border-[#35C5E8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#35C5E8]"
+                className="lg:hidden flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl border border-[#273752] bg-[#18263E] text-white hover:bg-[#20314F] hover:border-[#35C5E8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#35C5E8] shrink-0"
               >
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.span
@@ -120,11 +122,12 @@ export function Header() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.15 }}
+                    className="flex items-center justify-center"
                   >
                     {isMobileOpen ? (
-                      <X size={20} aria-hidden="true" />
+                      <X size={18} className="sm:w-5 sm:h-5" aria-hidden="true" />
                     ) : (
-                      <Menu size={20} aria-hidden="true" />
+                      <Menu size={18} className="sm:w-5 sm:h-5" aria-hidden="true" />
                     )}
                   </motion.span>
                 </AnimatePresence>

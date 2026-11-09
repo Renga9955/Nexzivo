@@ -27,16 +27,32 @@ export function SmoothScrollProvider({ children }) {
 
     window.__lenis = lenis;
 
-    let rafId;
+    let rafId = null;
     function raf(time) {
+      if (document.hidden) {
+        rafId = null;
+        return;
+      }
+
       lenis.raf(time);
       rafId = requestAnimationFrame(raf);
     }
 
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        if (rafId !== null) cancelAnimationFrame(rafId);
+        rafId = null;
+      } else if (rafId === null) {
+        rafId = requestAnimationFrame(raf);
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     rafId = requestAnimationFrame(raf);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (rafId !== null) cancelAnimationFrame(rafId);
       lenis.destroy();
       window.__lenis = null;
     };

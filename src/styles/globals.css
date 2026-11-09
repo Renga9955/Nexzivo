@@ -1,8 +1,3 @@
-/* --------------------------------------------------------------------------
-   Google Fonts — PT Sans
-   -------------------------------------------------------------------------- */
-@import url("https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-
 /* ==========================================================================
    NEXZIVO — Royal Cobalt (#2764F5) & Cyan / Navy Color Palette
    Tailwind CSS v4 CSS-first configuration
@@ -83,10 +78,10 @@
   --shadow-primary:       0 8px 24px -4px rgba(39, 100, 245, 0.35);
 
   /* Typography */
-  --font-sans:            'PT Sans', system-ui, -apple-system, sans-serif;
-  --font-heading:         'PT Sans', system-ui, -apple-system, sans-serif;
-  --font-body:            'PT Sans', system-ui, -apple-system, sans-serif;
-  --font-mono:            'PT Sans', system-ui, -apple-system, sans-serif;
+  --font-sans:            'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-heading:         'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-body:            'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:            'Inter', system-ui, -apple-system, sans-serif;
 
   /* Layout */
   --container-max-width:  1360px;
@@ -103,6 +98,7 @@
    Tailwind CSS v4 — Theme Extension via @theme
    -------------------------------------------------------------------------- */
 @theme {
+  --breakpoint-xs:        360px;
   --color-primary:        #2764F5;
   --color-primary-dark:   #1A4DC0;
   --color-primary-light:  #EDF2FE;
@@ -136,10 +132,10 @@
   --color-soft-white:     #FFFFFF;
   --color-subtle-gray:    #64748B;
 
-  --font-sans:            'PT Sans', system-ui, -apple-system, sans-serif;
-  --font-heading:         'PT Sans', system-ui, -apple-system, sans-serif;
-  --font-body:            'PT Sans', system-ui, -apple-system, sans-serif;
-  --font-mono:            'PT Sans', system-ui, -apple-system, sans-serif;
+  --font-sans:            'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-heading:         'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-body:            'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:            'Inter', system-ui, -apple-system, sans-serif;
 }
 
 /* --------------------------------------------------------------------------
@@ -200,13 +196,60 @@ textarea {
   display: contents;
 }
 
-/* Headings use PT Sans with bold contrast */
+/* Consistent display and section-heading hierarchy */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  line-height: 1.18;
-  font-weight: 700;
   color: var(--color-text-dark);
+}
+
+h1 {
+  font-size: clamp(2.25rem, 4vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+h2 {
+  font-size: clamp(1.875rem, 3vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
   letter-spacing: -0.025em;
+}
+
+h3 {
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+h5 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+h6 {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+label {
+  font-weight: 600;
+}
+
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  font-weight: 600;
 }
 
 /* Headings in dark / navy / deep containers or elements with text-white */
@@ -261,13 +304,19 @@ video {
 }
 
 /* --------------------------------------------------------------------------
-   Typography Utility Classes (All mapping to PT Sans)
+   Typography Utility Classes
    -------------------------------------------------------------------------- */
-.font-heading,
+.font-heading {
+  font-family: var(--font-heading) !important;
+}
+
 .font-body,
-.font-sans,
 .font-mono {
-  font-family: 'PT Sans', system-ui, -apple-system, sans-serif !important;
+  font-family: var(--font-body) !important;
+}
+
+.font-sans {
+  font-family: var(--font-sans) !important;
 }
 
 /* --------------------------------------------------------------------------

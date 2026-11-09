@@ -124,7 +124,7 @@ export function ServiceDetailPage() {
       {/* ──────────────────────────────────────────────────────────
           1. Service Hero Section (Balanced Two-Column Studio Layout)
           ────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#F7F9FC] text-[#141B2A] pt-28 pb-16 sm:pt-32 sm:pb-20 lg:pt-36 lg:pb-24 border-b border-[#DFE7F3]">
+      <section className="relative min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] lg:min-h-[100svh] overflow-hidden bg-[#F7F9FC] text-[#141B2A] pt-20 pb-12 sm:pt-24 sm:pb-16 lg:pt-20 lg:pb-8 flex flex-col justify-center border-b border-[#DFE7F3]">
         {/* Soft atmospheric gradient wash behind hero visual */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
           {/* Studio blueprint grid pattern */}
@@ -147,7 +147,7 @@ export function ServiceDetailPage() {
 
         <Container className="relative z-10 max-w-[1440px] xl:max-w-[1540px]">
           {/* Breadcrumb Navigation */}
-          <div className="mb-6 sm:mb-8 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#687386]">
+          <div className="mb-4 sm:mb-8 flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-[#687386]">
             <Link
               to="/services"
               className="inline-flex items-center gap-1.5 text-[#2764F5] transition-colors hover:text-[#1E52D0]"
@@ -162,9 +162,9 @@ export function ServiceDetailPage() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 xl:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 xl:gap-12 items-center">
             {/* Left Column: Heading, Badge, Description, CTAs */}
-            <div className="lg:col-span-6 xl:col-span-6 flex flex-col items-start gap-5 sm:gap-6 z-20">
+            <div className="lg:col-span-6 xl:col-span-6 flex flex-col items-start gap-3.5 sm:gap-5 lg:gap-6 z-20">
               {/* Category & Service Number Badge */}
               <motion.div {...fadeUp(0.04, 12, 0.45)}>
                 <div className="inline-flex items-center gap-2.5 rounded-full border border-[#DCE4F0] bg-white/90 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#2764F5] shadow-xs backdrop-blur-sm">
@@ -176,7 +176,7 @@ export function ServiceDetailPage() {
               </motion.div>
 
               {/* Service Headline */}
-              <h1 className="font-heading text-[2.25rem] sm:text-[2.85rem] md:text-[3.2rem] lg:text-[clamp(2.35rem,2.8vw,3.25rem)] xl:text-[clamp(2.75rem,3.2vw,3.6rem)] font-extrabold tracking-tight leading-[1.12] text-[#141B2A] max-w-xl">
+              <h1 className="font-heading text-[1.85rem] xs:text-[2.15rem] sm:text-[2.75rem] md:text-[3.2rem] lg:text-[clamp(2.45rem,2.9vw,3.35rem)] xl:text-[clamp(3rem,3.5vw,4rem)] font-extrabold tracking-tight leading-[1.14] sm:leading-[1.12] text-[#141B2A] max-w-xl text-left">
                 <motion.span className="block" {...fadeUp(0.1, 16, 0.55)}>
                   {service.heroHeadline}
                 </motion.span>
@@ -184,7 +184,7 @@ export function ServiceDetailPage() {
 
               {/* Short Compelling Introduction */}
               <motion.p
-                className="text-[15.5px] sm:text-[17px] text-[#526581] leading-relaxed max-w-xl font-normal"
+                className="text-[14px] sm:text-[16px] lg:text-[18px] text-[#526581] leading-relaxed max-w-xl font-normal text-left"
                 {...fadeUp(0.24, 14, 0.5)}
               >
                 {service.heroDescription}
@@ -192,7 +192,7 @@ export function ServiceDetailPage() {
 
               {/* CTAs: Primary + Secondary */}
               <motion.div
-                className="flex flex-wrap items-center gap-3.5 sm:gap-4 pt-2"
+                className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 pt-0.5 sm:pt-2 w-full xs:w-auto"
                 {...fadeUp(0.34, 14, 0.5)}
               >
                 <Button
@@ -200,7 +200,7 @@ export function ServiceDetailPage() {
                   variant="primary"
                   size="md"
                   iconRight={<ArrowRight size={17} />}
-                  className="px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-[15.5px] shadow-sm hover:shadow"
+                  className="w-full xs:w-auto px-5 sm:px-7 py-2.5 sm:py-3.5 text-[14px] sm:text-[15.5px] shadow-sm hover:shadow justify-center"
                   id={`hero-primary-cta-${service.slug}`}
                 >
                   {service.primaryCta}
@@ -208,7 +208,7 @@ export function ServiceDetailPage() {
 
                 <a
                   href="#service-process"
-                  className="inline-flex items-center justify-center font-medium text-[15px] sm:text-[15.5px] text-[#111B36] hover:text-[#2864FF] px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-[#DFE7F3] bg-white hover:bg-[#F5F9FF] transition-all shadow-sm"
+                  className="w-full xs:w-auto inline-flex items-center justify-center font-medium text-[14px] sm:text-[15.5px] text-[#111B36] hover:text-[#2864FF] px-5 sm:px-7 py-2.5 sm:py-3.5 rounded-xl border border-[#DFE7F3] bg-white hover:bg-[#F5F9FF] transition-all shadow-sm"
                   id={`hero-secondary-cta-${service.slug}`}
                 >
                   {service.secondaryCta}
@@ -217,7 +217,7 @@ export function ServiceDetailPage() {
 
               {/* Micro Trust Indicators */}
               <motion.div
-                className="pt-4 border-t border-[#DFE7F3] w-full grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4"
+                className="pt-3 sm:pt-4 border-t border-[#DFE7F3] w-full grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4"
                 {...fadeUp(0.44, 12, 0.5)}
               >
                 {service.stats.map((stat) => (
@@ -243,8 +243,9 @@ export function ServiceDetailPage() {
                   <img
                     src={service.heroImage}
                     alt={service.heroImageAlt}
-                    className="w-full h-auto max-h-[460px] sm:max-h-[500px] lg:max-h-[540px] xl:max-h-[580px] object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    className="w-full h-auto max-h-[260px] xs:max-h-[320px] sm:max-h-[400px] lg:max-h-[540px] xl:max-h-[640px] object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                     loading="eager"
+                    fetchPriority="high"
                     decoding="async"
                     id={`hero-image-${service.slug}`}
                   />

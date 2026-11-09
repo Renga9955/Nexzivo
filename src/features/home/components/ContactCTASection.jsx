@@ -44,6 +44,8 @@ export function ContactCTASection() {
                   src={logoSrc}
                   alt={`${siteConfig.name} logo`}
                   className="h-10 sm:h-12 w-auto object-contain"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <span className="font-heading text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
                   {siteConfig.name}

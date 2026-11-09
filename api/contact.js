@@ -87,6 +87,9 @@ export default async function handler(req, res) {
     if (company.length > 200) {
       return res.status(400).json({ success: false, message: 'Company name exceeds maximum length.' });
     }
+    if (phone && !/^\d{10}$/.test(phone)) {
+      return res.status(400).json({ success: false, message: 'Mobile number must be exactly 10 digits.' });
+    }
     if (phone.length > 50) {
       return res.status(400).json({ success: false, message: 'Phone number exceeds maximum length.' });
     }

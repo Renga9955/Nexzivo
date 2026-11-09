@@ -249,14 +249,14 @@ export function WhatWeDoSection() {
 
   // Guaranteed 4-second automatic carousel interval (pauses on hover)
   useEffect(() => {
-    if (reducedMotion || isPaused) return;
+    if (reducedMotion || isPaused || !isInView) return;
 
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
     }, AUTOPLAY_INTERVAL);
 
     return () => clearInterval(timer);
-  }, [maxIndex, reducedMotion, isPaused]);
+  }, [maxIndex, reducedMotion, isPaused, isInView]);
 
   // Touch Swipe handlers
   const handleTouchStart = (e) => {
@@ -342,7 +342,7 @@ export function WhatWeDoSection() {
           <img
             src={serviceBg}
             alt=""
-            loading="eager"
+            loading="lazy"
             decoding="async"
             className="w-full h-full object-cover object-center filter blur-[2.5px] scale-[1.03]"
           />

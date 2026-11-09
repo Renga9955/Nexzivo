@@ -77,7 +77,7 @@ export function WorkArchivePage() {
         />
       </Helmet>
 
-      <section className="relative overflow-hidden border-b border-[#E3E8F0] bg-[#F7F9FC] pt-24 pb-14 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20 xl:pb-24 text-[#141B2A]">
+      <section className="relative min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] lg:min-h-[100svh] overflow-hidden border-b border-[#E3E8F0] bg-[#F7F9FC] pt-20 pb-12 sm:pt-24 sm:pb-16 lg:pt-20 lg:pb-8 flex flex-col justify-center text-[#141B2A]">
         {/* Background Layer: Soft studio atmosphere, subtle geometric ribbons & faint dot grids */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
           {/* Soft atmospheric gradient wash behind the illustration */}
@@ -141,37 +141,37 @@ export function WorkArchivePage() {
         </div>
 
         <Container className="relative z-10 max-w-[1440px] xl:max-w-[1540px]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-4 xl:gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-4 xl:gap-8 items-center">
             <motion.div
               initial={reducedMotion ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: EASE_OUT_EXPO }}
-              className="lg:col-span-5 xl:col-span-5 flex flex-col items-start gap-5 sm:gap-6 order-1 pr-0 lg:pr-2"
+              className="lg:col-span-5 xl:col-span-5 flex flex-col items-start gap-4 sm:gap-5 lg:gap-6 order-1 pr-0 lg:pr-2"
             >
               <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2764F5]">
                 <span className="h-0.5 w-5 rounded-full bg-[#2764F5]" aria-hidden="true" />
                 <span>OUR CREATIVE WORK</span>
               </div>
 
-              <h1 className="font-heading text-[2.25rem] sm:text-[2.85rem] md:text-[3.3rem] lg:text-[clamp(2.45rem,2.9vw,3.35rem)] xl:text-[clamp(2.85rem,3.3vw,3.75rem)] font-extrabold tracking-tight leading-[1.12] text-[#141B2A] max-w-xl">
+              <h1 className="font-heading text-[1.85rem] xs:text-[2.15rem] sm:text-[2.75rem] md:text-[3.2rem] lg:text-[clamp(2.45rem,2.9vw,3.35rem)] xl:text-[clamp(3rem,3.5vw,4rem)] font-extrabold tracking-tight leading-[1.14] sm:leading-[1.12] text-[#141B2A] max-w-xl text-left">
                 <span className="block">Digital experiences.</span>
                 <span className="block">
                   Designed to <span className="text-[#2764F5]">make an impact.</span>
                 </span>
               </h1>
 
-              <p className="max-w-lg text-[15px] sm:text-[16.5px] lg:text-[17px] text-[#687386] leading-relaxed">
+              <p className="max-w-lg text-[14px] sm:text-[16px] lg:text-[18px] text-[#687386] leading-relaxed text-left">
                 Explore websites, mobile applications, user interfaces, brand identities, and
                 creative visuals designed to turn ideas into meaningful digital experiences.
               </p>
 
-              <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 pt-1">
+              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 pt-0.5 sm:pt-1 w-full xs:w-auto">
                 <Button
                   onClick={scrollToProjects}
                   variant="primary"
                   size="md"
                   iconRight={<ArrowRight size={17} />}
-                  className="px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-[15.5px] shadow-sm hover:shadow"
+                  className="w-full xs:w-auto px-5 sm:px-7 py-2.5 sm:py-3.5 text-[14px] sm:text-[15.5px] shadow-sm hover:shadow justify-center"
                 >
                   Explore Projects
                 </Button>
@@ -179,13 +179,13 @@ export function WorkArchivePage() {
                   to="/contact"
                   variant="secondary"
                   size="md"
-                  className="px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-[15.5px]"
+                  className="w-full xs:w-auto px-5 sm:px-7 py-2.5 sm:py-3.5 text-[14px] sm:text-[15.5px] justify-center"
                 >
                   Start a Project
                 </Button>
               </div>
 
-              <div className="flex flex-wrap items-center gap-x-3.5 gap-y-2 pt-5 sm:pt-6 mt-1 border-t border-[#E3E8F0] w-full text-[12.5px] sm:text-[13px] font-semibold text-[#141B2A]">
+              <div className="flex flex-wrap items-center gap-x-2.5 sm:gap-x-3.5 gap-y-1.5 pt-3.5 sm:pt-5 mt-0.5 border-t border-[#E3E8F0] w-full text-[11px] xs:text-[12px] sm:text-[13px] font-semibold text-[#141B2A]">
                 <span className="text-[11.5px] sm:text-xs font-bold uppercase tracking-wider text-[#2764F5]">
                   Studio Focus:
                 </span>
@@ -207,13 +207,14 @@ export function WorkArchivePage() {
                 initial={reducedMotion ? false : { opacity: 0, scale: 0.94, y: 12 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.22, ease: EASE_OUT_EXPO }}
-                className="relative w-full max-w-[560px] lg:max-w-[620px] xl:max-w-[680px] flex items-center justify-center lg:justify-end"
+                className="relative w-full max-w-[380px] xs:max-w-[440px] sm:max-w-[540px] lg:max-w-[620px] xl:w-[112%] xl:max-w-none flex items-center justify-center lg:justify-end"
               >
                 <img
                   src={heroShowcase}
                   alt="NEXZIVO Studio Showcase — Website design, mobile app interface, and creative studio workspace"
-                  className="w-full h-auto max-h-[380px] sm:max-h-[440px] md:max-h-[480px] lg:max-h-[520px] xl:max-h-[560px] object-contain drop-shadow-[0_16px_36px_rgba(16,27,45,0.07)]"
+                  className="w-full h-auto max-h-[280px] xs:max-h-[330px] sm:max-h-[400px] md:max-h-[480px] lg:max-h-[520px] xl:max-h-[640px] object-contain drop-shadow-[0_12px_28px_rgba(16,27,45,0.07)]"
                   loading="eager"
+                  fetchPriority="high"
                   decoding="async"
                 />
               </motion.div>

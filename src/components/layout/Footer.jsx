@@ -50,6 +50,8 @@ export function Footer() {
                 src={logoSrc}
                 alt={`${siteConfig.name} logo`}
                 className="h-10 w-auto object-contain"
+                loading="lazy"
+                decoding="async"
               />
               <div className="flex flex-col">
                 <span className="font-heading text-xl font-extrabold text-white tracking-tight">
@@ -92,9 +94,6 @@ export function Footer() {
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:pl-12">
             {Object.entries(footerNav).map(([groupLabel, items]) => (
               <nav key={groupLabel} aria-label={`${groupLabel} links`}>
-                <h3 className="mb-5 text-xs font-bold uppercase tracking-[0.2em] text-[#35C5E8]">
-                  {groupLabel}
-                </h3>
                 <ul className="flex flex-col gap-3">
                   {items.map((item) => (
                     <li key={item.label}>

@@ -23,7 +23,7 @@ const variantClasses = {
 };
 
 const baseClasses =
-  'inline-flex items-center justify-center rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2764F5] focus-visible:ring-offset-2 disabled:opacity-40 disabled:pointer-events-none select-none tracking-tight font-medium cursor-pointer';
+  'inline-flex items-center justify-center rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2764F5] focus-visible:ring-offset-2 disabled:opacity-40 disabled:pointer-events-none select-none tracking-tight font-semibold cursor-pointer';
 
 const motionProps = {
   whileHover: { y: -1 },

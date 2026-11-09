@@ -42,7 +42,13 @@ export function ContactPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'phone') {
+      // Allow only numbers and cap at 10 digits
+      const digitsOnly = value.replace(/\D/g, '').slice(0, 10);
+      setFormData((prev) => ({ ...prev, phone: digitsOnly }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
     if (status.error) {
       setStatus((prev) => ({ ...prev, error: null }));
     }
@@ -63,6 +69,11 @@ export function ContactPage() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email?.trim() || !emailRegex.test(formData.email.trim())) {
       setStatus({ submitting: false, submitted: false, error: 'Please enter a valid email address.' });
+      return;
+    }
+
+    if (formData.phone && formData.phone.length !== 10) {
+      setStatus({ submitting: false, submitted: false, error: 'Please enter a valid 10-digit mobile number.' });
       return;
     }
 
@@ -196,7 +207,7 @@ export function ContactPage() {
       </Helmet>
 
       {/* Hero Header with Homepage Hero Layout and Animation */}
-      <section className="relative overflow-hidden bg-[#F7F9FC] text-[#141B2A] pt-28 pb-14 sm:pt-32 sm:pb-16 lg:pt-36 lg:pb-20 xl:pb-24 border-b border-[#DFE7F3]">
+      <section className="relative min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] lg:min-h-[100svh] overflow-hidden bg-[#F7F9FC] text-[#141B2A] pt-20 pb-12 sm:pt-24 sm:pb-16 lg:pt-20 lg:pb-8 flex flex-col justify-center border-b border-[#DFE7F3]">
         {/* Soft atmospheric gradient wash behind illustration */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
           <motion.div
@@ -210,9 +221,9 @@ export function ContactPage() {
         </div>
 
         <Container className="relative z-10 max-w-[1440px] xl:max-w-[1540px]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 xl:gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-6 xl:gap-8 items-center">
             {/* Left Content Column */}
-            <div className="lg:col-span-6 xl:col-span-5 flex flex-col items-start gap-5 sm:gap-6 z-20 pr-0 lg:pr-2">
+            <div className="lg:col-span-6 xl:col-span-5 flex flex-col items-start gap-4 sm:gap-5 lg:gap-6 z-20 pr-0 lg:pr-2">
               {/* Eyebrow matching homepage line-dash style */}
               <motion.div {...fadeUp(0.04, 12, 0.45)}>
                 <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2764F5]">
@@ -222,7 +233,7 @@ export function ContactPage() {
               </motion.div>
 
               {/* Headline with Staggered Entrance Animation */}
-              <h1 className="font-heading text-[2.25rem] sm:text-[2.85rem] md:text-[3.3rem] lg:text-[clamp(2.35rem,2.8vw,3.25rem)] xl:text-[clamp(2.75rem,3.2vw,3.65rem)] font-extrabold tracking-tight leading-[1.12] text-[#141B2A] max-w-xl">
+              <h1 className="font-heading text-[1.85rem] xs:text-[2.15rem] sm:text-[2.75rem] md:text-[3.2rem] lg:text-[clamp(2.45rem,2.9vw,3.35rem)] xl:text-[clamp(3rem,3.5vw,4rem)] font-extrabold tracking-tight leading-[1.14] sm:leading-[1.12] text-[#141B2A] max-w-xl text-left">
                 <motion.span className="block" {...fadeUp(0.1, 16, 0.55)}>
                   Let's create something
                 </motion.span>
@@ -233,7 +244,7 @@ export function ContactPage() {
 
               {/* Supporting Description */}
               <motion.p
-                className="text-[15px] sm:text-[16.5px] lg:text-[17px] text-[#687386] leading-relaxed max-w-lg font-normal"
+                className="text-[14px] sm:text-[16px] lg:text-[18px] text-[#687386] leading-relaxed max-w-lg font-normal text-left"
                 {...fadeUp(0.32, 14, 0.5)}
               >
                 Whether you need an ultra-fast custom website, a mobile app, creative graphic design, or a full product software solution, we are ready to collaborate.
@@ -241,18 +252,18 @@ export function ContactPage() {
 
               {/* CTA Buttons */}
               <motion.div
-                className="flex flex-wrap items-center gap-3.5 sm:gap-4 pt-1"
+                className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 pt-0.5 sm:pt-1 w-full xs:w-auto"
                 {...fadeUp(0.42, 14, 0.5)}
               >
                 <a
                   href="#contact-form"
-                  className="inline-flex items-center justify-center font-medium text-[15px] sm:text-[15.5px] text-white bg-[#2764F5] hover:bg-[#1E52D0] px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl shadow-sm hover:shadow transition-all"
+                  className="w-full xs:w-auto inline-flex items-center justify-center font-medium text-[14px] sm:text-[15.5px] text-white bg-[#2764F5] hover:bg-[#1E52D0] px-5 sm:px-7 py-2.5 sm:py-3.5 rounded-xl shadow-sm hover:shadow transition-all"
                 >
                   Fill Project Brief
                 </a>
                 <a
                   href={`mailto:${siteConfig.contact.email}`}
-                  className="inline-flex items-center justify-center font-medium text-[15px] sm:text-[15.5px] text-[#141B2A] hover:text-[#2764F5] px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-[#DFE7F3] bg-white hover:bg-[#F8FAFC] transition-all shadow-sm"
+                  className="w-full xs:w-auto inline-flex items-center justify-center font-medium text-[14px] sm:text-[15.5px] text-[#141B2A] hover:text-[#2764F5] px-5 sm:px-7 py-2.5 sm:py-3.5 rounded-xl border border-[#DFE7F3] bg-white hover:bg-[#F8FAFC] transition-all shadow-sm"
                 >
                   Direct Email
                 </a>
@@ -260,7 +271,7 @@ export function ContactPage() {
 
               {/* Trust Indicators Pill Strip */}
               <motion.div
-                className="flex flex-wrap items-center gap-y-2 gap-x-5 pt-4 border-t border-[#DFE7F3] w-full text-xs font-semibold text-[#141B2A]"
+                className="flex flex-wrap items-center gap-y-1.5 gap-x-4 pt-3.5 sm:pt-4 border-t border-[#DFE7F3] w-full text-[11px] xs:text-xs font-semibold text-[#141B2A]"
                 {...fadeUp(0.52, 10, 0.5)}
               >
                 <div className="flex items-center gap-2">
@@ -277,14 +288,15 @@ export function ContactPage() {
             {/* Right Column: Hero Visual Artwork */}
             <div className="lg:col-span-6 xl:col-span-7 w-full flex items-center justify-center lg:justify-end">
               <motion.div
-                className="relative w-full max-w-[540px] lg:max-w-[580px] xl:max-w-[620px] flex items-center justify-center"
+                className="relative w-full max-w-[380px] xs:max-w-[440px] sm:max-w-[540px] lg:max-w-[580px] xl:w-[112%] xl:max-w-none flex items-center justify-center"
                 {...showcaseVariant()}
               >
                 <img
                   src={contactImg}
                   alt="Start a project collaboration with NEXZIVO"
-                  className="w-full h-auto max-h-[360px] sm:max-h-[420px] md:max-h-[460px] lg:max-h-[500px] object-contain drop-shadow-[0_16px_36px_rgba(16,27,45,0.07)]"
+                  className="w-full h-auto max-h-[280px] xs:max-h-[330px] sm:max-h-[400px] md:max-h-[460px] lg:max-h-[520px] xl:max-h-[640px] object-contain drop-shadow-[0_12px_28px_rgba(16,27,45,0.07)]"
                   loading="eager"
+                  fetchPriority="high"
                   decoding="async"
                 />
               </motion.div>
@@ -504,10 +516,12 @@ export function ContactPage() {
                           name="phone"
                           type="tel"
                           autoComplete="tel"
-                          inputMode="tel"
+                          inputMode="numeric"
+                          pattern="[0-9]{10}"
+                          maxLength={10}
                           value={formData.phone}
                           onChange={handleChange}
-                          placeholder="e.g. +1 555 123 4567"
+                          placeholder="e.g. 9876543210"
                           disabled={status.submitting}
                           className="h-12 px-4 rounded-xl bg-[#F8FAFC] border border-[#DFE7F3] focus:border-[#2864FF] focus:bg-white focus:outline-none text-sm text-[#111B36] transition-colors disabled:opacity-60"
                         />

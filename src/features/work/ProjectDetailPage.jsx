@@ -125,7 +125,7 @@ export function ProjectDetailPage() {
       {/* ──────────────────────────────────────────────────────────
           1. Hero Section (A Strong Project Introduction)
           ────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-[#DCE5F2] bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFD] to-[#F5F8FD] pb-14 pt-28 sm:pb-16 sm:pt-32 lg:pb-20 lg:pt-36">
+      <section className="relative overflow-hidden border-b border-[#DCE5F2] bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFD] to-[#F5F8FD] pt-20 pb-10 sm:pt-28 sm:pb-16 lg:pb-20 lg:pt-36">
         {/* Subtle geometric circles & dotted background patterns */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
           <div className="absolute -right-36 -top-40 h-[600px] w-[600px] rounded-full bg-gradient-to-br from-[#2864F5]/[0.07] via-[#19B9E8]/[0.04] to-transparent blur-3xl" />
@@ -161,7 +161,7 @@ export function ProjectDetailPage() {
             initial={reducedMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: reducedMotion ? 0 : 0.4, ease: EASE_OUT_EXPO }}
-            className="mb-8 flex flex-wrap items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider"
+            className="mb-4 sm:mb-8 flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-wider"
           >
             <Link
               to="/work"
@@ -202,7 +202,7 @@ export function ProjectDetailPage() {
                   delay: reducedMotion ? 0 : 0.1,
                   ease: EASE_OUT_EXPO,
                 }}
-                className="mb-3 font-heading text-3xl font-extrabold tracking-tight text-[#111827] sm:text-4xl lg:text-[46px] lg:leading-[1.14]"
+                className="mb-2 sm:mb-3 font-heading text-2xl xs:text-3xl sm:text-4xl lg:text-[46px] font-extrabold tracking-tight text-[#111827] leading-tight lg:leading-[1.14]"
               >
                 {project.title}
               </motion.h1>
@@ -216,7 +216,7 @@ export function ProjectDetailPage() {
                   delay: reducedMotion ? 0 : 0.16,
                   ease: EASE_OUT_EXPO,
                 }}
-                className="mb-5 max-w-2xl font-heading text-lg font-semibold leading-snug text-[#2864F5] sm:text-xl"
+                className="mb-3 sm:mb-5 max-w-2xl font-heading text-base sm:text-xl font-semibold leading-snug text-[#2864F5]"
               >
                 {project.tagline}
               </motion.p>
@@ -230,7 +230,7 @@ export function ProjectDetailPage() {
                   delay: reducedMotion ? 0 : 0.22,
                   ease: EASE_OUT_EXPO,
                 }}
-                className="max-w-2xl text-[15px] leading-relaxed text-[#64748B] sm:text-base"
+                className="max-w-2xl text-[14px] sm:text-base leading-relaxed text-[#64748B]"
               >
                 {project.description}
               </motion.p>
@@ -244,7 +244,7 @@ export function ProjectDetailPage() {
                   delay: reducedMotion ? 0 : 0.28,
                   ease: EASE_OUT_EXPO,
                 }}
-                className="mt-8 flex flex-wrap items-center gap-3.5"
+                className="mt-5 sm:mt-8 flex flex-wrap items-center gap-2.5 sm:gap-3.5 w-full xs:w-auto"
               >
                 <Button
                   onClick={() =>

@@ -192,7 +192,7 @@ export function ServicesOverviewPage() {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[#F7F9FC] text-[#141B2A] pt-28 pb-14 sm:pt-32 sm:pb-16 lg:pt-36 lg:pb-20 xl:pb-24 border-b border-[#DFE7F3]">
+      <section className="relative min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] lg:min-h-[100svh] overflow-hidden bg-[#F7F9FC] text-[#141B2A] pt-20 pb-12 sm:pt-24 sm:pb-16 lg:pt-20 lg:pb-8 flex flex-col justify-center border-b border-[#DFE7F3]">
         {/* Soft atmospheric gradient wash behind the illustration */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
           <motion.div
@@ -206,9 +206,9 @@ export function ServicesOverviewPage() {
         </div>
 
         <Container className="relative z-10 max-w-[1440px] xl:max-w-[1540px]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 xl:gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-6 xl:gap-8 items-center">
             {/* Left Content Column */}
-            <div className="lg:col-span-6 xl:col-span-5 flex flex-col items-start gap-5 sm:gap-6 z-20">
+            <div className="lg:col-span-6 xl:col-span-5 flex flex-col items-start gap-4 sm:gap-5 lg:gap-6 z-20">
               {/* Eyebrow matching homepage line-dash style */}
               <motion.div {...fadeUp(0.04, 12, 0.45)}>
                 <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2764F5]">
@@ -218,7 +218,7 @@ export function ServicesOverviewPage() {
               </motion.div>
 
               {/* Headline with Staggered Entrance Animation */}
-              <h1 className="font-heading text-[2.25rem] sm:text-[2.85rem] md:text-[3.3rem] lg:text-[clamp(2.35rem,2.8vw,3.25rem)] xl:text-[clamp(2.75rem,3.2vw,3.65rem)] font-extrabold tracking-tight leading-[1.12] text-[#141B2A] max-w-xl">
+              <h1 className="font-heading text-[1.85rem] xs:text-[2.15rem] sm:text-[2.75rem] md:text-[3.2rem] lg:text-[clamp(2.45rem,2.9vw,3.35rem)] xl:text-[clamp(3rem,3.5vw,4rem)] font-extrabold tracking-tight leading-[1.14] sm:leading-[1.12] text-[#141B2A] max-w-xl text-left">
                 <motion.span className="block" {...fadeUp(0.1, 16, 0.55)}>
                   Digital solutions for
                 </motion.span>
@@ -229,7 +229,7 @@ export function ServicesOverviewPage() {
 
               {/* Supporting Description */}
               <motion.p
-                className="text-[15px] sm:text-[16.5px] lg:text-[17px] text-[#687386] leading-relaxed max-w-lg font-normal"
+                className="text-[14px] sm:text-[16px] lg:text-[18px] text-[#687386] leading-relaxed max-w-lg font-normal text-left"
                 {...fadeUp(0.32, 14, 0.5)}
               >
                 We design and build websites, mobile apps, creative designs, and custom software solutions that help your brand grow and make a lasting impact.
@@ -237,15 +237,15 @@ export function ServicesOverviewPage() {
 
               {/* CTA Buttons */}
               <motion.div
-                className="flex flex-wrap items-center gap-3.5 sm:gap-4 pt-1"
+                className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 pt-0.5 sm:pt-1 w-full xs:w-auto"
                 {...fadeUp(0.42, 14, 0.5)}
               >
-                <Button to="/contact" variant="primary" size="md" iconRight={<ArrowRight size={17} />} className="px-6 sm:px-7 py-3 sm:py-3.5 text-[15px] sm:text-[15.5px] shadow-sm hover:shadow">
+                <Button to="/contact" variant="primary" size="md" iconRight={<ArrowRight size={17} />} className="w-full xs:w-auto px-5 sm:px-7 py-2.5 sm:py-3.5 text-[14px] sm:text-[15.5px] shadow-sm hover:shadow justify-center">
                   Start a Project
                 </Button>
                 <a
                   href="#services-grid"
-                  className="inline-flex items-center justify-center font-medium text-[15px] sm:text-[15.5px] text-[#111B36] hover:text-[#2864FF] px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-[#DFE7F3] bg-white hover:bg-[#F5F9FF] transition-all shadow-sm"
+                  className="w-full xs:w-auto inline-flex items-center justify-center font-medium text-[14px] sm:text-[15.5px] text-[#111B36] hover:text-[#2864FF] px-5 sm:px-7 py-2.5 sm:py-3.5 rounded-xl border border-[#DFE7F3] bg-white hover:bg-[#F5F9FF] transition-all shadow-sm"
                 >
                   Explore Services
                 </a>
@@ -255,14 +255,15 @@ export function ServicesOverviewPage() {
             {/* Right Hero Image with Homepage Showcase Entrance Animation */}
             <div className="lg:col-span-6 xl:col-span-7 w-full flex items-center justify-center lg:justify-end z-10">
               <motion.div
-                className="relative w-full max-w-[540px] lg:max-w-[600px] flex items-center justify-center lg:justify-end"
+                className="relative w-full max-w-[380px] xs:max-w-[440px] sm:max-w-[540px] lg:max-w-[600px] xl:w-[112%] xl:max-w-none flex items-center justify-center lg:justify-end"
                 {...showcaseVariant()}
               >
                 <img
                   src={heroImg}
                   alt="NEXZIVO Studio Showcase — Digital solutions for ideas with a purpose"
-                  className="w-full h-auto max-h-[360px] sm:max-h-[420px] md:max-h-[460px] lg:max-h-[500px] xl:max-h-[540px] object-contain drop-shadow-[0_16px_36px_rgba(16,27,45,0.07)]"
+                  className="w-full h-auto max-h-[280px] xs:max-h-[330px] sm:max-h-[400px] md:max-h-[460px] lg:max-h-[520px] xl:max-h-[640px] object-contain drop-shadow-[0_12px_28px_rgba(16,27,45,0.07)]"
                   loading="eager"
+                  fetchPriority="high"
                   decoding="async"
                 />
               </motion.div>

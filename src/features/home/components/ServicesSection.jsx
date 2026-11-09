@@ -227,7 +227,7 @@ export function ServicesSection() {
                           src={previewImg}
                           alt={`${service.title} preview showcase`}
                           decoding="async"
-                          loading={idx < 2 ? 'eager' : 'lazy'}
+                          loading="lazy"
                           className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-103"
                         />
                       </motion.div>

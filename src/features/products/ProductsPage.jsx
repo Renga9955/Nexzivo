@@ -18,7 +18,7 @@ export function ProductsPage() {
       </Helmet>
 
       {/* Hero Header */}
-      <section className="relative overflow-hidden bg-[#080A0F] text-[#F3F5F9] pt-32 pb-20 lg:pt-40 lg:pb-28">
+      <section className="relative overflow-hidden bg-[#080A0F] text-[#F3F5F9] pt-24 pb-12 sm:pt-32 sm:pb-16 lg:pt-40 lg:pb-28">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.03]"
           aria-hidden="true"
@@ -34,10 +34,10 @@ export function ProductsPage() {
             <span className="inline-block text-xs font-mono font-semibold tracking-widest uppercase text-[var(--color-accent-soft)] mb-4">
               NEXZIVO Labs
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08] mb-6 text-white">
+            <h1 className="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.15] sm:leading-[1.08] mb-3.5 sm:mb-6 text-white">
               Building intelligent tools beyond client briefs.
             </h1>
-            <p className="text-lg sm:text-xl text-[#9AA5B8] leading-relaxed">
+            <p className="text-sm xs:text-base sm:text-xl text-[#9AA5B8] leading-relaxed">
               We incubate proprietary software products designed to make project delivery, requirement scoping, and team collaboration faster and more transparent.
             </p>
           </div>

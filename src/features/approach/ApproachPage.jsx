@@ -18,7 +18,7 @@ export function ApproachPage() {
       </Helmet>
 
       {/* Hero Header */}
-      <section className="relative overflow-hidden bg-[#080A0F] text-[#F3F5F9] pt-36 pb-20 lg:pt-44 lg:pb-28 border-b border-[#232B3E]">
+      <section className="relative overflow-hidden bg-[#080A0F] text-[#F3F5F9] pt-24 pb-12 sm:pt-32 sm:pb-16 lg:pt-44 lg:pb-28 border-b border-[#232B3E]">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.04]"
           aria-hidden="true"
@@ -34,10 +34,10 @@ export function ApproachPage() {
             <span className="inline-block text-xs font-mono font-bold tracking-widest uppercase text-[var(--color-accent-soft)] mb-4">
               {approachContent.eyebrow}
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08] mb-6 text-white">
+            <h1 className="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.15] sm:leading-[1.08] mb-3.5 sm:mb-6 text-white">
               {approachContent.heading}
             </h1>
-            <p className="text-lg sm:text-xl text-[#8B95A5] leading-relaxed">
+            <p className="text-sm xs:text-base sm:text-xl text-[#8B95A5] leading-relaxed">
               {approachContent.description}
             </p>
           </div>

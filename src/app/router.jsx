@@ -1,15 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { HomePage } from '@/features/home/HomePage';
-import { ServicesOverviewPage } from '@/features/services/ServicesOverviewPage';
-import { ServiceDetailPage } from '@/features/services/ServiceDetailPage';
-import { AboutPage } from '@/features/about/AboutPage';
-import { ApproachPage } from '@/features/approach/ApproachPage';
-import { WorkArchivePage } from '@/features/work/WorkArchivePage';
-import { ProjectDetailPage } from '@/features/work/ProjectDetailPage';
-import { ProductsPage } from '@/features/products/ProductsPage';
-import { ContactPage } from '@/features/contact/ContactPage';
-import { CareerPage } from '@/features/careers/CareerPage';
 import { PlaceholderPage } from '@/features/shared/PlaceholderPage';
 import { RouteErrorBoundary } from '@/features/shared/RouteErrorBoundary';
 
@@ -25,39 +15,66 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
+        lazy: async () => {
+          const { HomePage } = await import('@/features/home/HomePage');
+          return { Component: HomePage };
+        },
       },
       {
         path: 'services',
-        element: <ServicesOverviewPage />,
+        lazy: async () => {
+          const { ServicesOverviewPage } = await import('@/features/services/ServicesOverviewPage');
+          return { Component: ServicesOverviewPage };
+        },
       },
       {
         path: 'services/:slug',
-        element: <ServiceDetailPage />,
+        lazy: async () => {
+          const { ServiceDetailPage } = await import('@/features/services/ServiceDetailPage');
+          return { Component: ServiceDetailPage };
+        },
       },
       {
         path: 'about',
-        element: <AboutPage />,
+        lazy: async () => {
+          const { AboutPage } = await import('@/features/about/AboutPage');
+          return { Component: AboutPage };
+        },
       },
       {
         path: 'careers',
-        element: <CareerPage />,
+        lazy: async () => {
+          const { CareerPage } = await import('@/features/careers/CareerPage');
+          return { Component: CareerPage };
+        },
       },
       {
         path: 'approach',
-        element: <ApproachPage />,
+        lazy: async () => {
+          const { ApproachPage } = await import('@/features/approach/ApproachPage');
+          return { Component: ApproachPage };
+        },
       },
       {
         path: 'work',
-        element: <WorkArchivePage />,
+        lazy: async () => {
+          const { WorkArchivePage } = await import('@/features/work/WorkArchivePage');
+          return { Component: WorkArchivePage };
+        },
       },
       {
         path: 'work/:slug',
-        element: <ProjectDetailPage />,
+        lazy: async () => {
+          const { ProjectDetailPage } = await import('@/features/work/ProjectDetailPage');
+          return { Component: ProjectDetailPage };
+        },
       },
       {
         path: 'products',
-        element: <ProductsPage />,
+        lazy: async () => {
+          const { ProductsPage } = await import('@/features/products/ProductsPage');
+          return { Component: ProductsPage };
+        },
       },
       {
         path: 'insights',
@@ -65,7 +82,10 @@ export const router = createBrowserRouter([
       },
       {
         path: 'contact',
-        element: <ContactPage />,
+        lazy: async () => {
+          const { ContactPage } = await import('@/features/contact/ContactPage');
+          return { Component: ContactPage };
+        },
       },
     ],
   },
