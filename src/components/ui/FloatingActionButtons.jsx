@@ -42,6 +42,11 @@ export function FloatingActionButtons() {
     };
   }, []);
 
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    setError('');
+  };
+
   // Prevent background scrolling while popup is active & handle Escape key
   useEffect(() => {
     if (isPopupOpen) {
@@ -52,6 +57,7 @@ export function FloatingActionButtons() {
       const handleKeyDown = (e) => {
         if (e.key === 'Escape') {
           setIsPopupOpen(false);
+          setError('');
         }
       };
       window.addEventListener('keydown', handleKeyDown);
@@ -61,7 +67,6 @@ export function FloatingActionButtons() {
       };
     } else {
       document.body.style.overflow = '';
-      setError('');
     }
   }, [isPopupOpen]);
 
@@ -171,7 +176,7 @@ export function FloatingActionButtons() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              onClick={() => setIsPopupOpen(false)}
+              onClick={closePopup}
               className="fixed inset-0 bg-black/60 backdrop-blur-xs"
               aria-hidden="true"
             />
@@ -214,7 +219,7 @@ export function FloatingActionButtons() {
                 {/* Close Button */}
                 <button
                   type="button"
-                  onClick={() => setIsPopupOpen(false)}
+                  onClick={closePopup}
                   aria-label="Close popup"
                   className="h-8 w-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center text-white transition-colors cursor-pointer"
                 >

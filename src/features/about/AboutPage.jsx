@@ -37,9 +37,9 @@ const founders = [
     subtitle: 'Vision, Product Strategy & Architecture',
     bio: 'Leads NEXZIVO with a focus on building accessible, high-performance digital products and practical software architectures that solve real industry problems.',
     image: rengaPhoto,
-    focusAreas: ['System Architecture', 'Product Strategy', 'Full-Stack Engineering'],
+    focusAreas: ['UI/UX Design', 'Product Strategy', 'Web Development'],
     socials: {
-      linkedin: 'https://linkedin.com',
+      linkedin: 'https://www.linkedin.com/in/renga-ravikumar-40a2a2291/',
       email: 'founder@nexzivo.com',
     },
   },
@@ -441,7 +441,7 @@ export function AboutPage() {
                 </span>
               </motion.div>
 
-              <h1 className="font-heading text-[1.85rem] xs:text-[2.15rem] sm:text-[2.75rem] md:text-[3.2rem] lg:text-[clamp(2.45rem,2.9vw,3.35rem)] xl:text-[clamp(3rem,3.5vw,4rem)] font-extrabold tracking-tight leading-[1.14] sm:leading-[1.12] text-[#141B2A] max-w-xl text-left">
+              <h1 className="font-heading text-[1.725rem] xs:text-[2rem] sm:text-[2.6rem] md:text-[3.05rem] lg:text-[clamp(2.3rem,2.8vw,3.2rem)] xl:text-[clamp(2.85rem,3.35vw,3.85rem)] font-extrabold tracking-tight leading-[1.14] sm:leading-[1.12] text-[#141B2A] max-w-xl text-left">
                 <motion.span className="block" {...fadeUp(0.1, 16, 0.55)}>
                   We Turn Ideas Into
                 </motion.span>

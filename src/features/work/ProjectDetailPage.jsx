@@ -445,7 +445,7 @@ export function ProjectDetailPage() {
                   <span className="h-0.5 w-4 rounded-full bg-[#2864F5]" aria-hidden="true" />
                   <span>The Overview</span>
                 </div>
-                <h2 className="mb-4 font-heading text-2xl font-bold tracking-tight text-[#111827] sm:text-3xl lg:text-[34px] lg:leading-tight">
+                <h2 className="mb-4 font-heading text-2xl font-bold tracking-tight text-[#111827] sm:text-3xl lg:text-[32px] lg:leading-tight">
                   Designed to solve a real problem.
                 </h2>
                 <p className="text-base leading-relaxed text-[#64748B] sm:text-lg mb-5">
@@ -497,7 +497,7 @@ export function ProjectDetailPage() {
               <span className="h-0.5 w-4 rounded-full bg-[#2864F5]" aria-hidden="true" />
               <span>Problem &amp; Method</span>
             </div>
-            <h2 className="font-heading text-2xl font-bold tracking-tight text-[#111827] sm:text-3xl lg:text-[34px] lg:leading-tight">
+            <h2 className="font-heading text-2xl font-bold tracking-tight text-[#111827] sm:text-3xl lg:text-[32px] lg:leading-tight">
               From challenge to solution.
             </h2>
             <p className="mt-2 text-sm text-[#64748B] sm:text-base">
@@ -567,7 +567,7 @@ export function ProjectDetailPage() {
               <span className="h-0.5 w-4 rounded-full bg-[#2864F5]" aria-hidden="true" />
               <span>User Experience &amp; Aesthetics</span>
             </div>
-            <h2 className="font-heading text-2xl font-bold tracking-tight text-[#111827] sm:text-3xl lg:text-[34px] lg:leading-tight">
+            <h2 className="font-heading text-2xl font-bold tracking-tight text-[#111827] sm:text-3xl lg:text-[32px] lg:leading-tight">
               Every detail has a purpose.
             </h2>
             <p className="mt-2 text-sm text-[#64748B] sm:text-base">

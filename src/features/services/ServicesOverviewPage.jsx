@@ -218,7 +218,7 @@ export function ServicesOverviewPage() {
               </motion.div>
 
               {/* Headline with Staggered Entrance Animation */}
-              <h1 className="font-heading text-[1.85rem] xs:text-[2.15rem] sm:text-[2.75rem] md:text-[3.2rem] lg:text-[clamp(2.45rem,2.9vw,3.35rem)] xl:text-[clamp(3rem,3.5vw,4rem)] font-extrabold tracking-tight leading-[1.14] sm:leading-[1.12] text-[#141B2A] max-w-xl text-left">
+              <h1 className="font-heading text-[1.725rem] xs:text-[2rem] sm:text-[2.6rem] md:text-[3.05rem] lg:text-[clamp(2.3rem,2.8vw,3.2rem)] xl:text-[clamp(2.85rem,3.35vw,3.85rem)] font-extrabold tracking-tight leading-[1.14] sm:leading-[1.12] text-[#141B2A] max-w-xl text-left">
                 <motion.span className="block" {...fadeUp(0.1, 16, 0.55)}>
                   Digital solutions for
                 </motion.span>
@@ -383,7 +383,7 @@ export function ServicesOverviewPage() {
                 <div className="flex flex-1 flex-col p-6 sm:p-7">
                   <div className="flex flex-1 flex-col">
                     <div className="mb-3 h-0.5 w-8 rounded-full bg-[#2764F5]" aria-hidden="true" />
-                    <h3 className="mb-2.5 font-heading text-xl font-bold leading-snug tracking-tight text-[#141B2A] transition-colors group-hover:text-[#2764F5] sm:text-[22px]">
+                    <h3 className="mb-2.5 font-heading text-xl font-bold leading-snug tracking-tight text-[#141B2A] transition-colors group-hover:text-[#2764F5] sm:text-[20px]">
                       {service.title}
                     </h3>
 
