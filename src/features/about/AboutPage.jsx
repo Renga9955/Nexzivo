@@ -34,8 +34,8 @@ const founders = [
   {
     name: 'Renga R',
     role: 'Founder & CEO',
-    subtitle: 'Vision, Product Strategy & Architecture',
-    bio: 'Leads NEXZIVO with a focus on building accessible, high-performance digital products and practical software architectures that solve real industry problems.',
+    subtitle: 'Vision, Product Strategy & UI/UX Design',
+    bio: 'Leads NEXZIVO with a vision to create meaningful digital experiences and innovative software products. Focused on user-centered design, product strategy, and building solutions that solve real-world problems.',
     image: rengaPhoto,
     focusAreas: ['UI/UX Design', 'Product Strategy', 'Web Development'],
     socials: {

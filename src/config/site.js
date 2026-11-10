@@ -16,5 +16,20 @@ export const siteConfig = {
     email: 'Nexzivotechi@gmail.com',
     linkedin: 'https://linkedin.com/company/nexzivo',
     twitter: 'https://twitter.com/nexzivo',
+    whatsapp: {
+      phone: '+91 6380208106',
+      number: '916380208106',
+      defaultMessage: "Hi NEXZIVO! I'm interested in your services. I would like to discuss a project.",
+    },
   },
+};
+
+/**
+ * Helper to build official WhatsApp Click-to-Chat URLs.
+ * Format: https://wa.me/PHONE?text=ENCODED_MESSAGE
+ */
+export const getWhatsAppUrl = (customMessage) => {
+  const number = siteConfig.contact.whatsapp.number;
+  const msg = customMessage || siteConfig.contact.whatsapp.defaultMessage;
+  return `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
 };
