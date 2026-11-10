@@ -24,7 +24,7 @@ import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference';
 
 // Visual assets
 import aboutHeroImg from '@/assets/about.png';
-import rengaPhoto from '@/assets/founder-renga.jpg';
+import rengaPhoto from '@/assets/founder_renga.png';
 import vikkyPhoto from '@/assets/founder-vikky.png';
 
 const EASE_OUT_EXPO = [0.22, 1, 0.36, 1];
@@ -40,7 +40,7 @@ const founders = [
     focusAreas: ['UI/UX Design', 'Product Strategy', 'Web Development'],
     socials: {
       linkedin: 'https://www.linkedin.com/in/renga-ravikumar-40a2a2291/',
-      email: 'founder@nexzivo.com',
+      email: 'rrenga16@gmail.com',
     },
   },
   {
