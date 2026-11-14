@@ -14,7 +14,7 @@ export const siteConfig = {
   contact: {
     /** Placeholder — replace with real address when available */
     email: 'Nexzivotechi@gmail.com',
-    linkedin: 'https://linkedin.com/company/nexzivo',
+    linkedin: 'https://www.linkedin.com/company/nexzivo/?viewAsMember=true',
     twitter: 'https://twitter.com/nexzivo',
     whatsapp: {
       phone: '+91 6380208106',
