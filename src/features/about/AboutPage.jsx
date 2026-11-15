@@ -21,7 +21,6 @@ import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { SectionReveal } from '@/components/ui/SectionReveal';
 import { useReducedMotionPreference } from '@/hooks/useReducedMotionPreference';
-import { siteConfig } from '@/config/site';
 
 // Visual assets
 import aboutHeroImg from '@/assets/about.png';
@@ -40,7 +39,7 @@ const founders = [
     image: rengaPhoto,
     focusAreas: ['UI/UX Design', 'Product Strategy', 'Web Development'],
     socials: {
-      linkedin: siteConfig.contact.linkedin,
+      linkedin: 'https://www.linkedin.com/in/renga-ravikumar-40a2a2291/',
       email: 'rrenga16@gmail.com',
     },
   },
@@ -52,7 +51,7 @@ const founders = [
     image: vikkyPhoto,
     focusAreas: ['Cloud Architecture', 'Mobile Apps & Web', 'Technical Operations'],
     socials: {
-      linkedin: siteConfig.contact.linkedin,
+      linkedin: 'https://www.linkedin.com/in/vignesh-r-a634a2293/',
       email: 'rvikky05@gmail.com',
     },
   },
